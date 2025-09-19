@@ -1,0 +1,72 @@
+<hr class="my-1" />
+<p-inputnumber
+  [placeholder]="placeholder"
+  [showButtons]="showStepButtons"
+  [step]="step ?? 1"
+  [maxFractionDigits]="isDecimal ? (maxFractionDigits ?? DEFAULT_MAX_FRACTION_DIGITS) : 0"
+  [min]="forceLimits && min ? min : DEFAULT_MIN"
+  [max]="forceLimits && max ? max : DEFAULT_MAX"
+/>
+
+<hr class="my-1" />
+<form [formGroup]="extrasForm">
+  <p-floatlabel variant="on">
+    <input pInputText id="placeholder" formControlName="placeholder" />
+    <label for="placeholder">Placeholder</label>
+  </p-floatlabel>
+
+  <p-floatlabel variant="on">
+    <p-inputnumber id="min" formControlName="min" [invalid]="extrasForm.controls.min.invalid" />
+    <label for="min">Minimum</label>
+  </p-floatlabel>
+
+  <p-floatlabel variant="on">
+    <p-inputnumber id="max" formControlName="max" [invalid]="extrasForm.controls.max.invalid" />
+    <label for="max">Maximum</label>
+  </p-floatlabel>
+
+  @if (min || max) {
+    <label for="force-limits">Force min/max ?</label>
+    <p-toggleswitch id="force-limits" name="force-limits" formControlName="forceLimits" />
+  }
+
+  <label for="decimal">Decimal ?</label>
+  <p-toggleswitch id="decimal" name="decimal" formControlName="isDecimal" />
+
+  @if (isDecimal) {
+    <p-floatlabel variant="on">
+      <p-inputnumber
+        id="max-fraction-digits"
+        formControlName="maxFractionDigits"
+        [min]="0"
+        [max]="DEFAULT_MAX_FRACTION_DIGITS"
+      />
+      <label for="max-fraction-digits">Max fraction digits</label>
+    </p-floatlabel>
+  }
+
+  <label for="show-step-buttons">Show +/- buttons</label>
+  <p-toggleswitch
+    id="show-step-buttons"
+    name="show-step-buttons"
+    formControlName="showStepButtons"
+  />
+
+  @if (showStepButtons) {
+    <p-floatlabel variant="on">
+      <p-inputnumber
+        id="step"
+        formControlName="step"
+        [min]="0"
+        [maxFractionDigits]="isDecimal ? DEFAULT_MAX_FRACTION_DIGITS : 0"
+        [invalid]="extrasForm.controls.step.invalid"
+      />
+      <label for="step">Step</label>
+    </p-floatlabel>
+    @if (isTouchedOrDirtyAndHasError(extrasForm.controls.step, 'invalidStep')) {
+      <small class="text-danger"> The step has to be greater than 0. </small>
+    }
+  }
+
+  <p-button label="Log extras" (onClick)="logExtras()"></p-button>
+</form>

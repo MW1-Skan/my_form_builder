@@ -1,0 +1,29 @@
+<h1>{{ isEdit() ? 'Edit' : 'Create' }} a form</h1>
+
+<form [formGroup]="formDetailsForm" (ngSubmit)="save()">
+  <p-floatlabel variant="on">
+    <input pInputText id="title" formControlName="title" autocomplete="off" />
+    <label for="title">Title *</label>
+  </p-floatlabel>
+  <p-floatlabel variant="in">
+    <textarea
+      pTextarea
+      id="description"
+      formControlName="description"
+      autocomplete="off"
+    ></textarea>
+    <label for="description">Description</label>
+  </p-floatlabel>
+
+  <div formArrayName="itemsForms">
+    @for (itemForm of itemsForms.controls; track $index) {
+      <app-form-item-editor [itemForm]="itemForm" (remove)="removeItem($index)" />
+    }
+  </div>
+
+  <p-button label="Add item" (onClick)="addItem()"></p-button>
+
+  <p-button label="Confirm" type="submit" />
+  <p-button label="Cancel" (onClick)="cancel()" />
+  <p-button label="Log form" (onClick)="logForm()" />
+</form>

@@ -1,0 +1,10 @@
+<p-card>
+  <ng-template #title>{{ form().title }}</ng-template>
+  <ng-template #subtitle
+    >Dernière modification: {{ form().lastModified | date: 'short' }}</ng-template
+  >
+  <p>{{ form().description }}</p>
+  <ng-template #footer>
+    <p-button label="Edit" (onClick)="editForm()" />
+  </ng-template>
+</p-card>

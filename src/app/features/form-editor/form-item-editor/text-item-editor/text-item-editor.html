@@ -1,0 +1,65 @@
+<hr class="my-1" />
+@if (isLarge) {
+  <textarea pTextarea rows="5" cols="30" [autoResize]="true" [placeholder]="placeholder"></textarea>
+} @else if (mask === '') {
+  <input pInputText type="text" [placeholder]="placeholder" />
+} @else {
+  <p-inputmask
+    [mask]="extrasForm.controls.mask.valid ? mask : ''"
+    [placeholder]="extrasForm.controls.mask.valid ? placeholder || mask : ''"
+  />
+}
+
+<hr class="my-1" />
+<form [formGroup]="extrasForm">
+  <label for="large">Large</label>
+  <p-toggleswitch id="large" name="large" formControlName="isLarge" />
+
+  <p-floatlabel variant="on">
+    <input pInputText id="placeholder" formControlName="placeholder" />
+    <label for="placeholder">Placeholder</label>
+  </p-floatlabel>
+
+  <p-floatlabel variant="on">
+    <p-inputnumber
+      id="minLength"
+      formControlName="minLength"
+      [min]="LENGTH_LOWER_LIMIT"
+      [invalid]="isTouchedOrDirtyAndHasError(extrasForm, 'invalidLengthRange')"
+    />
+    <label for="minLength">Minimum length</label>
+  </p-floatlabel>
+
+  <p-floatlabel variant="on">
+    <p-inputnumber
+      id="maxLength"
+      formControlName="maxLength"
+      [min]="LENGTH_LOWER_LIMIT"
+      [max]="LENGTH_UPPER_LIMIT"
+      [invalid]="isTouchedOrDirtyAndHasError(extrasForm, 'invalidLengthRange')"
+    />
+    <label for="maxLength">Maximum length</label>
+  </p-floatlabel>
+
+  <p-floatlabel variant="on">
+    <input
+      pInputText
+      id="mask"
+      formControlName="mask"
+      [invalid]="extrasForm.controls.mask.invalid"
+    />
+    <label for="mask">Mask</label>
+  </p-floatlabel>
+  @if (isTouchedOrDirtyAndHasError(extrasForm.controls.mask, 'invalidMask')) {
+    <small class="text-danger"> The mask is invalid. Press on "i" to learn more. </small>
+  }
+
+  @if (isTouchedOrDirtyAndHasError(extrasForm, 'invalidLengthRange')) {
+    <small class="text-danger"> Maximum length has to be greater than the minimum length. </small>
+  }
+
+  <label for="email">E-mail ?</label>
+  <p-toggleswitch id="email" name="email" formControlName="isEmail" />
+
+  <p-button label="Log extras" (onClick)="logExtras()"></p-button>
+</form>

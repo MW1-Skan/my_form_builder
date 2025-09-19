@@ -1,0 +1,4 @@
+@for (form of forms(); track form.id) {
+  <app-form-card [form]="form"></app-form-card>
+}
+<p-button label="Créer un formulaire" (onClick)="createForm()" />
