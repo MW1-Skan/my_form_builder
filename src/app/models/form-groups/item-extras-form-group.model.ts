@@ -1,6 +1,7 @@
 // item-form-group.model.ts
 import { FormControl, FormGroup } from '@angular/forms';
 import { ItemType, ItemTypeEnum } from '../form-item.model';
+import { ItemExtras, NumberExtras, TextExtras } from '../item-extras.model';
 
 export type ItemExtrasFormGroup =
   | TextExtrasFormGroup
@@ -29,41 +30,41 @@ export type NumberExtrasFormGroup = FormGroup<{
 
 export type EmptyExtrasFormGroup = FormGroup<{}>;
 
-export function createTextExtras(): TextExtrasFormGroup {
+export function createTextExtrasForm(textExtras?: TextExtras): TextExtrasFormGroup {
   return new FormGroup({
-    placeholder: new FormControl<string | null>(null),
-    isLarge: new FormControl(false, { nonNullable: true }),
-    minLength: new FormControl<number | null>(null),
-    maxLength: new FormControl<number | null>(null),
-    mask: new FormControl<string | null>(null),
-    isEmail: new FormControl(false, { nonNullable: true }),
+    placeholder: new FormControl<string | null>(textExtras?.placeholder ?? null),
+    isLarge: new FormControl(textExtras?.isLarge ?? false, { nonNullable: true }),
+    minLength: new FormControl<number | null>(textExtras?.minLength ?? null),
+    maxLength: new FormControl<number | null>(textExtras?.maxLength ?? null),
+    mask: new FormControl<string | null>(textExtras?.mask ?? null),
+    isEmail: new FormControl(textExtras?.isEmail ?? false, { nonNullable: true }),
   });
 }
 
-export function createNumberExtras(): NumberExtrasFormGroup {
+export function createNumberExtrasForm(numberExtras?: NumberExtras): NumberExtrasFormGroup {
   return new FormGroup({
-    placeholder: new FormControl<string | null>(null),
-    min: new FormControl<number | null>(null),
-    max: new FormControl<number | null>(null),
-    forceLimits: new FormControl(false, { nonNullable: true }),
-    isDecimal: new FormControl(false, { nonNullable: true }),
-    maxFractionDigits: new FormControl<number | null>(null),
-    showStepButtons: new FormControl(false, { nonNullable: true }),
-    step: new FormControl<number | null>(null),
+    placeholder: new FormControl<string | null>(numberExtras?.placeholder ?? null),
+    min: new FormControl<number | null>(numberExtras?.min ?? null),
+    max: new FormControl<number | null>(numberExtras?.max ?? null),
+    forceLimits: new FormControl(numberExtras?.forceLimits ?? false, { nonNullable: true }),
+    isDecimal: new FormControl(numberExtras?.isDecimal ?? false, { nonNullable: true }),
+    maxFractionDigits: new FormControl<number | null>(numberExtras?.maxFractionDigits ?? null),
+    showStepButtons: new FormControl(numberExtras?.showStepButtons ?? false, { nonNullable: true }),
+    step: new FormControl<number | null>(numberExtras?.step ?? null),
   });
 }
 
-export function createEmptyExtras(): EmptyExtrasFormGroup {
+export function createEmptyExtrasForm(): EmptyExtrasFormGroup {
   return new FormGroup({});
 }
 
-export function createExtrasFor(type: ItemType | null): ItemExtrasFormGroup {
+export function createExtrasFormFor(type: ItemType | null, extras?: ItemExtras): ItemExtrasFormGroup {
   switch (type) {
     case ItemTypeEnum.text:
-      return createTextExtras();
+      return createTextExtrasForm(extras as TextExtras);
     case ItemTypeEnum.number:
-      return createNumberExtras();
+      return createNumberExtrasForm(extras as NumberExtras);
     default:
-      return createEmptyExtras();
+      return createEmptyExtrasForm();
   }
 }

@@ -7,7 +7,7 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { AbstractControl, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   createFormItemOption,
   ItemOptionFormGroup,
@@ -23,8 +23,9 @@ import { toTitleCase } from '../../../../utils/string.utils';
 import { Subscription } from 'rxjs';
 import { TextItemEditor } from './text-item-editor/text-item-editor';
 import { NumberItemEditor } from './number-item-editor/number-item-editor';
-import { createExtrasFor } from '../../../../models/form-groups/item-extras-form-group.model';
+import { createExtrasFormFor } from '../../../../models/form-groups/item-extras-form-group.model';
 import { isTouchedOrDirtyAndHasError } from '../../../../utils/forms.utils';
+import { ItemExtras } from '../../../../models/item-extras.model';
 
 @Component({
   selector: 'app-form-item-editor',
@@ -65,12 +66,12 @@ export class FormItemEditor {
     let subscription: Subscription | null = null;
     effect(() => {
       subscription?.unsubscribe();
-      const form = this.itemForm();
+      const form: ItemFormGroup = this.itemForm();
       if (!form) return;
-      const typeControl = form.get('type');
+      const typeControl: FormControl<ItemType> = form.controls.type;
       if (!typeControl) return;
       this.currentType.set(typeControl.value);
-      this.itemForm().setControl('extras', createExtrasFor(this.currentType()));
+      this.itemForm().setControl('extras', createExtrasFormFor(this.currentType(), form.value.extras as ItemExtras));
       subscription = typeControl.valueChanges.subscribe((type) => {
         console.log('Type changed to', type);
         this.currentType.set(type);

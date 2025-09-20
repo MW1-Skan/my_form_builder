@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormInput } from '../../models/form.model';
+import { Form, FormCluster, FormInput } from '../../models/form.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -11,6 +11,7 @@ import {
   createFormItem,
   createFormSeparator,
   ElementFormGroup,
+  ElementKindEnum,
   ItemFormGroup,
   SeparatorFormGroup,
 } from '../../models/form-groups/item-form-group.model';
@@ -44,20 +45,35 @@ export class FormEditor {
     this.initForm();
   }
 
-  initForm() {
+  initForm(): void {
     console.log('Editing form with id: ', this.formId);
     if (this.isEdit()) {
-      const form = this.formsService.getFormById(this.formId!);
+      const form: Form | undefined = this.formsService.getFormById(this.formId!);
       if (form) {
         this.formDetailsForm.patchValue({
           title: form.title,
           description: form.description ?? '',
         });
+        this.initElements(form.clusters);
       } else {
         console.warn(`Form with id "${this.formId}" not found, redirecting to forms list`);
         this.router.navigate(['/forms']);
       }
     }
+  }
+
+  initElements(clusters: FormCluster[]): void {
+    clusters.forEach((cluster) => {
+      if (cluster.title || cluster.description) {
+        const separatorElement: SeparatorFormGroup = createFormSeparator(cluster);
+        this.formDetailsForm.controls.elements.push(separatorElement);
+      }
+      cluster.items.forEach((item) => {
+        const itemElement: ItemFormGroup = createFormItem(item);
+        itemElement.controls.extras.patchValue(item.extras);
+        this.formDetailsForm.controls.elements.push(itemElement);
+      });
+    });
   }
 
   get elementsForms(): FormArray<ElementFormGroup> {
