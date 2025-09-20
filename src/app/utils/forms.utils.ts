@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 export function toggleControl(control: FormControl) {
   if (!control) return;
@@ -11,4 +11,14 @@ export function toggleControl(control: FormControl) {
 
 export function isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string): boolean {
   return (control.touched || control.dirty) && control.hasError(errorName);
+}
+
+/**
+ * Type guard utility to check if a FormGroup contains a specific control.
+ */
+export function hasControl<T extends FormGroup, K extends keyof T['controls']>(
+  group: FormGroup,
+  controlName: K,
+): group is T {
+  return group.get(controlName as string) !== null;
 }

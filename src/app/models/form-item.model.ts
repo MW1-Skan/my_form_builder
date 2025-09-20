@@ -1,3 +1,4 @@
+import { ItemExtras } from './item-extras.model';
 import { Validator } from './validator.model';
 
 export enum ItemTypeEnum {
@@ -12,14 +13,11 @@ export enum ItemTypeEnum {
 export type ItemType = keyof typeof ItemTypeEnum;
 
 export interface FormItem {
-  id: string;
-  formGroupId: string;
   type: ItemType;
   question: string;
+  required: boolean;
   options?: FormItemOption[]; // For 'select' or 'checkbox' types
-  placeholder?: string;
-  order: number;
-  validators?: Validator[];
+  extras: ItemExtras;
 }
 
 export interface FormItemOption {

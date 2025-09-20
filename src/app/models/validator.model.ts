@@ -1,4 +1,4 @@
-type ValidatorType = 'required' | 'minLength' | 'maxLength' | 'pattern' | 'rule';
+type ValidatorType = 'required' | 'minLength' | 'maxLength' | 'min' | 'max' | 'pattern' | 'rule';
 
 export interface Validator {
   type: ValidatorType;

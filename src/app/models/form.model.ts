@@ -10,9 +10,7 @@ export interface Form {
   rules?: Rule[];
 }
 
-interface FormCluster {
-  id: string;
-  formId: string;
+export interface FormCluster {
   title?: string;
   description?: string;
   items: FormItem[];

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, input, OnDestroy } from '@angular/core';
-import { ItemFormGroup } from '../../../../models/form-groups/item-form-group.model';
+import { ItemFormGroup } from '../../../../../models/form-groups/item-form-group.model';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -14,9 +14,9 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { TextExtrasFormGroup } from '../../../../models/form-groups/item-extras-form-group.model';
+import { TextExtrasFormGroup } from '../../../../../models/form-groups/item-extras-form-group.model';
 import { Subscription } from 'rxjs';
-import { isTouchedOrDirtyAndHasError } from '../../../../utils/forms.utils';
+import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
 
 @Component({
   selector: 'app-text-item-editor',

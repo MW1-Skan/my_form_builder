@@ -15,13 +15,18 @@
     <label for="description">Description</label>
   </p-floatlabel>
 
-  <div formArrayName="itemsForms">
-    @for (itemForm of itemsForms.controls; track $index) {
-      <app-form-item-editor [itemForm]="itemForm" (remove)="removeItem($index)" />
+  <div formArrayName="elements">
+    @for (elementForm of elementsForms.controls; track $index) {
+      <app-form-element [elementForm]="elementForm" (remove)="removeElement($index)" />
     }
   </div>
 
   <p-button label="Add item" (onClick)="addItem()"></p-button>
+  <p-button
+    label="Add separator"
+    (onClick)="addSeparator()"
+    [disabled]="!canAddSeparator()"
+  ></p-button>
 
   <p-button label="Confirm" type="submit" />
   <p-button label="Cancel" (onClick)="cancel()" />
