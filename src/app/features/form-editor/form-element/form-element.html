@@ -1,0 +1,7 @@
+@if (elementAsItem) {
+  <app-form-item-editor [itemForm]="elementAsItem"></app-form-item-editor>
+}
+@if (elementAsSeparator) {
+  <app-form-separator-editor [separatorForm]="elementAsSeparator"></app-form-separator-editor>
+}
+<p-button label="Delete {{ isItem() ? 'item' : 'separator' }}" (onClick)="removeElement()" />

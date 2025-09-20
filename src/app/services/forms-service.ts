@@ -1,6 +1,14 @@
-import { Injectable, signal } from '@angular/core';
-import { Form, FormInput } from '../models/form.model';
+import { inject, Injectable, signal } from '@angular/core';
+import { Form, FormCluster, FormInput } from '../models/form.model';
 import { generateId } from '../utils/id.utils';
+import { FormFormGroup } from '../models/form-groups/form-form-group.model';
+import {
+  ElementFormGroup,
+  ElementKindEnum,
+  ItemFormGroup,
+} from '../models/form-groups/item-form-group.model';
+import { FormArray } from '@angular/forms';
+import { FormItem } from '../models/form-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,15 +38,16 @@ export class FormsService {
   }
 
   addForm(newFormInput: FormInput): Form {
+    const newFormId: string = generateId();
     const newForm: Form = {
       ...newFormInput,
-      id: generateId(),
+      id: newFormId,
       lastModified: new Date(),
     };
 
     this.formsSignal.update((forms) => [...forms, newForm]);
 
-    this.save();
+    this.save(newForm);
     return newForm;
   }
 
@@ -59,7 +68,7 @@ export class FormsService {
       });
     });
 
-    this.save();
+    this.save(updatedForm);
     if (!updatedForm) {
       throw new Error(`Form with id "${id}" not found`);
     }
@@ -78,12 +87,55 @@ export class FormsService {
       return forms.filter((form) => form.id !== id);
     });
 
-    this.save();
+    this.save(deletedForm);
     return deletedForm!;
   }
 
-  save() {
+  mapToFormInput(formDetails: FormFormGroup): FormInput {
+    const formInput: FormInput = {
+      title: formDetails.value.title!,
+      description: formDetails.value.description!,
+      clusters: this.mapToClusters(formDetails.controls.elements),
+      rules: [],
+    };
+    return formInput;
+  }
+
+  mapToClusters(elementsForms: FormArray<ElementFormGroup>): FormCluster[] {
+    const clusters: FormCluster[] = [];
+    let cluster: FormCluster = {
+      items: [],
+    };
+    elementsForms.controls.forEach((elementForm) => {
+      if (this.isItem(elementForm)) {
+        const item: FormItem = elementForm.getRawValue() as FormItem;
+        console.log('Item mapped :', item);
+        cluster.items.push(item);
+      } else if (this.isSeparator(elementForm)) {
+        if (cluster.items.length > 0) {
+          clusters.push(cluster);
+          cluster = { items: [] };
+        }
+        cluster.title = elementForm.controls.title.value ?? undefined;
+        cluster.description = elementForm.controls.description.value ?? undefined;
+      }
+    });
+    if (cluster.items.length > 0) {
+      clusters.push(cluster);
+    }
+    return clusters;
+  }
+
+  isItem(element: ElementFormGroup): element is ItemFormGroup {
+    return element.controls.kind.value === ElementKindEnum.ITEM;
+  }
+
+  isSeparator(element: ElementFormGroup): element is ElementFormGroup {
+    return element.controls.kind.value === ElementKindEnum.SEPARATOR;
+  }
+
+  save(form?: Form) {
     // Todo
-    console.log('Saving form to local storage');
+    console.log('Saving form to local storage :', form);
   }
 }

@@ -11,20 +11,20 @@ import { AbstractControl, FormArray, ReactiveFormsModule } from '@angular/forms'
 import {
   createFormItemOption,
   ItemOptionFormGroup,
-} from '../../../models/form-groups/item-option-form-group.model';
-import { ItemFormGroup } from '../../../models/form-groups/item-form-group.model';
-import { ItemType, ItemTypeEnum } from '../../../models/form-item.model';
+} from '../../../../models/form-groups/item-option-form-group.model';
+import { ItemFormGroup } from '../../../../models/form-groups/item-form-group.model';
+import { ItemType, ItemTypeEnum } from '../../../../models/form-item.model';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { toTitleCase } from '../../../utils/string.utils';
+import { toTitleCase } from '../../../../utils/string.utils';
 import { Subscription } from 'rxjs';
 import { TextItemEditor } from './text-item-editor/text-item-editor';
 import { NumberItemEditor } from './number-item-editor/number-item-editor';
-import { createExtrasFor } from '../../../models/form-groups/item-extras-form-group.model';
-import { isTouchedOrDirtyAndHasError } from '../../../utils/forms.utils';
+import { createExtrasFor } from '../../../../models/form-groups/item-extras-form-group.model';
+import { isTouchedOrDirtyAndHasError } from '../../../../utils/forms.utils';
 
 @Component({
   selector: 'app-form-item-editor',
@@ -41,7 +41,6 @@ import { isTouchedOrDirtyAndHasError } from '../../../utils/forms.utils';
 })
 export class FormItemEditor {
   itemForm = input.required<ItemFormGroup>();
-  remove = output<void>();
 
   vcr = viewChild('dynamicHost', { read: ViewContainerRef });
 
@@ -108,10 +107,6 @@ export class FormItemEditor {
 
   removeOption(index: number) {
     this.options.removeAt(index);
-  }
-
-  removeItem() {
-    this.remove.emit();
   }
 
   logItem() {

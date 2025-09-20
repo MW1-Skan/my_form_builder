@@ -9,7 +9,21 @@ export type ItemFormGroup = FormGroup<{
   required: FormControl<boolean>;
   options: FormArray<ItemOptionFormGroup>;
   extras: ItemExtrasFormGroup;
+  kind: FormControl<ElementKindEnum>;
 }>;
+
+export type SeparatorFormGroup = FormGroup<{
+  title: FormControl<string | null>;
+  description: FormControl<string | null>;
+  kind: FormControl<ElementKindEnum>;
+}>;
+
+export enum ElementKindEnum {
+  ITEM = 'item',
+  SEPARATOR = 'separator',
+}
+
+export type ElementFormGroup = ItemFormGroup | SeparatorFormGroup;
 
 export function createFormItem(): ItemFormGroup {
   const defaultType: ItemType = ItemTypeEnum.text;
@@ -22,5 +36,14 @@ export function createFormItem(): ItemFormGroup {
     required: new FormControl(false, { nonNullable: true }),
     options: new FormArray<ItemOptionFormGroup>([]),
     extras: createExtrasFor(defaultType),
+    kind: new FormControl<ElementKindEnum>(ElementKindEnum.ITEM, { nonNullable: true }),
+  });
+}
+
+export function createFormSeparator(): SeparatorFormGroup {
+  return new FormGroup({
+    title: new FormControl<string | null>(null),
+    description: new FormControl<string | null>(null),
+    kind: new FormControl<ElementKindEnum>(ElementKindEnum.SEPARATOR, { nonNullable: true }),
   });
 }

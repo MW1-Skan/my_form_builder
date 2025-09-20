@@ -5,20 +5,27 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { Textarea } from 'primeng/textarea';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { FormsService } from '../../services/forms-service';
-import { FormItemEditor } from './form-item-editor/form-item-editor';
-import { createFormItem, ItemFormGroup } from '../../models/form-groups/item-form-group.model';
+import {
+  createFormItem,
+  createFormSeparator,
+  ElementFormGroup,
+  ItemFormGroup,
+  SeparatorFormGroup,
+} from '../../models/form-groups/item-form-group.model';
+import { createFormFormGroup, FormFormGroup } from '../../models/form-groups/form-form-group.model';
+import { FormElement } from './form-element/form-element';
 
 @Component({
   selector: 'app-form-editor',
   imports: [
-    FormItemEditor,
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
     FloatLabelModule,
     Textarea,
+    FormElement,
   ],
   templateUrl: './form-editor.html',
   styleUrl: './form-editor.scss',
@@ -31,15 +38,7 @@ export class FormEditor {
   private formId: string | null = this.route.snapshot.paramMap.get('id');
   isEdit = signal(this.formId !== null);
 
-  formDetailsForm = new FormGroup({
-    title: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(200),
-    ]),
-    description: new FormControl(''),
-    itemsForms: new FormArray<ItemFormGroup>([]),
-  });
+  formDetailsForm: FormFormGroup = createFormFormGroup();
 
   constructor() {
     this.initForm();
@@ -61,26 +60,39 @@ export class FormEditor {
     }
   }
 
-  get itemsForms(): FormArray<ItemFormGroup> {
-    return this.formDetailsForm.get('itemsForms') as FormArray<ItemFormGroup>;
+  get elementsForms(): FormArray<ElementFormGroup> {
+    return this.formDetailsForm.get('elements') as FormArray<ElementFormGroup>;
   }
 
-  addItem() {
+  addItem(): void {
     const itemGroup: ItemFormGroup = createFormItem();
-    this.itemsForms.push(itemGroup);
+    this.elementsForms.push(itemGroup);
   }
 
-  removeItem(index: number) {
-    this.itemsForms.removeAt(index);
+  addSeparator(): void {
+    if (this.canAddSeparator()) {
+      const separatorGroup: SeparatorFormGroup = createFormSeparator();
+      this.elementsForms.push(separatorGroup);
+    }
   }
 
-  save() {
-    const inputForm: FormInput = {
-      title: this.formDetailsForm.value.title!,
-      description: this.formDetailsForm.value.description!,
-      clusters: [],
-      rules: [],
-    };
+  canAddSeparator(): boolean {
+    return this.elementsForms.controls.length === 0 || !this.isLastElementASeparator();
+  }
+
+  private isLastElementASeparator(): boolean {
+    return (
+      this.elementsForms.controls.length > 0 &&
+      this.formsService.isSeparator(this.elementsForms.controls.at(-1)!)
+    );
+  }
+
+  removeElement(index: number): void {
+    this.elementsForms.removeAt(index);
+  }
+
+  save(): void {
+    const inputForm: FormInput = this.formsService.mapToFormInput(this.formDetailsForm);
     if (this.isEdit()) {
       this.formsService.updateForm(this.formId!, inputForm);
     } else {

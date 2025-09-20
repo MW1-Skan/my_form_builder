@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, input } from '@angular/core';
-import { ItemFormGroup } from '../../../../models/form-groups/item-form-group.model';
-import { NumberExtrasFormGroup } from '../../../../models/form-groups/item-extras-form-group.model';
+import { ItemFormGroup } from '../../../../../models/form-groups/item-form-group.model';
+import { NumberExtrasFormGroup } from '../../../../../models/form-groups/item-extras-form-group.model';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
-import { isTouchedOrDirtyAndHasError } from '../../../../utils/forms.utils';
+import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
 
 @Component({
   selector: 'app-number-item-editor',
