@@ -6,7 +6,7 @@ import { generateId } from '../utils/id.utils';
   providedIn: 'root',
 })
 export class FormsService {
-  private formsSignal = signal<Form[]>([]);
+  private formsSignal = signal<Form[]>(JSON.parse(localStorage.getItem('forms') ?? '[]'));
 
   get forms() {
     return this.formsSignal.asReadonly();
@@ -39,7 +39,7 @@ export class FormsService {
 
     this.formsSignal.update((forms) => [...forms, newForm]);
 
-    this.save(newForm);
+    this.save();
     return newForm;
   }
 
@@ -60,7 +60,7 @@ export class FormsService {
       });
     });
 
-    this.save(updatedForm);
+    this.save();
     if (!updatedForm) {
       throw new Error(`Form with id "${id}" not found`);
     }
@@ -79,12 +79,12 @@ export class FormsService {
       return forms.filter((form) => form.id !== id);
     });
 
-    this.save(deletedForm);
+    this.save();
     return deletedForm!;
   }
 
-  save(form?: Form) {
-    // Todo
-    console.log('Saving form to local storage :', form);
+  save() {
+    localStorage.setItem('forms', JSON.stringify(this.formsSignal()));
+    console.log('Saving forms to local storage');
   }
 }
