@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { FormEditorFormGroup } from '../models/form-groups/editor/form-editor-form-group.model';
-import { ElementEditorFormGroup, ItemEditorFormGroup, ElementKindEnum, SeparatorEditorFormGroup } from '../models/form-groups/editor/item-editor-form-group.model';
+import {
+  ElementEditorFormGroup,
+  ItemEditorFormGroup,
+  ElementKindEnum,
+  SeparatorEditorFormGroup,
+} from '../models/form-groups/editor/item-editor-form-group.model';
 import { FormItem } from '../models/form-item.model';
 import { FormInput, FormCluster } from '../models/form.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormEditorService {
   isItem(element: ElementEditorFormGroup): element is ItemEditorFormGroup {

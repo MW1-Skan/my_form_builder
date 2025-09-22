@@ -2,7 +2,7 @@
 <form [formGroup]="extrasEditorForm">
   <label for="required">Required ?</label>
   <p-toggleswitch id="required" name="required" formControlName="required" />
-  
+
   <label for="large">Large</label>
   <p-toggleswitch id="large" name="large" formControlName="isLarge" />
 
@@ -41,17 +41,18 @@
     />
     <label for="mask">Mask</label>
   </p-floatlabel>
-  <app-validation-error-message 
+  <app-validation-error-message
     [control]="extrasEditorForm.controls.mask"
     errorName="invalidMask"
-    errorMessage="The mask is invalid. Press on i to learn more.">
+    errorMessage="The mask is invalid. Press on i to learn more."
+  >
   </app-validation-error-message>
 
-
-  <app-validation-error-message 
+  <app-validation-error-message
     [control]="extrasEditorForm"
     errorName="invalidLengthRange"
-    errorMessage="Maximum length has to be greater than the minimum length.">
+    errorMessage="Maximum length has to be greater than the minimum length."
+  >
   </app-validation-error-message>
 
   <label for="email">E-mail ?</label>

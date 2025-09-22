@@ -16,7 +16,9 @@
         pInputText
         id="question"
         formControlName="question"
-        [invalid]="itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid"
+        [invalid]="
+          itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid
+        "
       />
       <label for="question">Question *</label>
     </p-floatlabel>

@@ -1,54 +1,60 @@
 <form [formGroup]="itemPreviewForm()">
-    @if (isLarge) {
-        <textarea
-            pTextarea
-            rows="5"
-            cols="30"
-            formControlName="value"
-            [autoResize]="true"
-            [placeholder]="placeholder"
-            [invalid]="isInvalid()">
-        </textarea>
-    } @else if (mask === '') {
-        <input
-            pInputText
-            formControlName="value"
-            type="text"
-            [placeholder]="placeholder"
-            [invalid]="isInvalid()" />
-    } @else {
-        <p-inputmask
-            [mask]="mask"
-            formControlName="value"
-            [placeholder]="placeholder !== '' ? placeholder : mask"
-            [invalid]="isInvalid()"
-        />
-    }
+  @if (isLarge) {
+    <textarea
+      pTextarea
+      rows="5"
+      cols="30"
+      formControlName="value"
+      [autoResize]="true"
+      [placeholder]="placeholder"
+      [invalid]="isInvalid()"
+    >
+    </textarea>
+  } @else if (mask === '') {
+    <input
+      pInputText
+      formControlName="value"
+      type="text"
+      [placeholder]="placeholder"
+      [invalid]="isInvalid()"
+    />
+  } @else {
+    <p-inputmask
+      [mask]="mask"
+      formControlName="value"
+      [placeholder]="placeholder !== '' ? placeholder : mask"
+      [invalid]="isInvalid()"
+    />
+  }
 
-  <app-validation-error-message 
+  <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="required"
-    errorMessage="Please answer.">
+    errorMessage="Please answer."
+  >
   </app-validation-error-message>
 
-  <app-validation-error-message 
+  <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="email"
     [errorNamesToExclude]="['required']"
-    errorMessage="Please enter a valid email.">
+    errorMessage="Please enter a valid email."
+  >
   </app-validation-error-message>
-  
-  <app-validation-error-message 
+
+  <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="tooShort"
     [errorNamesToExclude]="['required']"
-    [errorMessage]="'The answer has to be longer than ' + minLength + ' characters.'">
+    [errorMessage]="'The answer has to be longer than ' + minLength + ' characters.'"
+  >
   </app-validation-error-message>
 
-  <app-validation-error-message 
+  <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="tooLong"
     [errorNamesToExclude]="['required']"
-    [errorMessage]="'The answer has to be shorter than ' + maxLength + ' characters.'">
+    [errorMessage]="'The answer has to be shorter than ' + maxLength + ' characters.'"
+  >
   </app-validation-error-message>
 </form>

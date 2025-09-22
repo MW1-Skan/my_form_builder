@@ -1,1 +1,35 @@
-<p>number-item-preview works!</p>
+<form [formGroup]="itemPreviewForm()">
+  <p-inputnumber
+    formControlName="value"
+    [placeholder]="placeholder"
+    [showButtons]="showStepButtons"
+    [step]="step ?? 1"
+    [maxFractionDigits]="isDecimal ? (maxFractionDigits ?? DEFAULT_MAX_FRACTION_DIGITS) : 0"
+    [min]="forceLimits && min ? min : DEFAULT_MIN"
+    [max]="forceLimits && max ? max : DEFAULT_MAX"
+    [invalid]="isInvalid()"
+  />
+
+  <app-validation-error-message
+    [control]="itemPreviewForm().controls.value"
+    errorName="required"
+    errorMessage="Please answer."
+  >
+  </app-validation-error-message>
+
+  <app-validation-error-message
+    [control]="itemPreviewForm().controls.value"
+    errorName="tooLow"
+    [errorNamesToExclude]="['required']"
+    [errorMessage]="'Please enter a number bigger than ' + min + '.'"
+  >
+  </app-validation-error-message>
+
+  <app-validation-error-message
+    [control]="itemPreviewForm().controls.value"
+    errorName="tooBig"
+    [errorNamesToExclude]="['required']"
+    [errorMessage]="'Please enter a number smaller than ' + max + '.'"
+  >
+  </app-validation-error-message>
+</form>

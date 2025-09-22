@@ -1,27 +1,28 @@
 <hr class="my-1" />
-<p-inputnumber
-  [placeholder]="placeholder"
-  [showButtons]="showStepButtons"
-  [step]="step ?? 1"
-  [maxFractionDigits]="isDecimal ? (maxFractionDigits ?? DEFAULT_MAX_FRACTION_DIGITS) : 0"
-  [min]="forceLimits && min ? min : DEFAULT_MIN"
-  [max]="forceLimits && max ? max : DEFAULT_MAX"
-/>
-
-<hr class="my-1" />
 <form [formGroup]="extrasEditorForm">
+  <label for="required">Required ?</label>
+  <p-toggleswitch id="required" name="required" formControlName="required" />
+
   <p-floatlabel variant="on">
     <input pInputText id="placeholder" formControlName="placeholder" />
     <label for="placeholder">Placeholder</label>
   </p-floatlabel>
 
   <p-floatlabel variant="on">
-    <p-inputnumber id="min" formControlName="min" [invalid]="extrasEditorForm.controls.min.invalid" />
+    <p-inputnumber
+      id="min"
+      formControlName="min"
+      [invalid]="extrasEditorForm.controls.min.invalid"
+    />
     <label for="min">Minimum</label>
   </p-floatlabel>
 
   <p-floatlabel variant="on">
-    <p-inputnumber id="max" formControlName="max" [invalid]="extrasEditorForm.controls.max.invalid" />
+    <p-inputnumber
+      id="max"
+      formControlName="max"
+      [invalid]="extrasEditorForm.controls.max.invalid"
+    />
     <label for="max">Maximum</label>
   </p-floatlabel>
 
@@ -64,10 +65,11 @@
       <label for="step">Step</label>
     </p-floatlabel>
 
-    <app-validation-error-message 
+    <app-validation-error-message
       [control]="extrasEditorForm.controls.step"
       errorName="invalidStep"
-      errorMessage="The step has to be greater than 0.">
+      errorMessage="The step has to be greater than 0."
+    >
     </app-validation-error-message>
   }
 

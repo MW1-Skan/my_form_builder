@@ -8,9 +8,8 @@ describe('SeparatorPreview', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SeparatorPreview]
-    })
-    .compileComponents();
+      imports: [SeparatorPreview],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SeparatorPreview);
     component = fixture.componentInstance;
