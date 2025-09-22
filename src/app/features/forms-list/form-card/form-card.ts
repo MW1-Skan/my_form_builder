@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { Form } from '../../../models/form.model';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsService } from '../../../services/forms-service';
 
 @Component({
   selector: 'app-form-card',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class FormCard {
   private readonly router = inject(Router);
+  private readonly formsService = inject(FormsService);
 
   form = input.required<Form>();
 
@@ -22,5 +24,9 @@ export class FormCard {
 
   previewForm() {
     this.router.navigate(['/preview', this.form().id]);
+  }
+
+  deleteForm() {
+    this.formsService.deleteForm(this.form().id);
   }
 }
