@@ -20,7 +20,7 @@ export class FormCard {
     this.router.navigate(['/editor', this.form().id]);
   }
 
-  preview() {
-    this.router.navigate(['/preview']);
+  previewForm() {
+    this.router.navigate(['/preview', this.form().id]);
   }
 }

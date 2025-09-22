@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, input, OnDestroy } from '@angular/core';
-import { ItemFormGroup } from '../../../../../models/form-groups/item-form-group.model';
+import { ItemEditorFormGroup } from '../../../../../models/form-groups/editor/item-editor-form-group.model';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -9,14 +9,13 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { TextExtrasFormGroup } from '../../../../../models/form-groups/item-extras-form-group.model';
+import { TextExtrasEditorFormGroup } from '../../../../../models/form-groups/editor/item-extras-editor-form-group.model';
 import { Subscription } from 'rxjs';
 import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
+import { ValidationErrorMessage } from '../../../../shared/validation-error-message/validation-error-message';
 
 @Component({
   selector: 'app-text-item-editor',
@@ -29,48 +28,25 @@ import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
     InputTextModule,
     TextareaModule,
     ToggleSwitchModule,
+    ValidationErrorMessage,
   ],
   templateUrl: './text-item-editor.html',
   styleUrl: './text-item-editor.scss',
 })
 export class TextItemEditor implements AfterViewInit, OnDestroy {
-  itemForm = input.required<ItemFormGroup>();
+  itemEditorForm = input.required<ItemEditorFormGroup>();
 
-  get extrasForm(): TextExtrasFormGroup {
-    return this.itemForm().controls.extras as TextExtrasFormGroup;
-  }
-
-  get placeholder(): string {
-    return this.extrasForm.controls.placeholder.value ?? '';
-  }
-
-  get isLarge(): boolean {
-    return this.extrasForm.controls.isLarge.value;
-  }
-
-  get minLength(): number | null {
-    return this.extrasForm.controls.minLength.value;
-  }
-
-  get maxLength(): number | null {
-    return this.extrasForm.controls.maxLength.value;
+  get extrasEditorForm(): TextExtrasEditorFormGroup {
+    return this.itemEditorForm().controls.extras as TextExtrasEditorFormGroup;
   }
 
   readonly LENGTH_LOWER_LIMIT: number = 0;
 
   readonly LENGTH_UPPER_LIMIT: number = 1000;
 
-  get mask(): string {
-    return this.extrasForm.controls.mask.value ?? '';
-  }
-
   private readonly MASK_REGEX: RegExp = /^[a9*\-'\(\),.%&#]*$/;
 
   private maskSubscription: Subscription | null = null;
-
-  get isEmail(): boolean {
-    return this.extrasForm.controls.isEmail.value;
-  }
 
   ngAfterViewInit(): void {
     this.subscribeToMaskChanges();
@@ -82,22 +58,22 @@ export class TextItemEditor implements AfterViewInit, OnDestroy {
   }
 
   private subscribeToMaskChanges() {
-    this.maskSubscription = this.extrasForm.controls.mask.valueChanges.subscribe((maskValue) => {
+    this.maskSubscription = this.extrasEditorForm.controls.mask.valueChanges.subscribe((maskValue) => {
       if (maskValue && maskValue !== '') {
-        this.extrasForm.controls.isLarge.setValue(false);
-        this.extrasForm.controls.isLarge.disable();
-        this.extrasForm.controls.isEmail.setValue(false);
-        this.extrasForm.controls.isEmail.disable();
+        this.extrasEditorForm.controls.isLarge.setValue(false);
+        this.extrasEditorForm.controls.isLarge.disable();
+        this.extrasEditorForm.controls.isEmail.setValue(false);
+        this.extrasEditorForm.controls.isEmail.disable();
       } else {
-        this.extrasForm.controls.isLarge.enable();
-        this.extrasForm.controls.isEmail.enable();
+        this.extrasEditorForm.controls.isLarge.enable();
+        this.extrasEditorForm.controls.isEmail.enable();
       }
     });
   }
 
   private initValidators() {
     // --- mask valide ---
-    this.extrasForm.controls.mask.addValidators(
+    this.extrasEditorForm.controls.mask.addValidators(
       (control: AbstractControl): ValidationErrors | null => {
         const val: string = control.value ?? '';
         if (val !== '' && !this.MASK_REGEX.test(val)) {
@@ -108,8 +84,8 @@ export class TextItemEditor implements AfterViewInit, OnDestroy {
     );
 
     // --- règle multi-champs : minLength <= maxLength ---
-    this.extrasForm.addValidators((group: AbstractControl): ValidationErrors | null => {
-      const controls = (group as TextExtrasFormGroup).controls;
+    this.extrasEditorForm.addValidators((group: AbstractControl): ValidationErrors | null => {
+      const controls = (group as TextExtrasEditorFormGroup).controls;
       const minLength: number | null = controls.minLength.value;
       const maxLength: number | null = controls.maxLength.value;
 
@@ -119,7 +95,7 @@ export class TextItemEditor implements AfterViewInit, OnDestroy {
       return null;
     });
 
-    this.extrasForm.updateValueAndValidity();
+    this.extrasEditorForm.updateValueAndValidity();
   }
 
   isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string) {
@@ -127,6 +103,6 @@ export class TextItemEditor implements AfterViewInit, OnDestroy {
   }
 
   logExtras() {
-    console.log('Extras :', this.extrasForm.getRawValue());
+    console.log('Extras :', this.extrasEditorForm.getRawValue());
   }
 }

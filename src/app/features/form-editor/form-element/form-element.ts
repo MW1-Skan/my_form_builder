@@ -1,14 +1,13 @@
 import { Component, inject, input, output } from '@angular/core';
 import {
-  ElementFormGroup,
-  ElementKindEnum,
-  ItemFormGroup,
-  SeparatorFormGroup,
-} from '../../../models/form-groups/item-form-group.model';
+  ElementEditorFormGroup,
+  ItemEditorFormGroup,
+  SeparatorEditorFormGroup,
+} from '../../../models/form-groups/editor/item-editor-form-group.model';
 import { ButtonModule } from 'primeng/button';
 import { FormSeparatorEditor } from './form-separator-editor/form-separator-editor';
 import { FormItemEditor } from './form-item-editor/form-item-editor';
-import { FormsService } from '../../../services/forms-service';
+import { FormEditorService } from '../../../services/form-editor-service';
 
 @Component({
   selector: 'app-form-element',
@@ -17,25 +16,25 @@ import { FormsService } from '../../../services/forms-service';
   styleUrl: './form-element.scss',
 })
 export class FormElement {
-  elementForm = input.required<ElementFormGroup>();
+  elementEditorForm = input.required<ElementEditorFormGroup>();
   remove = output<void>();
 
-  formsService = inject(FormsService);
+  formEditorService = inject(FormEditorService);
 
   isItem(): boolean {
-    return this.formsService.isItem(this.elementForm());
+    return this.formEditorService.isItem(this.elementEditorForm());
   }
 
   isSeparator(): boolean {
-    return this.formsService.isSeparator(this.elementForm());
+    return this.formEditorService.isSeparator(this.elementEditorForm());
   }
 
-  get elementAsItem(): ItemFormGroup | null {
-    return this.isItem() ? (this.elementForm() as ItemFormGroup) : null;
+  get elementAsItem(): ItemEditorFormGroup | null {
+    return this.isItem() ? (this.elementEditorForm() as ItemEditorFormGroup) : null;
   }
 
-  get elementAsSeparator(): SeparatorFormGroup | null {
-    return this.isSeparator() ? (this.elementForm() as SeparatorFormGroup) : null;
+  get elementAsSeparator(): SeparatorEditorFormGroup | null {
+    return this.isSeparator() ? (this.elementEditorForm() as SeparatorEditorFormGroup) : null;
   }
 
   removeElement() {

@@ -13,6 +13,10 @@ export function isTouchedOrDirtyAndHasError(control: AbstractControl, errorName:
   return (control.touched || control.dirty) && control.hasError(errorName);
 }
 
+export function isTouchedOrDirtyAndIsInvalid(control: AbstractControl): boolean {
+  return (control.touched || control.dirty) && control.invalid;
+}
+
 /**
  * Type guard utility to check if a FormGroup contains a specific control.
  */
