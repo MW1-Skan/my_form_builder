@@ -1,17 +1,8 @@
 <hr class="my-1" />
-@if (isLarge) {
-  <textarea pTextarea rows="5" cols="30" [autoResize]="true" [placeholder]="placeholder"></textarea>
-} @else if (mask === '') {
-  <input pInputText type="text" [placeholder]="placeholder" />
-} @else {
-  <p-inputmask
-    [mask]="extrasForm.controls.mask.valid ? mask : ''"
-    [placeholder]="extrasForm.controls.mask.valid ? placeholder || mask : ''"
-  />
-}
-
-<hr class="my-1" />
-<form [formGroup]="extrasForm">
+<form [formGroup]="extrasEditorForm">
+  <label for="required">Required ?</label>
+  <p-toggleswitch id="required" name="required" formControlName="required" />
+  
   <label for="large">Large</label>
   <p-toggleswitch id="large" name="large" formControlName="isLarge" />
 
@@ -25,7 +16,7 @@
       id="minLength"
       formControlName="minLength"
       [min]="LENGTH_LOWER_LIMIT"
-      [invalid]="isTouchedOrDirtyAndHasError(extrasForm, 'invalidLengthRange')"
+      [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
     />
     <label for="minLength">Minimum length</label>
   </p-floatlabel>
@@ -36,7 +27,7 @@
       formControlName="maxLength"
       [min]="LENGTH_LOWER_LIMIT"
       [max]="LENGTH_UPPER_LIMIT"
-      [invalid]="isTouchedOrDirtyAndHasError(extrasForm, 'invalidLengthRange')"
+      [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
     />
     <label for="maxLength">Maximum length</label>
   </p-floatlabel>
@@ -46,17 +37,22 @@
       pInputText
       id="mask"
       formControlName="mask"
-      [invalid]="extrasForm.controls.mask.invalid"
+      [invalid]="extrasEditorForm.controls.mask.invalid"
     />
     <label for="mask">Mask</label>
   </p-floatlabel>
-  @if (isTouchedOrDirtyAndHasError(extrasForm.controls.mask, 'invalidMask')) {
-    <small class="text-danger"> The mask is invalid. Press on "i" to learn more. </small>
-  }
+  <app-validation-error-message 
+    [control]="extrasEditorForm.controls.mask"
+    errorName="invalidMask"
+    errorMessage="The mask is invalid. Press on i to learn more.">
+  </app-validation-error-message>
 
-  @if (isTouchedOrDirtyAndHasError(extrasForm, 'invalidLengthRange')) {
-    <small class="text-danger"> Maximum length has to be greater than the minimum length. </small>
-  }
+
+  <app-validation-error-message 
+    [control]="extrasEditorForm"
+    errorName="invalidLengthRange"
+    errorMessage="Maximum length has to be greater than the minimum length.">
+  </app-validation-error-message>
 
   <label for="email">E-mail ?</label>
   <p-toggleswitch id="email" name="email" formControlName="isEmail" />

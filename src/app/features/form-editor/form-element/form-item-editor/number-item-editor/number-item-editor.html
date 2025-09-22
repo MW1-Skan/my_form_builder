@@ -9,19 +9,19 @@
 />
 
 <hr class="my-1" />
-<form [formGroup]="extrasForm">
+<form [formGroup]="extrasEditorForm">
   <p-floatlabel variant="on">
     <input pInputText id="placeholder" formControlName="placeholder" />
     <label for="placeholder">Placeholder</label>
   </p-floatlabel>
 
   <p-floatlabel variant="on">
-    <p-inputnumber id="min" formControlName="min" [invalid]="extrasForm.controls.min.invalid" />
+    <p-inputnumber id="min" formControlName="min" [invalid]="extrasEditorForm.controls.min.invalid" />
     <label for="min">Minimum</label>
   </p-floatlabel>
 
   <p-floatlabel variant="on">
-    <p-inputnumber id="max" formControlName="max" [invalid]="extrasForm.controls.max.invalid" />
+    <p-inputnumber id="max" formControlName="max" [invalid]="extrasEditorForm.controls.max.invalid" />
     <label for="max">Maximum</label>
   </p-floatlabel>
 
@@ -59,13 +59,16 @@
         formControlName="step"
         [min]="0"
         [maxFractionDigits]="isDecimal ? DEFAULT_MAX_FRACTION_DIGITS : 0"
-        [invalid]="extrasForm.controls.step.invalid"
+        [invalid]="extrasEditorForm.controls.step.invalid"
       />
       <label for="step">Step</label>
     </p-floatlabel>
-    @if (isTouchedOrDirtyAndHasError(extrasForm.controls.step, 'invalidStep')) {
-      <small class="text-danger"> The step has to be greater than 0. </small>
-    }
+
+    <app-validation-error-message 
+      [control]="extrasEditorForm.controls.step"
+      errorName="invalidStep"
+      errorMessage="The step has to be greater than 0.">
+    </app-validation-error-message>
   }
 
   <p-button label="Log extras" (onClick)="logExtras()"></p-button>

@@ -8,15 +8,15 @@ import { Textarea } from 'primeng/textarea';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { FormsService } from '../../services/forms-service';
 import {
-  createFormItem,
-  createFormSeparator,
-  ElementFormGroup,
-  ElementKindEnum,
-  ItemFormGroup,
-  SeparatorFormGroup,
-} from '../../models/form-groups/item-form-group.model';
-import { createFormFormGroup, FormFormGroup } from '../../models/form-groups/form-form-group.model';
+  createItemEditorForm,
+  createSeparatorEditorForm,
+  ElementEditorFormGroup,
+  ItemEditorFormGroup,
+  SeparatorEditorFormGroup,
+} from '../../models/form-groups/editor/item-editor-form-group.model';
+import { createFormEditorForm, FormEditorFormGroup } from '../../models/form-groups/editor/form-editor-form-group.model';
 import { FormElement } from './form-element/form-element';
+import { FormEditorService } from '../../services/form-editor-service';
 
 @Component({
   selector: 'app-form-editor',
@@ -35,11 +35,12 @@ export class FormEditor {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly formsService = inject(FormsService);
+  private readonly formEditorService = inject(FormEditorService);
 
   private formId: string | null = this.route.snapshot.paramMap.get('id');
   isEdit = signal(this.formId !== null);
 
-  formDetailsForm: FormFormGroup = createFormFormGroup();
+  formEditorForm: FormEditorFormGroup = createFormEditorForm();
 
   constructor() {
     this.initForm();
@@ -48,9 +49,9 @@ export class FormEditor {
   initForm(): void {
     console.log('Editing form with id: ', this.formId);
     if (this.isEdit()) {
-      const form: Form | undefined = this.formsService.getFormById(this.formId!);
+      const form: Form | null = this.formsService.getFormById(this.formId!);
       if (form) {
-        this.formDetailsForm.patchValue({
+        this.formEditorForm.patchValue({
           title: form.title,
           description: form.description ?? '',
         });
@@ -65,50 +66,50 @@ export class FormEditor {
   initElements(clusters: FormCluster[]): void {
     clusters.forEach((cluster) => {
       if (cluster.title || cluster.description) {
-        const separatorElement: SeparatorFormGroup = createFormSeparator(cluster);
-        this.formDetailsForm.controls.elements.push(separatorElement);
+        const separatorElement: SeparatorEditorFormGroup = createSeparatorEditorForm(cluster);
+        this.formEditorForm.controls.elements.push(separatorElement);
       }
       cluster.items.forEach((item) => {
-        const itemElement: ItemFormGroup = createFormItem(item);
+        const itemElement: ItemEditorFormGroup = createItemEditorForm(item);
         itemElement.controls.extras.patchValue(item.extras);
-        this.formDetailsForm.controls.elements.push(itemElement);
+        this.formEditorForm.controls.elements.push(itemElement);
       });
     });
   }
 
-  get elementsForms(): FormArray<ElementFormGroup> {
-    return this.formDetailsForm.get('elements') as FormArray<ElementFormGroup>;
+  get elementsEditorForms(): FormArray<ElementEditorFormGroup> {
+    return this.formEditorForm.get('elements') as FormArray<ElementEditorFormGroup>;
   }
 
   addItem(): void {
-    const itemGroup: ItemFormGroup = createFormItem();
-    this.elementsForms.push(itemGroup);
+    const itemEditorForm: ItemEditorFormGroup = createItemEditorForm();
+    this.elementsEditorForms.push(itemEditorForm);
   }
 
   addSeparator(): void {
     if (this.canAddSeparator()) {
-      const separatorGroup: SeparatorFormGroup = createFormSeparator();
-      this.elementsForms.push(separatorGroup);
+      const separatorEditorForm: SeparatorEditorFormGroup = createSeparatorEditorForm();
+      this.elementsEditorForms.push(separatorEditorForm);
     }
   }
 
   canAddSeparator(): boolean {
-    return this.elementsForms.controls.length === 0 || !this.isLastElementASeparator();
+    return this.elementsEditorForms.controls.length === 0 || !this.isLastElementASeparator();
   }
 
   private isLastElementASeparator(): boolean {
     return (
-      this.elementsForms.controls.length > 0 &&
-      this.formsService.isSeparator(this.elementsForms.controls.at(-1)!)
+      this.elementsEditorForms.controls.length > 0 &&
+      this.formEditorService.isSeparator(this.elementsEditorForms.controls.at(-1)!)
     );
   }
 
   removeElement(index: number): void {
-    this.elementsForms.removeAt(index);
+    this.elementsEditorForms.removeAt(index);
   }
 
   save(): void {
-    const inputForm: FormInput = this.formsService.mapToFormInput(this.formDetailsForm);
+    const inputForm: FormInput = this.formEditorService.mapToFormInput(this.formEditorForm);
     if (this.isEdit()) {
       this.formsService.updateForm(this.formId!, inputForm);
     } else {
@@ -127,6 +128,6 @@ export class FormEditor {
   }
 
   logForm() {
-    console.log(this.formDetailsForm.getRawValue());
+    console.log(this.formEditorForm.getRawValue());
   }
 }

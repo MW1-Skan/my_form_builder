@@ -1,6 +1,6 @@
 <h1>{{ isEdit() ? 'Edit' : 'Create' }} a form</h1>
 
-<form [formGroup]="formDetailsForm" (ngSubmit)="save()">
+<form [formGroup]="formEditorForm" (ngSubmit)="save()">
   <p-floatlabel variant="on">
     <input pInputText id="title" formControlName="title" autocomplete="off" />
     <label for="title">Title *</label>
@@ -16,8 +16,8 @@
   </p-floatlabel>
 
   <div formArrayName="elements">
-    @for (elementForm of elementsForms.controls; track $index) {
-      <app-form-element [elementForm]="elementForm" (remove)="removeElement($index)" />
+    @for (elementEditorForm of elementsEditorForms.controls; track $index) {
+      <app-form-element [elementEditorForm]="elementEditorForm" (remove)="removeElement($index)" />
     }
   </div>
 

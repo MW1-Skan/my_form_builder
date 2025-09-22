@@ -1,5 +1,5 @@
 import { Component, input, signal } from '@angular/core';
-import { SeparatorFormGroup } from '../../../../models/form-groups/item-form-group.model';
+import { SeparatorEditorFormGroup } from '../../../../models/form-groups/editor/item-editor-form-group.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -13,7 +13,7 @@ import { Textarea } from 'primeng/textarea';
   styleUrl: './form-separator-editor.scss',
 })
 export class FormSeparatorEditor {
-  separatorForm = input.required<SeparatorFormGroup>();
+  separatorForm = input.required<SeparatorEditorFormGroup>();
 
   hasTitle = signal(true);
 

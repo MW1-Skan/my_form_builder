@@ -1,1 +1,15 @@
-<p>form-preview works!</p>
+<h1>{{ form?.title }}</h1>
+<h4>{{ form?.description }}</h4>
+
+<form [formGroup]="formPreviewForm" (ngSubmit)="submit()">
+  @for (cluster of form?.clusters; track $index; let clusterIndex = $index) {
+    <app-separator-preview [title]="cluster.title" [description]="cluster.description" />
+
+    @for (item of cluster.items; track $index; let itemIndex = $index) {
+      <app-item-preview [item]="item" [form]="form" [formPreviewForm]="formPreviewForm" />
+    }
+  }
+</form>
+
+<p-button label="Cancel" (onClick)="navigateToForms()"></p-button>
+<p-button label="Save" type="submit"></p-button>

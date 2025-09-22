@@ -1,11 +1,11 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-export type ItemOptionFormGroup = FormGroup<{
+export type OptionEditorFormGroup = FormGroup<{
   value: FormControl<string>;
   label: FormControl<string>;
 }>;
 
-export function createFormItemOption(): ItemOptionFormGroup {
+export function createOptionEditorForm(): OptionEditorFormGroup {
   return new FormGroup({
     value: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     label: new FormControl('', { nonNullable: true, validators: [Validators.required] }),

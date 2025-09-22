@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, input } from '@angular/core';
-import { ItemFormGroup } from '../../../../../models/form-groups/item-form-group.model';
-import { NumberExtrasFormGroup } from '../../../../../models/form-groups/item-extras-form-group.model';
+import { ItemEditorFormGroup } from '../../../../../models/form-groups/editor/item-editor-form-group.model';
+import { NumberExtrasEditorFormGroup } from '../../../../../models/form-groups/editor/item-extras-editor-form-group.model';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
-import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
+import { ValidationErrorMessage } from '../../../../shared/validation-error-message/validation-error-message';
 
 @Component({
   selector: 'app-number-item-editor',
@@ -18,53 +18,54 @@ import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
     InputNumberModule,
     InputTextModule,
     ToggleSwitchModule,
+    ValidationErrorMessage,
   ],
   templateUrl: './number-item-editor.html',
   styleUrl: './number-item-editor.scss',
 })
 export class NumberItemEditor implements AfterViewInit {
-  itemForm = input.required<ItemFormGroup>();
+  itemEditorForm = input.required<ItemEditorFormGroup>();
 
-  get extrasForm(): NumberExtrasFormGroup {
-    return this.itemForm().controls.extras as NumberExtrasFormGroup;
+  get extrasEditorForm(): NumberExtrasEditorFormGroup {
+    return this.itemEditorForm().controls.extras as NumberExtrasEditorFormGroup;
   }
 
   get placeholder(): string {
-    return this.extrasForm.controls.placeholder.value ?? '';
+    return this.extrasEditorForm.controls.placeholder.value ?? '';
   }
 
   get min(): number | null {
-    return this.extrasForm.controls.min.value;
+    return this.extrasEditorForm.controls.min.value;
   }
 
   readonly DEFAULT_MIN = Number.NEGATIVE_INFINITY;
 
   get max(): number | null {
-    return this.extrasForm.controls.max.value;
+    return this.extrasEditorForm.controls.max.value;
   }
 
   readonly DEFAULT_MAX = Number.POSITIVE_INFINITY;
 
   get forceLimits(): boolean {
-    return this.extrasForm.controls.forceLimits.value;
+    return this.extrasEditorForm.controls.forceLimits.value;
   }
 
   get isDecimal(): boolean {
-    return this.extrasForm.controls.isDecimal.value;
+    return this.extrasEditorForm.controls.isDecimal.value;
   }
 
   get maxFractionDigits(): number | null {
-    return this.extrasForm.controls.maxFractionDigits.value;
+    return this.extrasEditorForm.controls.maxFractionDigits.value;
   }
 
   readonly DEFAULT_MAX_FRACTION_DIGITS: number = 20;
 
   get showStepButtons(): boolean {
-    return this.extrasForm.controls.showStepButtons.value;
+    return this.extrasEditorForm.controls.showStepButtons.value;
   }
 
   get step(): number | null {
-    return this.extrasForm.controls.step.value;
+    return this.extrasEditorForm.controls.step.value;
   }
 
   ngAfterViewInit(): void {
@@ -73,7 +74,7 @@ export class NumberItemEditor implements AfterViewInit {
 
   private initValidators() {
     // --- step > 0 ---
-    this.extrasForm.controls.step.addValidators(
+    this.extrasEditorForm.controls.step.addValidators(
       (control: AbstractControl): ValidationErrors | null => {
         const val: number | null = control.value;
         if (val != null && val <= 0) {
@@ -84,8 +85,8 @@ export class NumberItemEditor implements AfterViewInit {
     );
 
     // --- règle multi-champs : min < max ---
-    this.extrasForm.addValidators((group: AbstractControl): ValidationErrors | null => {
-      const controls = (group as NumberExtrasFormGroup).controls;
+    this.extrasEditorForm.addValidators((group: AbstractControl): ValidationErrors | null => {
+      const controls = (group as NumberExtrasEditorFormGroup).controls;
       const min: number | null = controls.min.value;
       const max: number | null = controls.max.value;
 
@@ -95,14 +96,10 @@ export class NumberItemEditor implements AfterViewInit {
       return null;
     });
 
-    this.extrasForm.updateValueAndValidity();
-  }
-
-  isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string) {
-    return isTouchedOrDirtyAndHasError(control, errorName);
+    this.extrasEditorForm.updateValueAndValidity();
   }
 
   logExtras() {
-    console.log('Extras :', this.extrasForm.getRawValue());
+    console.log('Extras :', this.extrasEditorForm.getRawValue());
   }
 }

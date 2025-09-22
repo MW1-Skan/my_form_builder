@@ -1,14 +1,15 @@
-// item-form-group.model.ts
+// item-editor-form-group.model.ts
 import { FormControl, FormGroup } from '@angular/forms';
-import { ItemType, ItemTypeEnum } from '../form-item.model';
-import { ItemExtras, NumberExtras, TextExtras } from '../item-extras.model';
+import { ItemType, ItemTypeEnum } from '../../form-item.model';
+import { ItemExtras, NumberExtras, TextExtras } from '../../item-extras.model';
 
-export type ItemExtrasFormGroup =
-  | TextExtrasFormGroup
-  | NumberExtrasFormGroup
-  | EmptyExtrasFormGroup;
+export type ExtrasEditorFormGroup =
+  | TextExtrasEditorFormGroup
+  | NumberExtrasEditorFormGroup
+  | EmptyExtrasEditorFormGroup;
 
-export type TextExtrasFormGroup = FormGroup<{
+export type TextExtrasEditorFormGroup = FormGroup<{
+  required: FormControl<boolean>;
   placeholder: FormControl<string | null>;
   isLarge: FormControl<boolean>;
   minLength: FormControl<number | null>;
@@ -17,7 +18,8 @@ export type TextExtrasFormGroup = FormGroup<{
   isEmail: FormControl<boolean>;
 }>;
 
-export type NumberExtrasFormGroup = FormGroup<{
+export type NumberExtrasEditorFormGroup = FormGroup<{
+  required: FormControl<boolean>;
   placeholder: FormControl<string | null>;
   min: FormControl<number | null>;
   max: FormControl<number | null>;
@@ -28,10 +30,11 @@ export type NumberExtrasFormGroup = FormGroup<{
   step: FormControl<number | null>;
 }>;
 
-export type EmptyExtrasFormGroup = FormGroup<{}>;
+export type EmptyExtrasEditorFormGroup = FormGroup<{}>;
 
-export function createTextExtrasForm(textExtras?: TextExtras): TextExtrasFormGroup {
+export function createTextExtrasEditorForm(textExtras?: TextExtras): TextExtrasEditorFormGroup {
   return new FormGroup({
+    required: new FormControl<boolean>(textExtras?.required ?? false, { nonNullable: true }),
     placeholder: new FormControl<string | null>(textExtras?.placeholder ?? null),
     isLarge: new FormControl(textExtras?.isLarge ?? false, { nonNullable: true }),
     minLength: new FormControl<number | null>(textExtras?.minLength ?? null),
@@ -41,8 +44,9 @@ export function createTextExtrasForm(textExtras?: TextExtras): TextExtrasFormGro
   });
 }
 
-export function createNumberExtrasForm(numberExtras?: NumberExtras): NumberExtrasFormGroup {
+export function createNumberExtrasEditorForm(numberExtras?: NumberExtras): NumberExtrasEditorFormGroup {
   return new FormGroup({
+    required: new FormControl<boolean>(numberExtras?.required ?? false, { nonNullable: true }),
     placeholder: new FormControl<string | null>(numberExtras?.placeholder ?? null),
     min: new FormControl<number | null>(numberExtras?.min ?? null),
     max: new FormControl<number | null>(numberExtras?.max ?? null),
@@ -54,17 +58,17 @@ export function createNumberExtrasForm(numberExtras?: NumberExtras): NumberExtra
   });
 }
 
-export function createEmptyExtrasForm(): EmptyExtrasFormGroup {
+export function createEmptyExtrasEditorForm(): EmptyExtrasEditorFormGroup {
   return new FormGroup({});
 }
 
-export function createExtrasFormFor(type: ItemType | null, extras?: ItemExtras): ItemExtrasFormGroup {
+export function createExtrasEditorFormFor(type: ItemType | null, extras?: ItemExtras): ExtrasEditorFormGroup {
   switch (type) {
     case ItemTypeEnum.text:
-      return createTextExtrasForm(extras as TextExtras);
+      return createTextExtrasEditorForm(extras as TextExtras);
     case ItemTypeEnum.number:
-      return createNumberExtrasForm(extras as NumberExtras);
+      return createNumberExtrasEditorForm(extras as NumberExtras);
     default:
-      return createEmptyExtrasForm();
+      return createEmptyExtrasEditorForm();
   }
 }

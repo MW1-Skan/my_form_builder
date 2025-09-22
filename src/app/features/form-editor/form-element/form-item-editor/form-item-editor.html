@@ -1,13 +1,13 @@
 <div class="border d-inline-block p-2 my-3">
-  <form [formGroup]="itemForm()">
+  <form [formGroup]="itemEditorForm()">
     <p-selectbutton
       [options]="itemTypeSelect"
       optionLabel="label"
       optionValue="value"
       formControlName="type"
-      [invalid]="itemForm().controls.type.invalid"
+      [invalid]="itemEditorForm().controls.type.invalid"
     />
-    @if (isTouchedOrDirtyAndHasError(itemForm().controls.type, 'required')) {
+    @if (isTouchedOrDirtyAndHasError(itemEditorForm().controls.type, 'required')) {
       <small class="text-danger"> Please choose a type. </small>
     }
 
@@ -16,17 +16,13 @@
         pInputText
         id="question"
         formControlName="question"
-        [invalid]="itemForm().controls.question.touched && itemForm().controls.question.invalid"
+        [invalid]="itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid"
       />
       <label for="question">Question *</label>
     </p-floatlabel>
-    @if (isTouchedOrDirtyAndHasError(itemForm().controls.question, 'required')) {
+    @if (isTouchedOrDirtyAndHasError(itemEditorForm().controls.question, 'required')) {
       <small class="text-danger"> Please enter a question. </small>
     }
-    <div>
-      <p-toggleswitch id="required" name="required" formControlName="required" />
-      <label for="required">Required ?</label>
-    </div>
     <ng-container #dynamicHost />
   </form>
   <hr class="my-1" />
