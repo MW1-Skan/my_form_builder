@@ -8,9 +8,8 @@ describe('ItemPreview', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ItemPreview]
-    })
-    .compileComponents();
+      imports: [ItemPreview],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ItemPreview);
     component = fixture.componentInstance;

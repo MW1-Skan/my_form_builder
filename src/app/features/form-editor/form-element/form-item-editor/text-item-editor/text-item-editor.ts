@@ -7,11 +7,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import {
-  AbstractControl,
-  ReactiveFormsModule,
-  ValidationErrors,
-} from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { TextExtrasEditorFormGroup } from '../../../../../models/form-groups/editor/item-extras-editor-form-group.model';
 import { Subscription } from 'rxjs';
 import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
@@ -58,17 +54,19 @@ export class TextItemEditor implements AfterViewInit, OnDestroy {
   }
 
   private subscribeToMaskChanges() {
-    this.maskSubscription = this.extrasEditorForm.controls.mask.valueChanges.subscribe((maskValue) => {
-      if (maskValue && maskValue !== '') {
-        this.extrasEditorForm.controls.isLarge.setValue(false);
-        this.extrasEditorForm.controls.isLarge.disable();
-        this.extrasEditorForm.controls.isEmail.setValue(false);
-        this.extrasEditorForm.controls.isEmail.disable();
-      } else {
-        this.extrasEditorForm.controls.isLarge.enable();
-        this.extrasEditorForm.controls.isEmail.enable();
-      }
-    });
+    this.maskSubscription = this.extrasEditorForm.controls.mask.valueChanges.subscribe(
+      (maskValue) => {
+        if (maskValue && maskValue !== '') {
+          this.extrasEditorForm.controls.isLarge.setValue(false);
+          this.extrasEditorForm.controls.isLarge.disable();
+          this.extrasEditorForm.controls.isEmail.setValue(false);
+          this.extrasEditorForm.controls.isEmail.disable();
+        } else {
+          this.extrasEditorForm.controls.isLarge.enable();
+          this.extrasEditorForm.controls.isEmail.enable();
+        }
+      },
+    );
   }
 
   private initValidators() {

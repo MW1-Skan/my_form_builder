@@ -71,7 +71,10 @@ export class FormItemEditor {
       const typeControl: FormControl<ItemType> = form.controls.type;
       if (!typeControl) return;
       this.currentType.set(typeControl.value);
-      this.itemEditorForm().setControl('extras', createExtrasEditorFormFor(this.currentType(), form.value.extras as ItemExtras));
+      this.itemEditorForm().setControl(
+        'extras',
+        createExtrasEditorFormFor(this.currentType(), form.value.extras as ItemExtras),
+      );
       subscription = typeControl.valueChanges.subscribe((type) => {
         console.log('Type changed to', type);
         this.currentType.set(type);

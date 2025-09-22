@@ -1,5 +1,8 @@
 import { Component, effect, input, signal, viewChild, ViewContainerRef } from '@angular/core';
-import { FormPreviewFormGroup, ItemPreviewFormGroup } from '../../../models/form-groups/preview/form-preview-form-group.model';
+import {
+  FormPreviewFormGroup,
+  ItemPreviewFormGroup,
+} from '../../../models/form-groups/preview/form-preview-form-group.model';
 import { FormItem, ItemType, ItemTypeEnum } from '../../../models/form-item.model';
 import { TextItemPreview } from './text-item-preview/text-item-preview';
 import { NumberItemPreview } from './number-item-preview/number-item-preview';
@@ -10,17 +13,17 @@ import { Form } from '../../../models/form.model';
   selector: 'app-item-preview',
   imports: [],
   templateUrl: './item-preview.html',
-  styleUrl: './item-preview.scss'
+  styleUrl: './item-preview.scss',
 })
 export class ItemPreview {
   vcr = viewChild('dynamicHost', { read: ViewContainerRef });
-  
+
   item = input.required<FormItem>();
 
   form = input.required<Form | null>();
 
   formPreviewForm = input.required<FormPreviewFormGroup>();
-  
+
   itemPreviewForm = signal<ItemPreviewFormGroup | null>(null);
 
   private itemComponentMap: Record<ItemType, any> = {
@@ -57,7 +60,7 @@ export class ItemPreview {
 
   getControlFor(item: FormItem): ItemPreviewFormGroup | null {
     if (!this.form()) return null;
-    const allItems = this.form()!.clusters.flatMap(c => c.items);
+    const allItems = this.form()!.clusters.flatMap((c) => c.items);
     const index = allItems.indexOf(item);
     if (index === -1) return null;
     return this.formPreviewForm().controls.elements.at(index) as ItemPreviewFormGroup;

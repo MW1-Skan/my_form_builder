@@ -30,42 +30,22 @@ export class NumberItemEditor implements AfterViewInit {
     return this.itemEditorForm().controls.extras as NumberExtrasEditorFormGroup;
   }
 
-  get placeholder(): string {
-    return this.extrasEditorForm.controls.placeholder.value ?? '';
-  }
-
   get min(): number | null {
     return this.extrasEditorForm.controls.min.value;
   }
 
-  readonly DEFAULT_MIN = Number.NEGATIVE_INFINITY;
-
   get max(): number | null {
     return this.extrasEditorForm.controls.max.value;
-  }
-
-  readonly DEFAULT_MAX = Number.POSITIVE_INFINITY;
-
-  get forceLimits(): boolean {
-    return this.extrasEditorForm.controls.forceLimits.value;
   }
 
   get isDecimal(): boolean {
     return this.extrasEditorForm.controls.isDecimal.value;
   }
 
-  get maxFractionDigits(): number | null {
-    return this.extrasEditorForm.controls.maxFractionDigits.value;
-  }
-
   readonly DEFAULT_MAX_FRACTION_DIGITS: number = 20;
 
   get showStepButtons(): boolean {
     return this.extrasEditorForm.controls.showStepButtons.value;
-  }
-
-  get step(): number | null {
-    return this.extrasEditorForm.controls.step.value;
   }
 
   ngAfterViewInit(): void {

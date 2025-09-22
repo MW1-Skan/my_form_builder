@@ -44,7 +44,9 @@ export function createTextExtrasEditorForm(textExtras?: TextExtras): TextExtrasE
   });
 }
 
-export function createNumberExtrasEditorForm(numberExtras?: NumberExtras): NumberExtrasEditorFormGroup {
+export function createNumberExtrasEditorForm(
+  numberExtras?: NumberExtras,
+): NumberExtrasEditorFormGroup {
   return new FormGroup({
     required: new FormControl<boolean>(numberExtras?.required ?? false, { nonNullable: true }),
     placeholder: new FormControl<string | null>(numberExtras?.placeholder ?? null),
@@ -62,7 +64,10 @@ export function createEmptyExtrasEditorForm(): EmptyExtrasEditorFormGroup {
   return new FormGroup({});
 }
 
-export function createExtrasEditorFormFor(type: ItemType | null, extras?: ItemExtras): ExtrasEditorFormGroup {
+export function createExtrasEditorFormFor(
+  type: ItemType | null,
+  extras?: ItemExtras,
+): ExtrasEditorFormGroup {
   switch (type) {
     case ItemTypeEnum.text:
       return createTextExtrasEditorForm(extras as TextExtras);

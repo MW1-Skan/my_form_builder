@@ -2,7 +2,15 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Form, FormCluster } from '../../models/form.model';
 import { FormsService } from '../../services/forms-service';
-import { createFormPreviewFormGroup, createNumberItemPreviewForm, createTextItemPreviewForm, FormPreviewFormGroup, ItemPreviewFormGroup, NumberItemPreviewFormGroup, TextItemPreviewFormGroup } from '../../models/form-groups/preview/form-preview-form-group.model';
+import {
+  createFormPreviewFormGroup,
+  createNumberItemPreviewForm,
+  createTextItemPreviewForm,
+  FormPreviewFormGroup,
+  ItemPreviewFormGroup,
+  NumberItemPreviewFormGroup,
+  TextItemPreviewFormGroup,
+} from '../../models/form-groups/preview/form-preview-form-group.model';
 import { ItemTypeEnum } from '../../models/form-item.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SeparatorPreview } from './separator-preview/separator-preview';
@@ -63,7 +71,7 @@ export class FormPreview {
         }
       }
     }
-    
+
     groups.forEach((group: ItemPreviewFormGroup) => {
       this.formPreviewForm.controls.elements.push(group);
     });

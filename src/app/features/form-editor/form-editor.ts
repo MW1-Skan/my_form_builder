@@ -14,7 +14,10 @@ import {
   ItemEditorFormGroup,
   SeparatorEditorFormGroup,
 } from '../../models/form-groups/editor/item-editor-form-group.model';
-import { createFormEditorForm, FormEditorFormGroup } from '../../models/form-groups/editor/form-editor-form-group.model';
+import {
+  createFormEditorForm,
+  FormEditorFormGroup,
+} from '../../models/form-groups/editor/form-editor-form-group.model';
 import { FormElement } from './form-element/form-element';
 import { FormEditorService } from '../../services/form-editor-service';
 
