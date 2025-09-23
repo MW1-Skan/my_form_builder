@@ -10,7 +10,10 @@ export type FormEditorFormGroup = FormGroup<{
 
 export function createFormEditorForm(form?: FormInput): FormEditorFormGroup {
   return new FormGroup({
-    title: new FormControl(form?.title ?? '', { nonNullable: true , validators: [Validators.required]}),
+    title: new FormControl(form?.title ?? '', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
     description: new FormControl(form?.description ?? '', { nonNullable: true }),
     elements: new FormArray<ElementEditorFormGroup>([]),
   });

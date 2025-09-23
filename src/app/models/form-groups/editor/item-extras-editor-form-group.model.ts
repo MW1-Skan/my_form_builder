@@ -1,11 +1,11 @@
-// item-editor-form-group.model.ts
 import { FormControl, FormGroup } from '@angular/forms';
 import { ItemType, ItemTypeEnum } from '../../form-item.model';
-import { ItemExtras, NumberExtras, TextExtras } from '../../item-extras.model';
+import { DateExtras, ItemExtras, NumberExtras, TextExtras } from '../../item-extras.model';
 
 export type ExtrasEditorFormGroup =
   | TextExtrasEditorFormGroup
   | NumberExtrasEditorFormGroup
+  | DateExtrasEditorFormGroup
   | EmptyExtrasEditorFormGroup;
 
 export type TextExtrasEditorFormGroup = FormGroup<{
@@ -28,6 +28,17 @@ export type NumberExtrasEditorFormGroup = FormGroup<{
   maxFractionDigits: FormControl<number | null>;
   showStepButtons: FormControl<boolean>;
   step: FormControl<number | null>;
+}>;
+
+export type DateExtrasEditorFormGroup = FormGroup<{
+  required: FormControl<boolean>;
+  placeholder: FormControl<string | null>;
+  minDate: FormControl<Date | null>;
+  maxDate: FormControl<Date | null>;
+  showIcon: FormControl<boolean>;
+  isRange: FormControl<boolean>;
+  canType: FormControl<boolean>;
+  showTime: FormControl<boolean>;
 }>;
 
 export type EmptyExtrasEditorFormGroup = FormGroup<{}>;
@@ -60,6 +71,19 @@ export function createNumberExtrasEditorForm(
   });
 }
 
+export function createDateExtrasEditorForm(dateExtras?: DateExtras): DateExtrasEditorFormGroup {
+  return new FormGroup({
+    required: new FormControl<boolean>(dateExtras?.required ?? false, { nonNullable: true }),
+    placeholder: new FormControl<string | null>(dateExtras?.placeholder ?? null),
+    minDate: new FormControl<Date | null>(dateExtras?.minDate ?? null),
+    maxDate: new FormControl<Date | null>(dateExtras?.maxDate ?? null),
+    showIcon: new FormControl<boolean>(dateExtras?.showIcon ?? false, { nonNullable: true }),
+    isRange: new FormControl<boolean>(dateExtras?.isRange ?? false, { nonNullable: true }),
+    canType: new FormControl<boolean>(dateExtras?.canType ?? false, { nonNullable: true }),
+    showTime: new FormControl<boolean>(dateExtras?.showTime ?? false, { nonNullable: true }),
+  });
+}
+
 export function createEmptyExtrasEditorForm(): EmptyExtrasEditorFormGroup {
   return new FormGroup({});
 }
@@ -73,6 +97,8 @@ export function createExtrasEditorFormFor(
       return createTextExtrasEditorForm(extras as TextExtras);
     case ItemTypeEnum.number:
       return createNumberExtrasEditorForm(extras as NumberExtras);
+    case ItemTypeEnum.date:
+      return createDateExtrasEditorForm(extras as DateExtras);
     default:
       return createEmptyExtrasEditorForm();
   }

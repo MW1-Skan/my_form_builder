@@ -34,30 +34,29 @@
       <label for="mask">Mask</label>
     </p-floatlabel>
   </div>
-  
+
   <!-- Min and max length -->
   <div class="d-flex flex-wrap align-items-center gap-4">
     <p-floatlabel variant="on">
       <p-inputnumber
-      id="minLength"
+        id="minLength"
         formControlName="minLength"
         [min]="LENGTH_LOWER_LIMIT"
         [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
       />
       <label for="minLength">Minimum length</label>
     </p-floatlabel>
-  
+
     <p-floatlabel variant="on">
       <p-inputnumber
-      id="maxLength"
-      formControlName="maxLength"
-      [min]="LENGTH_LOWER_LIMIT"
-      [max]="LENGTH_UPPER_LIMIT"
-      [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
+        id="maxLength"
+        formControlName="maxLength"
+        [min]="LENGTH_LOWER_LIMIT"
+        [max]="LENGTH_UPPER_LIMIT"
+        [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
       />
       <label for="maxLength">Maximum length</label>
     </p-floatlabel>
-    
   </div>
 </form>
 
@@ -69,8 +68,8 @@
     errorMessage="The mask is invalid. Press on i to learn more."
   />
   <app-validation-error-message
-  [control]="extrasEditorForm"
-  errorName="invalidLengthRange"
-  errorMessage="Maximum length has to be greater than the minimum length."
+    [control]="extrasEditorForm"
+    errorName="invalidLengthRange"
+    errorMessage="Maximum length has to be greater than the minimum length."
   />
 </div>

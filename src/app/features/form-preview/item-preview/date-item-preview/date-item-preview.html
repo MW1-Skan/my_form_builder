@@ -1,0 +1,13 @@
+<form [formGroup]="itemPreviewForm()">
+  <p-datepicker
+    formControlName="value"
+    [placeholder]="placeholder"
+    dateFormat="dd.mm.yy"
+    [showIcon]="showIcon"
+    [readonlyInput]="!canType"
+    [selectionMode]="isRange ? 'range' : 'single'"
+    [minDate]="minDate ?? DEFAULT_MIN_DATE"
+    [maxDate]="maxDate ?? DEFAULT_MAX_DATE"
+    [showTime]="showTime"
+  />
+</form>

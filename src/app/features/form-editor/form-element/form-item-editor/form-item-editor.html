@@ -17,9 +17,11 @@
         pInputText
         id="question"
         formControlName="question"
-        [invalid]="itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid"
+        [invalid]="
+          itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid
+        "
         class="w-100"
-        />
+      />
       <label for="question">Question *</label>
     </p-floatlabel>
     @if (isTouchedOrDirtyAndHasError(itemEditorForm().controls.question, 'required')) {

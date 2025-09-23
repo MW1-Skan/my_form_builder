@@ -1,4 +1,4 @@
-export type ItemExtras = TextExtras | NumberExtras;
+export type ItemExtras = TextExtras | NumberExtras | DateExtras;
 
 export type TextExtras = {
   required: boolean;
@@ -20,4 +20,15 @@ export type NumberExtras = {
   maxFractionDigits: number;
   showStepButtons: boolean;
   step: number;
+};
+
+export type DateExtras = {
+  required: boolean;
+  placeholder: string;
+  minDate: Date;
+  maxDate: Date;
+  showIcon: boolean;
+  isRange: boolean;
+  canType: boolean;
+  showTime: boolean;
 };

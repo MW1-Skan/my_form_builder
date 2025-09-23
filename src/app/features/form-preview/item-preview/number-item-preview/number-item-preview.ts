@@ -64,7 +64,6 @@ export class NumberItemPreview implements OnInit {
     if (!form || !item) return;
     this.extras.set(item.extras as NumberExtras);
     this.initValidators(form);
-    console.log('Form after init :', this.itemPreviewForm());
   }
 
   private initValidators(form: NumberItemPreviewFormGroup): void {
@@ -90,7 +89,7 @@ export class NumberItemPreview implements OnInit {
     }
 
     // --- Max ---
-    if (extras.max != null  && !extras.forceLimits) {
+    if (extras.max != null && !extras.forceLimits) {
       validators.push((c: AbstractControl): ValidationErrors | null => {
         const val: number = c.value ?? null;
         return val > extras.max ? { tooBig: true } : null;

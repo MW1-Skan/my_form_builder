@@ -10,7 +10,10 @@ export function createFormPreviewFormGroup(): FormPreviewFormGroup {
   });
 }
 
-export type ItemPreviewFormGroup = TextItemPreviewFormGroup | NumberItemPreviewFormGroup;
+export type ItemPreviewFormGroup =
+  | TextItemPreviewFormGroup
+  | NumberItemPreviewFormGroup
+  | DateItemPreviewFormGroup;
 
 type SimpleItemPreviewFormGroup<T> = FormGroup<{
   value: FormControl<T | null>;
@@ -29,5 +32,13 @@ export type NumberItemPreviewFormGroup = SimpleItemPreviewFormGroup<number>;
 export function createNumberItemPreviewForm(): NumberItemPreviewFormGroup {
   return new FormGroup({
     value: new FormControl<number | null>(null),
+  });
+}
+
+export type DateItemPreviewFormGroup = SimpleItemPreviewFormGroup<Date | Date[]>;
+
+export function createDateItemPreviewForm(): DateItemPreviewFormGroup {
+  return new FormGroup({
+    value: new FormControl<Date | Date[] | null>(null),
   });
 }

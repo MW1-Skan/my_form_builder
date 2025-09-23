@@ -3,12 +3,7 @@
   <form [formGroup]="separatorForm()" class="d-flex flex-column gap-3">
     @if (hasTitle()) {
       <p-floatlabel variant="on">
-        <input
-          pInputText
-          id="title"
-          formControlName="title"
-          autocomplete="off"
-          class="w-100" />
+        <input pInputText id="title" formControlName="title" autocomplete="off" class="w-100" />
         <label for="title">Title</label>
       </p-floatlabel>
     }
@@ -17,8 +12,8 @@
       [label]="hasTitle() ? 'Remove title' : 'Add title'"
       [icon]="hasTitle() ? 'pi pi-minus' : 'pi pi-plus'"
       styleClass="p-button-sm p-button-outlined p-button-primary w-auto"
-      />
-  
+    />
+
     @if (hasDescription()) {
       <p-floatlabel variant="in">
         <textarea
