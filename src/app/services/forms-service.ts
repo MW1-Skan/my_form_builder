@@ -6,10 +6,24 @@ import { generateId } from '../utils/id.utils';
   providedIn: 'root',
 })
 export class FormsService {
-  private formsSignal = signal<Form[]>(JSON.parse(localStorage.getItem('forms') ?? '[]'));
+  private formsSignal = signal<Form[]>(this.getFormsFromLocalStorage());
 
   get forms() {
     return this.formsSignal.asReadonly();
+  }
+
+  private getFormsFromLocalStorage(): Form[] {
+    const raw = localStorage.getItem('forms');
+    const forms = raw
+      ? (JSON.parse(raw, (key, value) => {
+          if (key === 'lastModified' && typeof value === 'string') {
+            const d = new Date(value);
+            return isNaN(d.getTime()) ? value : d;
+          }
+          return value;
+        }) as Form[])
+      : [];
+    return forms;
   }
 
   getFormById(id: string): Form | null {
@@ -37,7 +51,7 @@ export class FormsService {
       lastModified: new Date(),
     };
 
-    this.formsSignal.update((forms) => [...forms, newForm]);
+    this.formsSignal.update((forms) => [newForm, ...forms]);
 
     this.save();
     return newForm;
@@ -47,7 +61,7 @@ export class FormsService {
     let updatedForm: Form | undefined;
 
     this.formsSignal.update((forms) => {
-      return forms.map((form) => {
+      const updatedForms: Form[] = forms.map((form) => {
         if (form.id === id) {
           updatedForm = {
             ...updatedFormInput,
@@ -58,6 +72,10 @@ export class FormsService {
         }
         return form;
       });
+
+      return updatedForms.sort(
+        (a, b) => b.lastModified.getTime() - a.lastModified.getTime()
+      );
     });
 
     this.save();
@@ -85,6 +103,6 @@ export class FormsService {
 
   save() {
     localStorage.setItem('forms', JSON.stringify(this.formsSignal()));
-    console.log('Saving forms to local storage');
+    console.log('Saving forms to local storage', this.formsSignal());
   }
 }

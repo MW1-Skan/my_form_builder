@@ -1,4 +1,4 @@
-<form [formGroup]="itemPreviewForm()">
+<form [formGroup]="itemPreviewForm()" class="d-flex flex-column gap-1">
   @if (isLarge) {
     <textarea
       pTextarea
@@ -31,30 +31,26 @@
     [control]="itemPreviewForm().controls.value"
     errorName="required"
     errorMessage="Please answer."
-  >
-  </app-validation-error-message>
+  />
 
   <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="email"
     [errorNamesToExclude]="['required']"
     errorMessage="Please enter a valid email."
-  >
-  </app-validation-error-message>
+  />
 
   <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="tooShort"
     [errorNamesToExclude]="['required']"
     [errorMessage]="'The answer has to be longer than ' + minLength + ' characters.'"
-  >
-  </app-validation-error-message>
+  />
 
   <app-validation-error-message
     [control]="itemPreviewForm().controls.value"
     errorName="tooLong"
     [errorNamesToExclude]="['required']"
     [errorMessage]="'The answer has to be shorter than ' + maxLength + ' characters.'"
-  >
-  </app-validation-error-message>
+  />
 </form>

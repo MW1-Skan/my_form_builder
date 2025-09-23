@@ -1,62 +1,76 @@
-<hr class="my-1" />
-<form [formGroup]="extrasEditorForm">
-  <label for="required">Required ?</label>
-  <p-toggleswitch id="required" name="required" formControlName="required" />
+<form [formGroup]="extrasEditorForm" class="d-flex flex-column gap-4">
+  <!-- Toggle switches -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <div class="d-flex align-items-center gap-2">
+      <label for="required" class="form-label mb-0 fw-semibold">Required ?</label>
+      <p-toggleswitch id="required" name="required" formControlName="required" />
+    </div>
 
-  <label for="large">Large</label>
-  <p-toggleswitch id="large" name="large" formControlName="isLarge" />
+    <div class="d-flex align-items-center gap-2">
+      <label for="large" class="form-label mb-0 fw-semibold">Large ?</label>
+      <p-toggleswitch id="large" name="large" formControlName="isLarge" />
+    </div>
 
-  <p-floatlabel variant="on">
-    <input pInputText id="placeholder" formControlName="placeholder" />
-    <label for="placeholder">Placeholder</label>
-  </p-floatlabel>
+    <div class="d-flex align-items-center gap-2">
+      <label for="email" class="form-label mb-0 fw-semibold">E-mail ?</label>
+      <p-toggleswitch id="email" name="email" formControlName="isEmail" />
+    </div>
+  </div>
 
-  <p-floatlabel variant="on">
-    <p-inputnumber
+  <!-- Placeholder and Mask -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <p-floatlabel variant="on">
+      <input pInputText id="placeholder" formControlName="placeholder" />
+      <label for="placeholder">Placeholder</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <input
+        pInputText
+        id="mask"
+        formControlName="mask"
+        [invalid]="extrasEditorForm.controls.mask.invalid"
+      />
+      <label for="mask">Mask</label>
+    </p-floatlabel>
+  </div>
+  
+  <!-- Min and max length -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <p-floatlabel variant="on">
+      <p-inputnumber
       id="minLength"
-      formControlName="minLength"
-      [min]="LENGTH_LOWER_LIMIT"
-      [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
-    />
-    <label for="minLength">Minimum length</label>
-  </p-floatlabel>
-
-  <p-floatlabel variant="on">
-    <p-inputnumber
+        formControlName="minLength"
+        [min]="LENGTH_LOWER_LIMIT"
+        [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
+      />
+      <label for="minLength">Minimum length</label>
+    </p-floatlabel>
+  
+    <p-floatlabel variant="on">
+      <p-inputnumber
       id="maxLength"
       formControlName="maxLength"
       [min]="LENGTH_LOWER_LIMIT"
       [max]="LENGTH_UPPER_LIMIT"
       [invalid]="isTouchedOrDirtyAndHasError(extrasEditorForm, 'invalidLengthRange')"
-    />
-    <label for="maxLength">Maximum length</label>
-  </p-floatlabel>
+      />
+      <label for="maxLength">Maximum length</label>
+    </p-floatlabel>
+    
+  </div>
+</form>
 
-  <p-floatlabel variant="on">
-    <input
-      pInputText
-      id="mask"
-      formControlName="mask"
-      [invalid]="extrasEditorForm.controls.mask.invalid"
-    />
-    <label for="mask">Mask</label>
-  </p-floatlabel>
+<!-- Validation messages -->
+<div class="d-flex flex-column gap-1">
   <app-validation-error-message
     [control]="extrasEditorForm.controls.mask"
     errorName="invalidMask"
     errorMessage="The mask is invalid. Press on i to learn more."
-  >
-  </app-validation-error-message>
-
+  />
   <app-validation-error-message
-    [control]="extrasEditorForm"
-    errorName="invalidLengthRange"
-    errorMessage="Maximum length has to be greater than the minimum length."
-  >
-  </app-validation-error-message>
-
-  <label for="email">E-mail ?</label>
-  <p-toggleswitch id="email" name="email" formControlName="isEmail" />
-
-  <p-button label="Log extras" (onClick)="logExtras()"></p-button>
-</form>
+  [control]="extrasEditorForm"
+  errorName="invalidLengthRange"
+  errorMessage="Maximum length has to be greater than the minimum length."
+  />
+</div>

@@ -5,7 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { Textarea } from 'primeng/textarea';
-import { FormArray, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { FormsService } from '../../services/forms-service';
 import {
   createItemEditorForm,
@@ -20,6 +20,8 @@ import {
 } from '../../models/form-groups/editor/form-editor-form-group.model';
 import { FormElement } from './form-element/form-element';
 import { FormEditorService } from '../../services/form-editor-service';
+import { isTouchedOrDirtyAndIsInvalid } from '../../utils/forms.utils';
+import { ValidationErrorMessage } from '../shared/validation-error-message/validation-error-message';
 
 @Component({
   selector: 'app-form-editor',
@@ -30,6 +32,7 @@ import { FormEditorService } from '../../services/form-editor-service';
     FloatLabelModule,
     Textarea,
     FormElement,
+    ValidationErrorMessage,
   ],
   templateUrl: './form-editor.html',
   styleUrl: './form-editor.scss',
@@ -112,6 +115,8 @@ export class FormEditor {
   }
 
   save(): void {
+    this.formEditorForm.markAllAsTouched();
+    if (this.formEditorForm.invalid) return;
     const inputForm: FormInput = this.formEditorService.mapToFormInput(this.formEditorForm);
     if (this.isEdit()) {
       this.formsService.updateForm(this.formId!, inputForm);
@@ -132,5 +137,9 @@ export class FormEditor {
 
   logForm() {
     console.log(this.formEditorForm.getRawValue());
+  }
+
+  isTouchedOrDirtyAndInvalid(control: AbstractControl) {
+    return isTouchedOrDirtyAndIsInvalid(control);
   }
 }

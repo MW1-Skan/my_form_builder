@@ -1,2 +1,5 @@
-<h4>Question : {{ item().question }}{{ item().extras.required ? '*' : '' }}</h4>
+<h4 class="fw-semibold text-dark mb-3">
+    {{ item().question }}
+    <span class="text-danger">{{ item().extras.required ? ' *' : '' }}</span>
+</h4>
 <ng-container #dynamicHost />

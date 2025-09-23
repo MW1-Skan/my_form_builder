@@ -1,11 +1,12 @@
-<div class="border d-inline-block p-2 my-3">
-  <form [formGroup]="itemEditorForm()">
+<div class="card bg-light border-0 rounded-3 shadow-sm p-3">
+  <form [formGroup]="itemEditorForm()" class="d-flex flex-column gap-3">
     <p-selectbutton
       [options]="itemTypeSelect"
       optionLabel="label"
       optionValue="value"
       formControlName="type"
       [invalid]="itemEditorForm().controls.type.invalid"
+      styleClass="w-100"
     />
     @if (isTouchedOrDirtyAndHasError(itemEditorForm().controls.type, 'required')) {
       <small class="text-danger"> Please choose a type. </small>
@@ -16,20 +17,16 @@
         pInputText
         id="question"
         formControlName="question"
-        [invalid]="
-          itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid
-        "
-      />
+        [invalid]="itemEditorForm().controls.question.touched && itemEditorForm().controls.question.invalid"
+        class="w-100"
+        />
       <label for="question">Question *</label>
     </p-floatlabel>
     @if (isTouchedOrDirtyAndHasError(itemEditorForm().controls.question, 'required')) {
       <small class="text-danger"> Please enter a question. </small>
     }
-    <ng-container #dynamicHost />
+    <div class="card bg-white border-0 rounded-3 shadow-sm p-3 mb-3">
+      <ng-container #dynamicHost />
+    </div>
   </form>
-  <hr class="my-1" />
-
-  <div>
-    <p-button label="Log item" (onClick)="logItem()" />
-  </div>
 </div>

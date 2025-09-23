@@ -1,34 +1,69 @@
-<h1>{{ isEdit() ? 'Edit' : 'Create' }} a form</h1>
-
-<form [formGroup]="formEditorForm" (ngSubmit)="save()">
-  <p-floatlabel variant="on">
-    <input pInputText id="title" formControlName="title" autocomplete="off" />
-    <label for="title">Title *</label>
-  </p-floatlabel>
-  <p-floatlabel variant="in">
-    <textarea
-      pTextarea
-      id="description"
-      formControlName="description"
-      autocomplete="off"
-    ></textarea>
-    <label for="description">Description</label>
-  </p-floatlabel>
-
-  <div formArrayName="elements">
-    @for (elementEditorForm of elementsEditorForms.controls; track $index) {
-      <app-form-element [elementEditorForm]="elementEditorForm" (remove)="removeElement($index)" />
-    }
+<div class="container my-5 d-flex flex-column min-vh-100">
+  <div class="position-fixed top-0 start-0 end-0 bg-white border-bottom py-3 text-center z-3">
+    <h1 class="h3 fw-bold text-center text-dark mb-0">
+      {{ isEdit() ? 'Edit' : 'Create' }} a form
+    </h1>
   </div>
 
-  <p-button label="Add item" (onClick)="addItem()"></p-button>
-  <p-button
-    label="Add separator"
-    (onClick)="addSeparator()"
-    [disabled]="!canAddSeparator()"
-  ></p-button>
+  <form [formGroup]="formEditorForm" (ngSubmit)="save()" class="card shadow-sm mt-4 mb-5 p-4 rounded-3 border-0">
+    <div class="card shadow p-2 mb-4">
+      <div class="mb-3">
+        <p-floatlabel variant="on">
+          <input
+            pInputText
+            id="title"
+            formControlName="title"
+            autocomplete="off"
+            [invalid]="isTouchedOrDirtyAndInvalid(formEditorForm.controls.title)"
+            class="w-100" />
+          <label for="title">Title *</label>
+        </p-floatlabel>
+        <app-validation-error-message
+          [control]="formEditorForm.controls.title"
+          errorName="required"
+          errorMessage="Please enter a title for your form."
+        />
+      </div>
+  
+      <div class="mb-2">
+        <p-floatlabel variant="in">
+          <textarea
+            pTextarea
+            id="description"
+            formControlName="description"
+            autocomplete="off"
+            class="w-100"
+          ></textarea>
+          <label for="description">Description</label>
+        </p-floatlabel>
+      </div>
+    </div>
 
-  <p-button label="Confirm" type="submit" />
-  <p-button label="Cancel" (onClick)="cancel()" />
-  <p-button label="Log form" (onClick)="logForm()" />
-</form>
+    <div formArrayName="elements" class="mb-4">
+      @for (elementEditorForm of elementsEditorForms.controls; track $index) {
+        <app-form-element [elementEditorForm]="elementEditorForm" (remove)="removeElement($index)" />
+      }
+    </div>
+
+    <div class="d-flex gap-3 mb-1">
+      <p-button
+        label="Add item"
+        (onClick)="addItem()"
+        icon="pi pi-book"
+        styleClass="p-button p-button-info" />
+      <p-button
+        label="Add separator"
+        (onClick)="addSeparator()"
+        [disabled]="!canAddSeparator()"
+        icon="pi pi-minus"
+        [styleClass]="canAddSeparator() ? 'p-button-info' : 'p-button-secondary'" />
+    </div>
+
+    <div class="position-fixed bottom-0 start-0 end-0 bg-white border-top py-3 text-center">
+      <div class="container d-flex justify-content-center gap-3">
+        <p-button label="Cancel" (onClick)="cancel()" icon="pi pi-times" styleClass="p-button-lg p-button-outlined p-button-secondary" />
+        <p-button label="Confirm" type="submit" icon="pi pi-file-check" styleClass="p-button-lg" />
+      </div>
+    </div>
+  </form>
+</div>
