@@ -20,8 +20,8 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura,
         options: {
-          darkModeSelector: '' // ⚡️ vide = désactive le switch auto
-        }
+          darkModeSelector: '', // ⚡️ vide = désactive le switch auto
+        },
       },
       ripple: true,
     }),

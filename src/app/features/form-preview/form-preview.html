@@ -1,8 +1,6 @@
 <div class="container my-5 d-flex flex-column min-vh-100">
   <div class="position-fixed top-0 start-0 end-0 bg-white border-bottom py-3 text-center z-3">
-    <h1 class="h3 fw-bold text-center text-dark mb-0">
-      Preview mode
-    </h1>
+    <h1 class="h3 fw-bold text-center text-dark mb-0">Preview mode</h1>
   </div>
 
   <div class="flex-grow-1 mt-2 pt-4 pb-5">
@@ -10,12 +8,12 @@
       <h1 class="fw-bold">{{ form?.title }}</h1>
       <h4 class="text-muted">{{ form?.description }}</h4>
     </div>
-    
+
     <form [formGroup]="formPreviewForm" (ngSubmit)="submit()" class="d-flex flex-column gap-4">
       @for (cluster of form?.clusters; track $index; let clusterIndex = $index) {
         <div class="card shadow-sm p-4">
           <app-separator-preview [title]="cluster.title" [description]="cluster.description" />
-  
+
           <div class="d-flex flex-column gap-3">
             @for (item of cluster.items; track $index; let itemIndex = $index) {
               <app-item-preview [item]="item" [form]="form" [formPreviewForm]="formPreviewForm" />
@@ -25,12 +23,16 @@
       }
 
       <div class="position-fixed bottom-0 start-0 end-0 bg-white border-top py-3 text-center">
-      <div class="container d-flex justify-content-center gap-3">
-        <p-button label="Back" (onClick)="navigateToForms()" icon="pi pi-angle-left" styleClass="p-button-lg p-button-outlined p-button-secondary" />
-        <p-button label="Save" type="submit" icon="pi pi-check" styleClass="p-button-lg" />
+        <div class="container d-flex justify-content-center gap-3">
+          <p-button
+            label="Back"
+            (onClick)="navigateToForms()"
+            icon="pi pi-angle-left"
+            styleClass="p-button-lg p-button-outlined p-button-secondary"
+          />
+          <p-button label="Save" type="submit" icon="pi pi-check" styleClass="p-button-lg" />
+        </div>
       </div>
-    </div>
     </form>
-    
   </div>
-  
+</div>

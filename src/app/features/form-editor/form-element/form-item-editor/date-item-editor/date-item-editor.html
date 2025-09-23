@@ -1,0 +1,69 @@
+<form [formGroup]="extrasEditorForm" class="d-flex flex-column gap-4">
+  <!-- Toggle switches -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <div class="d-flex align-items-center gap-2">
+      <label for="required" class="form-label mb-0 fw-semibold">Required ?</label>
+      <p-toggleswitch id="required" name="required" formControlName="required" />
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <label for="range" class="form-label mb-0 fw-semibold">Range ?</label>
+      <p-toggleswitch id="range" name="range" formControlName="isRange" />
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <label for="can-type" class="form-label mb-0 fw-semibold">Allow manual typing ?</label>
+      <p-toggleswitch id="can-type" name="can-type" formControlName="canType" />
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <label for="time" class="form-label mb-0 fw-semibold">Choose time ?</label>
+      <p-toggleswitch id="time" name="time" formControlName="showTime" />
+    </div>
+  </div>
+
+  <!-- Placeholder + show icon -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <p-floatlabel variant="on">
+      <input pInputText id="placeholder" formControlName="placeholder" />
+      <label for="placeholder">Placeholder</label>
+    </p-floatlabel>
+
+    <div class="d-flex align-items-center gap-2">
+      <label for="calendar-icon" class="form-label mb-0 fw-semibold">Show calendar icon ?</label>
+      <p-toggleswitch id="calendar-icon" name="calendar-icon" formControlName="showIcon" />
+    </div>
+  </div>
+
+  <!-- Min and Max -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <p-floatlabel variant="on">
+      <p-datepicker
+        id="min-date"
+        formControlName="minDate"
+        dateFormat="dd.mm.yy"
+        [showIcon]="true"
+        [invalid]="extrasEditorForm.invalid"
+      />
+      <label for="min-date">Minimum</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <p-datepicker
+        id="max-date"
+        formControlName="maxDate"
+        dateFormat="dd.mm.yy"
+        [showIcon]="true"
+        [invalid]="extrasEditorForm.invalid"
+      />
+      <label for="max-date">Maximum</label>
+    </p-floatlabel>
+  </div>
+</form>
+
+<!-- Validation messages -->
+<app-validation-error-message
+  [control]="extrasEditorForm"
+  errorName="invalidRange"
+  errorMessage="The minimum date has to be sooner than the maximum date."
+/>

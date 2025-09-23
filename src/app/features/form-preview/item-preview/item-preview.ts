@@ -8,6 +8,7 @@ import { TextItemPreview } from './text-item-preview/text-item-preview';
 import { NumberItemPreview } from './number-item-preview/number-item-preview';
 import { FormControl, RequiredValidator, Validators } from '@angular/forms';
 import { Form } from '../../../models/form.model';
+import { DateItemPreview } from './date-item-preview/date-item-preview';
 
 @Component({
   selector: 'app-item-preview',
@@ -29,6 +30,7 @@ export class ItemPreview {
   private itemComponentMap: Record<ItemType, any> = {
     [ItemTypeEnum.text]: TextItemPreview,
     [ItemTypeEnum.number]: NumberItemPreview,
+    [ItemTypeEnum.date]: DateItemPreview,
   };
 
   constructor() {

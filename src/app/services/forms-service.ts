@@ -13,10 +13,11 @@ export class FormsService {
   }
 
   private getFormsFromLocalStorage(): Form[] {
+    const dateKeys: string[] = ['lastModified', 'minDate', 'maxDate'];
     const raw = localStorage.getItem('forms');
     const forms = raw
       ? (JSON.parse(raw, (key, value) => {
-          if (key === 'lastModified' && typeof value === 'string') {
+          if (dateKeys.includes(key) && typeof value === 'string') {
             const d = new Date(value);
             return isNaN(d.getTime()) ? value : d;
           }
@@ -73,9 +74,7 @@ export class FormsService {
         return form;
       });
 
-      return updatedForms.sort(
-        (a, b) => b.lastModified.getTime() - a.lastModified.getTime()
-      );
+      return updatedForms.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
     });
 
     this.save();

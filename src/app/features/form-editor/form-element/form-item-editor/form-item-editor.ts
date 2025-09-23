@@ -26,6 +26,7 @@ import { NumberItemEditor } from './number-item-editor/number-item-editor';
 import { createExtrasEditorFormFor } from '../../../../models/form-groups/editor/item-extras-editor-form-group.model';
 import { isTouchedOrDirtyAndHasError } from '../../../../utils/forms.utils';
 import { ItemExtras } from '../../../../models/item-extras.model';
+import { DateItemEditor } from './date-item-editor/date-item-editor';
 
 @Component({
   selector: 'app-form-item-editor',
@@ -55,6 +56,7 @@ export class FormItemEditor {
   private itemComponentMap: Record<ItemType, any> = {
     [ItemTypeEnum.text]: TextItemEditor,
     [ItemTypeEnum.number]: NumberItemEditor,
+    [ItemTypeEnum.date]: DateItemEditor,
   };
 
   constructor() {

@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Form, FormCluster } from '../../models/form.model';
 import { FormsService } from '../../services/forms-service';
 import {
+  createDateItemPreviewForm,
   createFormPreviewFormGroup,
   createNumberItemPreviewForm,
   createTextItemPreviewForm,
+  DateItemPreviewFormGroup,
   FormPreviewFormGroup,
   ItemPreviewFormGroup,
   NumberItemPreviewFormGroup,
@@ -63,9 +65,14 @@ export class FormPreview {
             const textItemPreviewForm: TextItemPreviewFormGroup = createTextItemPreviewForm();
             groups.push(textItemPreviewForm);
             break;
-          case 'number':
+          case ItemTypeEnum.number:
             const numberItemPreviewForm: NumberItemPreviewFormGroup = createNumberItemPreviewForm();
             groups.push(numberItemPreviewForm);
+            break;
+          case ItemTypeEnum.date:
+            const dateItemPreviewForm: DateItemPreviewFormGroup = createDateItemPreviewForm();
+            groups.push(dateItemPreviewForm);
+            break;
         }
       }
     }

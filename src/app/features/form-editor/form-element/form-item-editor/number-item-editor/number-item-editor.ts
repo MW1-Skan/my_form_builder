@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, input } from '@angular/core';
 import { ItemEditorFormGroup } from '../../../../../models/form-groups/editor/item-editor-form-group.model';
 import { NumberExtrasEditorFormGroup } from '../../../../../models/form-groups/editor/item-extras-editor-form-group.model';
-import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,7 +12,6 @@ import { ValidationErrorMessage } from '../../../../shared/validation-error-mess
   selector: 'app-number-item-editor',
   imports: [
     ReactiveFormsModule,
-    ButtonModule,
     FloatLabelModule,
     InputNumberModule,
     InputTextModule,
@@ -77,9 +75,5 @@ export class NumberItemEditor implements AfterViewInit {
     });
 
     this.extrasEditorForm.updateValueAndValidity();
-  }
-
-  logExtras() {
-    console.log('Extras :', this.extrasEditorForm.getRawValue());
   }
 }
