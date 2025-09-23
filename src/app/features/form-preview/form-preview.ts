@@ -61,12 +61,10 @@ export class FormPreview {
         switch (item.type) {
           case ItemTypeEnum.text:
             const textItemPreviewForm: TextItemPreviewFormGroup = createTextItemPreviewForm();
-            // TODO : init validators setValidators(group: ItemPreviewFormGroup, item: FormItem)
             groups.push(textItemPreviewForm);
             break;
           case 'number':
             const numberItemPreviewForm: NumberItemPreviewFormGroup = createNumberItemPreviewForm();
-            // TODO : init validators setValidators(group: ItemPreviewFormGroup, item: FormItem)
             groups.push(numberItemPreviewForm);
         }
       }
@@ -82,6 +80,7 @@ export class FormPreview {
   }
 
   submit() {
+    this.formPreviewForm.markAllAsTouched();
     // TODO : handle submit (show toast if form is valid)
     console.log('Form result :', this.formPreviewForm.getRawValue());
   }

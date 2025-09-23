@@ -1,7 +1,19 @@
-@if (elementAsItem) {
-  <app-form-item-editor [itemEditorForm]="elementAsItem"></app-form-item-editor>
-}
-@if (elementAsSeparator) {
-  <app-form-separator-editor [separatorForm]="elementAsSeparator"></app-form-separator-editor>
-}
-<p-button label="Delete {{ isItem() ? 'item' : 'separator' }}" (onClick)="removeElement()" />
+<div class="card shadow-sm border-0 rounded-3 mb-3 p-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="flex-grow-1">
+      @if (elementAsItem) {
+        <app-form-item-editor [itemEditorForm]="elementAsItem"></app-form-item-editor>
+      }
+      @if (elementAsSeparator) {
+        <app-form-separator-editor [separatorForm]="elementAsSeparator"></app-form-separator-editor>
+      }
+    </div>
+    <div class="ms-3">
+      <p-button
+        label="Delete {{ isItem() ? 'item' : 'separator' }}"
+        (onClick)="removeElement()"
+        icon="pi pi-trash"
+        styleClass="p-button-sm p-button-outlined p-button-danger" />
+    </div>
+  </div>
+</div>

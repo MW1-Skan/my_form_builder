@@ -1,27 +1,41 @@
-<hr class="my-2" />
-<form [formGroup]="separatorForm()">
-  @if (hasTitle()) {
-    <p-floatlabel variant="on">
-      <input pInputText id="title" formControlName="title" autocomplete="off" />
-      <label for="title">Title</label>
-    </p-floatlabel>
-  }
-  <button class="btn btn-primary" (click)="toggleTitleButton()">
-    {{ hasTitle() ? 'Remove' : 'Add' }} title
-  </button>
-
-  @if (hasDescription()) {
-    <p-floatlabel variant="in">
-      <textarea
-        pTextarea
-        id="description"
-        formControlName="description"
-        autocomplete="off"
-      ></textarea>
-      <label for="description">Description</label>
-    </p-floatlabel>
-  }
-  <button class="btn btn-primary" (click)="toggleDescriptionButton()">
-    {{ hasDescription() ? 'Remove' : 'Add' }} description
-  </button>
-</form>
+<div class="card bg-light border-0 rounded-3 shadow-sm p-3">
+  <hr class="my-2" />
+  <form [formGroup]="separatorForm()" class="d-flex flex-column gap-3">
+    @if (hasTitle()) {
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          id="title"
+          formControlName="title"
+          autocomplete="off"
+          class="w-100" />
+        <label for="title">Title</label>
+      </p-floatlabel>
+    }
+    <p-button
+      (click)="toggleTitleButton()"
+      [label]="hasTitle() ? 'Remove title' : 'Add title'"
+      [icon]="hasTitle() ? 'pi pi-minus' : 'pi pi-plus'"
+      styleClass="p-button-sm p-button-outlined p-button-primary w-auto"
+      />
+  
+    @if (hasDescription()) {
+      <p-floatlabel variant="in">
+        <textarea
+          pTextarea
+          id="description"
+          formControlName="description"
+          autocomplete="off"
+          class="w-100"
+        ></textarea>
+        <label for="description">Description</label>
+      </p-floatlabel>
+    }
+    <p-button
+      (click)="toggleDescriptionButton()"
+      [label]="hasDescription() ? 'Remove description' : 'Add description'"
+      [icon]="hasDescription() ? 'pi pi-minus' : 'pi pi-plus'"
+      styleClass="p-button-sm p-button-outlined p-button-primary w-auto"
+    />
+  </form>
+</div>

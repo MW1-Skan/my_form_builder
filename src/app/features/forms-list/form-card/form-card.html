@@ -1,12 +1,19 @@
-<p-card>
-  <ng-template #title>{{ form().title }}</ng-template>
-  <ng-template #subtitle
-    >Dernière modification: {{ form().lastModified | date: 'short' }}</ng-template
-  >
-  <p>{{ form().description }}</p>
+<p-card class="shadow border-0 h-auto bg-light">
+  <ng-template #title>
+    <h2 class="h5 fw-bold text-dark mb-1 title">
+      {{ form().title }}
+    </h2>
+  </ng-template>
+  <ng-template #subtitle>
+    <span class="text-muted small">
+      Last modified : {{ form().lastModified | date: 'yyyy/MM/dd, hh:mm a' }}
+    </span>
+  </ng-template>
   <ng-template #footer>
-    <p-button label="Edit" (onClick)="editForm()" />
-    <p-button label="Preview" (onClick)="previewForm()" />
-    <p-button label="Delete" (onClick)="deleteForm()" />
+    <div class="d-flex justify-content-end gap-2">
+      <p-button label="Edit" (onClick)="editForm()" icon="pi pi-pencil" styleClass="p-button-sm p-button-info" />
+      <p-button label="Preview" (onClick)="previewForm()" icon="pi pi-eye" styleClass="p-button-sm p-button-outlined p-button-secondary" />
+      <p-button label="Delete" (onClick)="deleteForm()" icon="pi pi-trash" styleClass="p-button-sm p-button-outlined p-button-danger" />
+    </div>
   </ng-template>
 </p-card>

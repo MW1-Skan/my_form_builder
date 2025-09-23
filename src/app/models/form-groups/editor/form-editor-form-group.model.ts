@@ -1,4 +1,4 @@
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ElementEditorFormGroup } from './item-editor-form-group.model';
 import { FormInput } from '../../form.model';
 
@@ -10,7 +10,7 @@ export type FormEditorFormGroup = FormGroup<{
 
 export function createFormEditorForm(form?: FormInput): FormEditorFormGroup {
   return new FormGroup({
-    title: new FormControl(form?.title ?? '', { nonNullable: true }),
+    title: new FormControl(form?.title ?? '', { nonNullable: true , validators: [Validators.required]}),
     description: new FormControl(form?.description ?? '', { nonNullable: true }),
     elements: new FormArray<ElementEditorFormGroup>([]),
   });

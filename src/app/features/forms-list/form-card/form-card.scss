@@ -1,0 +1,16 @@
+.card-container {
+    background-color: #f8fafc;
+    border: 2px solid #0ea5e9;
+    border-radius: 20px;
+    height: auto;
+}
+
+.card-container .p-card-body {
+    gap: 10px
+}
+
+.title {
+  white-space: nowrap;        /* empêche le retour à la ligne */
+  overflow: hidden;           /* cache le texte qui dépasse */
+  text-overflow: ellipsis;    /* ajoute "..." à la fin */
+}

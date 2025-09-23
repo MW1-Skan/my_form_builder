@@ -1,77 +1,88 @@
-<hr class="my-1" />
-<form [formGroup]="extrasEditorForm">
-  <label for="required">Required ?</label>
-  <p-toggleswitch id="required" name="required" formControlName="required" />
+<form [formGroup]="extrasEditorForm" class="d-flex flex-column gap-4">
+  <!-- Toggle switches -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    <div class="d-flex align-items-center gap-2">
+      <label for="required" class="form-label mb-0 fw-semibold">Required ?</label>
+      <p-toggleswitch id="required" name="required" formControlName="required" />
+    </div>
+    
+    <div class="d-flex align-items-center gap-2">
+      <label for="decimal" class="form-label mb-0 fw-semibold">Decimal ?</label>
+      <p-toggleswitch id="decimal" name="decimal" formControlName="isDecimal" />
+    </div>
+    
+    <div class="d-flex align-items-center gap-2">
+      <label for="show-step-buttons" class="form-label mb-0 fw-semibold">Show +/- buttons</label>
+      <p-toggleswitch id="show-step-buttons" name="show-step-buttons" formControlName="showStepButtons" />
+    </div>
+    
+    @if (min || max) {
+      <div class="d-flex align-items-center gap-2">
+        <label for="force-limits" class="form-label mb-0 fw-semibold">Force min/max ?</label>
+        <p-toggleswitch id="force-limits" name="force-limits" formControlName="forceLimits" />
+      </div>
+    }
+  </div>
 
+  <!-- Placeholder -->
   <p-floatlabel variant="on">
     <input pInputText id="placeholder" formControlName="placeholder" />
     <label for="placeholder">Placeholder</label>
   </p-floatlabel>
 
-  <p-floatlabel variant="on">
-    <p-inputnumber
-      id="min"
-      formControlName="min"
-      [invalid]="extrasEditorForm.controls.min.invalid"
-    />
-    <label for="min">Minimum</label>
-  </p-floatlabel>
-
-  <p-floatlabel variant="on">
-    <p-inputnumber
-      id="max"
-      formControlName="max"
-      [invalid]="extrasEditorForm.controls.max.invalid"
-    />
-    <label for="max">Maximum</label>
-  </p-floatlabel>
-
-  @if (min || max) {
-    <label for="force-limits">Force min/max ?</label>
-    <p-toggleswitch id="force-limits" name="force-limits" formControlName="forceLimits" />
-  }
-
-  <label for="decimal">Decimal ?</label>
-  <p-toggleswitch id="decimal" name="decimal" formControlName="isDecimal" />
-
-  @if (isDecimal) {
+  <!-- Min and Max -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
     <p-floatlabel variant="on">
       <p-inputnumber
-        id="max-fraction-digits"
-        formControlName="maxFractionDigits"
-        [min]="0"
-        [max]="DEFAULT_MAX_FRACTION_DIGITS"
+        id="min"
+        formControlName="min"
+        [invalid]="extrasEditorForm.controls.min.invalid"
       />
-      <label for="max-fraction-digits">Max fraction digits</label>
+      <label for="min">Minimum</label>
     </p-floatlabel>
-  }
-
-  <label for="show-step-buttons">Show +/- buttons</label>
-  <p-toggleswitch
-    id="show-step-buttons"
-    name="show-step-buttons"
-    formControlName="showStepButtons"
-  />
-
-  @if (showStepButtons) {
+  
     <p-floatlabel variant="on">
       <p-inputnumber
-        id="step"
-        formControlName="step"
-        [min]="0"
-        [maxFractionDigits]="isDecimal ? DEFAULT_MAX_FRACTION_DIGITS : 0"
-        [invalid]="extrasEditorForm.controls.step.invalid"
+        id="max"
+        formControlName="max"
+        [invalid]="extrasEditorForm.controls.max.invalid"
       />
-      <label for="step">Step</label>
+      <label for="max">Maximum</label>
     </p-floatlabel>
+  </div>
 
-    <app-validation-error-message
-      [control]="extrasEditorForm.controls.step"
-      errorName="invalidStep"
-      errorMessage="The step has to be greater than 0."
-    >
-    </app-validation-error-message>
-  }
+  <!-- Max fraction digits and Step -->
+  <div class="d-flex flex-wrap align-items-center gap-4">
+    @if (isDecimal) {
+      <p-floatlabel variant="on">
+        <p-inputnumber
+          id="max-fraction-digits"
+          formControlName="maxFractionDigits"
+          [min]="0"
+          [max]="DEFAULT_MAX_FRACTION_DIGITS"
+        />
+        <label for="max-fraction-digits">Max fraction digits</label>
+      </p-floatlabel>
+    }
 
-  <p-button label="Log extras" (onClick)="logExtras()"></p-button>
+    @if (showStepButtons) {
+      <p-floatlabel variant="on">
+        <p-inputnumber
+          id="step"
+          formControlName="step"
+          [min]="0"
+          [maxFractionDigits]="isDecimal ? DEFAULT_MAX_FRACTION_DIGITS : 0"
+          [invalid]="extrasEditorForm.controls.step.invalid"
+        />
+        <label for="step">Step</label>
+      </p-floatlabel>
+    }
+  </div>
 </form>
+
+<!-- Validation messages -->
+<app-validation-error-message
+  [control]="extrasEditorForm.controls.step"
+  errorName="invalidStep"
+  errorMessage="The step has to be greater than 0."
+/>
