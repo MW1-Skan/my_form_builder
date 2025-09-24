@@ -1,27 +1,18 @@
 import { Routes } from '@angular/router';
+import { FormsList } from './features/forms-list/forms-list';
+import { FormEditor } from './features/form-editor/form-editor';
+import { FormPreview } from './features/form-preview/form-preview';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'forms', pathMatch: 'full' },
 
-  {
-    path: 'forms',
-    loadComponent: () => import('./features/forms-list/forms-list').then((m) => m.FormsList),
-  },
+  { path: 'forms', component: FormsList },
 
-  {
-    path: 'editor',
-    loadComponent: () => import('./features/form-editor/form-editor').then((m) => m.FormEditor),
-  },
+  { path: 'editor', component: FormEditor },
+  
+  { path: 'editor/:id', component: FormEditor },
 
-  {
-    path: 'editor/:id',
-    loadComponent: () => import('./features/form-editor/form-editor').then((m) => m.FormEditor),
-  },
-
-  {
-    path: 'preview/:id',
-    loadComponent: () => import('./features/form-preview/form-preview').then((m) => m.FormPreview),
-  },
+  { path: 'preview/:id', component: FormPreview },
 
   { path: '**', redirectTo: 'forms' },
 ];
