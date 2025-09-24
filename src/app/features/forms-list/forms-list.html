@@ -1,8 +1,8 @@
-<div class="container my-3 d-flex flex-column min-vh-100">
+<div class="container d-flex flex-column min-vh-100">
   <div class="position-fixed top-0 start-0 end-0 bg-white border-bottom py-3 text-center z-3">
     <h1 class="h3 fw-bold text-center text-dark mb-0">My forms</h1>
   </div>
-  <div class="row g-4 mt-3 mb-5 align-content-start overflow-auto py-4">
+  <div class="row g-4 my-7 pb-4 align-content-start overflow-auto">
     @for (form of forms(); track form.id) {
       <div class="col-12 col-md-6 col-lg-4">
         <app-form-card [form]="form"></app-form-card>
