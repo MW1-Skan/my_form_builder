@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Form, FormCluster, FormInput } from '../../models/form.model';
 import { InputTextModule } from 'primeng/inputtext';
@@ -37,7 +37,7 @@ import { ValidationErrorMessage } from '../shared/validation-error-message/valid
   templateUrl: './form-editor.html',
   styleUrl: './form-editor.scss',
 })
-export class FormEditor {
+export class FormEditor implements AfterViewInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly formsService = inject(FormsService);
@@ -48,8 +48,14 @@ export class FormEditor {
 
   formEditorForm: FormEditorFormGroup = createFormEditorForm();
 
+  titleInput = viewChild<ElementRef<HTMLInputElement>>('titleInput');
+
   constructor() {
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
+    this.titleInput()?.nativeElement.focus();
   }
 
   initForm(): void {

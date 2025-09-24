@@ -1,4 +1,4 @@
-<div class="container my-5 d-flex flex-column min-vh-100">
+<div class="container d-flex flex-column min-vh-100">
   <div class="position-fixed top-0 start-0 end-0 bg-white border-bottom py-3 text-center z-3">
     <h1 class="h3 fw-bold text-center text-dark mb-0">{{ isEdit() ? 'Edit' : 'Create' }} a form</h1>
   </div>
@@ -6,13 +6,14 @@
   <form
     [formGroup]="formEditorForm"
     (ngSubmit)="save()"
-    class="card shadow-sm mt-4 mb-5 p-4 rounded-3 border-0"
+    class="card shadow-sm my-7 p-4 rounded-3 border-0"
   >
     <div class="card shadow p-2 mb-4">
       <div class="mb-3">
         <p-floatlabel variant="on">
           <input
             pInputText
+            #titleInput
             id="title"
             formControlName="title"
             autocomplete="off"
