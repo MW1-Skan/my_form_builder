@@ -14,7 +14,8 @@ export type ItemPreviewFormGroup =
   | TextItemPreviewFormGroup
   | NumberItemPreviewFormGroup
   | DateItemPreviewFormGroup
-  | RadioItemPreviewFormGroup;
+  | RadioItemPreviewFormGroup
+  | CheckboxItemPreviewFormGroup;
 
 type SimpleItemPreviewFormGroup<T> = FormGroup<{
   value: FormControl<T | null>;
@@ -49,5 +50,13 @@ export type RadioItemPreviewFormGroup = SimpleItemPreviewFormGroup<string | null
 export function createRadioItemPreviewForm(): RadioItemPreviewFormGroup {
   return new FormGroup({
     value: new FormControl<string | null>(null),
+  });
+}
+
+export type CheckboxItemPreviewFormGroup = SimpleItemPreviewFormGroup<string[]>;
+
+export function createCheckboxItemPreviewForm(): CheckboxItemPreviewFormGroup {
+  return new FormGroup({
+    value: new FormControl<string[]>([]),
   });
 }

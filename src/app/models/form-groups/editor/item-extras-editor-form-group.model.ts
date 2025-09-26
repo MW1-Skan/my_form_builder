@@ -1,6 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ItemType, ItemTypeEnum } from '../../form-item.model';
 import {
+  CheckboxExtras,
   DateExtras,
   ItemExtras,
   NumberExtras,
@@ -13,6 +14,7 @@ export type ExtrasEditorFormGroup =
   | NumberExtrasEditorFormGroup
   | DateExtrasEditorFormGroup
   | RadioExtrasEditorFormGroup
+  | CheckboxExtrasEditorFormGroup
   | EmptyExtrasEditorFormGroup;
 
 export type TextExtrasEditorFormGroup = FormGroup<{
@@ -50,6 +52,13 @@ export type DateExtrasEditorFormGroup = FormGroup<{
 
 export type RadioExtrasEditorFormGroup = FormGroup<{
   required: FormControl<boolean>;
+}>;
+
+export type CheckboxExtrasEditorFormGroup = FormGroup<{
+  required: FormControl<boolean>;
+  minChecks: FormControl<number | null>;
+  maxChecks: FormControl<number | null>;
+  forceMax: FormControl<boolean>;
 }>;
 
 export type EmptyExtrasEditorFormGroup = FormGroup<{}>;
@@ -95,9 +104,20 @@ export function createDateExtrasEditorForm(dateExtras?: DateExtras): DateExtrasE
   });
 }
 
-export function createRadioExtrasEditorForm(radioExtras: RadioExtras): RadioExtrasEditorFormGroup {
+export function createRadioExtrasEditorForm(radioExtras?: RadioExtras): RadioExtrasEditorFormGroup {
   return new FormGroup({
     required: new FormControl<boolean>(radioExtras?.required ?? false, { nonNullable: true }),
+  });
+}
+
+export function createCheckboxExtrasEditorForm(
+  checkboxExtras?: CheckboxExtras,
+): CheckboxExtrasEditorFormGroup {
+  return new FormGroup({
+    required: new FormControl<boolean>(checkboxExtras?.required ?? false, { nonNullable: true }),
+    minChecks: new FormControl<number | null>(checkboxExtras?.minChecks ?? null),
+    maxChecks: new FormControl<number | null>(checkboxExtras?.maxChecks ?? null),
+    forceMax: new FormControl<boolean>(checkboxExtras?.forceMax ?? false, { nonNullable: true }),
   });
 }
 
@@ -118,6 +138,8 @@ export function createExtrasEditorFormFor(
       return createDateExtrasEditorForm(extras as DateExtras);
     case ItemTypeEnum.radio:
       return createRadioExtrasEditorForm(extras as RadioExtras);
+    case ItemTypeEnum.checkbox:
+      return createCheckboxExtrasEditorForm(extras as CheckboxExtras);
     default:
       return createEmptyExtrasEditorForm();
   }

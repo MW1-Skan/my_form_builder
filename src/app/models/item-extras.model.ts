@@ -1,4 +1,4 @@
-export type ItemExtras = TextExtras | NumberExtras | DateExtras | RadioExtras;
+export type ItemExtras = TextExtras | NumberExtras | DateExtras | RadioExtras | CheckboxExtras;
 
 export type TextExtras = {
   required: boolean;
@@ -35,4 +35,11 @@ export type DateExtras = {
 
 export type RadioExtras = {
   required: boolean;
+};
+
+export type CheckboxExtras = {
+  required: boolean;
+  minChecks: number;
+  maxChecks: number;
+  forceMax: boolean;
 };
