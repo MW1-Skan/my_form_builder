@@ -9,12 +9,21 @@ export function toggleControl(control: FormControl) {
   }
 }
 
-export function isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string): boolean {
-  return (control.touched || control.dirty) && control.hasError(errorName);
+export function hasError(
+  control: AbstractControl,
+  errorName: string,
+  hasToBeTouchedOrDirty: boolean = true,
+): boolean {
+  return (
+    control.hasError(errorName) && (!hasToBeTouchedOrDirty || control.touched || control.dirty)
+  );
 }
 
-export function isTouchedOrDirtyAndIsInvalid(control: AbstractControl): boolean {
-  return (control.touched || control.dirty) && control.invalid;
+export function isInvalid(
+  control: AbstractControl,
+  hasToBeTouchedOrDirty: boolean = true,
+): boolean {
+  return control.invalid && (!hasToBeTouchedOrDirty || control.touched || control.dirty);
 }
 
 /**

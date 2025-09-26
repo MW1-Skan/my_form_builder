@@ -1,11 +1,18 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ItemType, ItemTypeEnum } from '../../form-item.model';
-import { DateExtras, ItemExtras, NumberExtras, TextExtras } from '../../item-extras.model';
+import {
+  DateExtras,
+  ItemExtras,
+  NumberExtras,
+  RadioExtras,
+  TextExtras,
+} from '../../item-extras.model';
 
 export type ExtrasEditorFormGroup =
   | TextExtrasEditorFormGroup
   | NumberExtrasEditorFormGroup
   | DateExtrasEditorFormGroup
+  | RadioExtrasEditorFormGroup
   | EmptyExtrasEditorFormGroup;
 
 export type TextExtrasEditorFormGroup = FormGroup<{
@@ -39,6 +46,10 @@ export type DateExtrasEditorFormGroup = FormGroup<{
   isRange: FormControl<boolean>;
   canType: FormControl<boolean>;
   showTime: FormControl<boolean>;
+}>;
+
+export type RadioExtrasEditorFormGroup = FormGroup<{
+  required: FormControl<boolean>;
 }>;
 
 export type EmptyExtrasEditorFormGroup = FormGroup<{}>;
@@ -84,6 +95,12 @@ export function createDateExtrasEditorForm(dateExtras?: DateExtras): DateExtrasE
   });
 }
 
+export function createRadioExtrasEditorForm(radioExtras: RadioExtras): RadioExtrasEditorFormGroup {
+  return new FormGroup({
+    required: new FormControl<boolean>(radioExtras?.required ?? false, { nonNullable: true }),
+  });
+}
+
 export function createEmptyExtrasEditorForm(): EmptyExtrasEditorFormGroup {
   return new FormGroup({});
 }
@@ -99,6 +116,8 @@ export function createExtrasEditorFormFor(
       return createNumberExtrasEditorForm(extras as NumberExtras);
     case ItemTypeEnum.date:
       return createDateExtrasEditorForm(extras as DateExtras);
+    case ItemTypeEnum.radio:
+      return createRadioExtrasEditorForm(extras as RadioExtras);
     default:
       return createEmptyExtrasEditorForm();
   }

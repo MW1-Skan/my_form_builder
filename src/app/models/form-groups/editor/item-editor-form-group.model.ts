@@ -1,6 +1,10 @@
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ItemTypeEnum, ItemType, FormItem } from '../../form-item.model';
-import { OptionEditorFormGroup } from './item-option-editor-form-group.model';
+import {
+  createOptionEditorForm,
+  createOptionsEditorFormArrayFor,
+  OptionEditorFormGroup,
+} from './item-option-editor-form-group.model';
 import {
   createExtrasEditorFormFor,
   ExtrasEditorFormGroup,
@@ -30,17 +34,18 @@ export type ElementEditorFormGroup = ItemEditorFormGroup | SeparatorEditorFormGr
 
 export function createItemEditorForm(item?: FormItem): ItemEditorFormGroup {
   const defaultType: ItemType = ItemTypeEnum.text;
+  const type: ItemType = item?.type ?? defaultType;
   return new FormGroup({
     question: new FormControl(item?.question ?? '', {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    type: new FormControl<ItemType>(item?.type ?? defaultType, {
+    type: new FormControl<ItemType>(type, {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    options: new FormArray<OptionEditorFormGroup>([]), // TODO
-    extras: createExtrasEditorFormFor(item?.type ?? defaultType, item?.extras),
+    options: createOptionsEditorFormArrayFor(type, item?.options),
+    extras: createExtrasEditorFormFor(type, item?.extras),
     kind: new FormControl<ElementKindEnum>(ElementKindEnum.ITEM, { nonNullable: true }),
   });
 }

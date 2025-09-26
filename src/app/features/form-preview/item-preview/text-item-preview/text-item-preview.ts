@@ -6,10 +6,7 @@ import { TextExtras } from '../../../../models/item-extras.model';
 import { TextareaModule } from 'primeng/textarea';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
-import {
-  isTouchedOrDirtyAndHasError,
-  isTouchedOrDirtyAndIsInvalid,
-} from '../../../../utils/forms.utils';
+import { hasError, isInvalid } from '../../../../utils/forms.utils';
 import { ValidationErrorMessage } from '../../../shared/validation-error-message/validation-error-message';
 
 @Component({
@@ -100,6 +97,6 @@ export class TextItemPreview implements OnInit {
   }
 
   isInvalid() {
-    return isTouchedOrDirtyAndIsInvalid(this.itemPreviewForm());
+    return isInvalid(this.itemPreviewForm());
   }
 }

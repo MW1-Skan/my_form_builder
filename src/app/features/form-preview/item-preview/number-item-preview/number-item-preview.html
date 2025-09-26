@@ -11,25 +11,22 @@
   />
 
   <app-validation-error-message
-    [control]="itemPreviewForm().controls.value"
+    [controls]="[itemPreviewForm().controls.value]"
     errorName="required"
     errorMessage="Please answer."
-  >
-  </app-validation-error-message>
+  />
 
   <app-validation-error-message
-    [control]="itemPreviewForm().controls.value"
+    [controls]="[itemPreviewForm().controls.value]"
     errorName="tooLow"
     [errorNamesToExclude]="['required']"
     [errorMessage]="'Please enter a number bigger than ' + min + '.'"
-  >
-  </app-validation-error-message>
+  />
 
   <app-validation-error-message
-    [control]="itemPreviewForm().controls.value"
+    [controls]="[itemPreviewForm().controls.value]"
     errorName="tooBig"
     [errorNamesToExclude]="['required']"
     [errorMessage]="'Please enter a number smaller than ' + max + '.'"
-  >
-  </app-validation-error-message>
+  />
 </form>

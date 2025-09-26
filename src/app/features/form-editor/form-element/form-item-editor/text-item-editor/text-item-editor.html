@@ -63,12 +63,12 @@
 <!-- Validation messages -->
 <div class="d-flex flex-column gap-1">
   <app-validation-error-message
-    [control]="extrasEditorForm.controls.mask"
+    [controls]="[extrasEditorForm.controls.mask]"
     errorName="invalidMask"
     errorMessage="The mask is invalid. Press on i to learn more."
   />
   <app-validation-error-message
-    [control]="extrasEditorForm"
+    [controls]="[extrasEditorForm]"
     errorName="invalidLengthRange"
     errorMessage="Maximum length has to be greater than the minimum length."
   />

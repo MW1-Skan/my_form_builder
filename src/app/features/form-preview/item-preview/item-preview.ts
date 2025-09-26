@@ -6,9 +6,9 @@ import {
 import { FormItem, ItemType, ItemTypeEnum } from '../../../models/form-item.model';
 import { TextItemPreview } from './text-item-preview/text-item-preview';
 import { NumberItemPreview } from './number-item-preview/number-item-preview';
-import { FormControl, RequiredValidator, Validators } from '@angular/forms';
 import { Form } from '../../../models/form.model';
 import { DateItemPreview } from './date-item-preview/date-item-preview';
+import { RadioItemPreview } from './radio-item-preview/radio-item-preview';
 
 @Component({
   selector: 'app-item-preview',
@@ -31,6 +31,7 @@ export class ItemPreview {
     [ItemTypeEnum.text]: TextItemPreview,
     [ItemTypeEnum.number]: NumberItemPreview,
     [ItemTypeEnum.date]: DateItemPreview,
+    [ItemTypeEnum.radio]: RadioItemPreview,
   };
 
   constructor() {

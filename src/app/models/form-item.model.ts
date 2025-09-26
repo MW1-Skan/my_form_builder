@@ -7,7 +7,7 @@ export enum ItemTypeEnum {
   // select = 'select',
   // checkbox = 'checkbox',
   date = 'date',
-  // radio = 'radio',
+  radio = 'radio',
 }
 
 export type ItemType = keyof typeof ItemTypeEnum;

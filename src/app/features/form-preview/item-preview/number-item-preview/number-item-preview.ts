@@ -5,7 +5,7 @@ import { NumberExtras } from '../../../../models/item-extras.model';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ValidationErrorMessage } from '../../../shared/validation-error-message/validation-error-message';
-import { isTouchedOrDirtyAndIsInvalid } from '../../../../utils/forms.utils';
+import { isInvalid } from '../../../../utils/forms.utils';
 
 @Component({
   selector: 'app-number-item-preview',
@@ -101,6 +101,6 @@ export class NumberItemPreview implements OnInit {
   }
 
   isInvalid(): boolean {
-    return isTouchedOrDirtyAndIsInvalid(this.itemPreviewForm());
+    return isInvalid(this.itemPreviewForm());
   }
 }
