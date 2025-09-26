@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: 'forms', component: FormsList },
 
   { path: 'editor', component: FormEditor },
-  
+
   { path: 'editor/:id', component: FormEditor },
 
   { path: 'preview/:id', component: FormPreview },

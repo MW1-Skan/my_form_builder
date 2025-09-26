@@ -11,6 +11,7 @@ import {
   createItemEditorForm,
   createSeparatorEditorForm,
   ElementEditorFormGroup,
+  ElementKindEnum,
   ItemEditorFormGroup,
   SeparatorEditorFormGroup,
 } from '../../models/form-groups/editor/item-editor-form-group.model';
@@ -20,7 +21,7 @@ import {
 } from '../../models/form-groups/editor/form-editor-form-group.model';
 import { FormElement } from './form-element/form-element';
 import { FormEditorService } from '../../services/form-editor-service';
-import { isTouchedOrDirtyAndIsInvalid } from '../../utils/forms.utils';
+import { isInvalid } from '../../utils/forms.utils';
 import { ValidationErrorMessage } from '../shared/validation-error-message/validation-error-message';
 
 @Component({
@@ -122,6 +123,12 @@ export class FormEditor implements AfterViewInit {
 
   save(): void {
     this.formEditorForm.markAllAsTouched();
+    for (const element of this.formEditorForm.controls.elements.controls) {
+      if (element.value.kind === ElementKindEnum.ITEM) {
+        console.log('Item : ', element.value);
+        console.log('Is valid ?', element.valid);
+      }
+    }
     if (this.formEditorForm.invalid) return;
     const inputForm: FormInput = this.formEditorService.mapToFormInput(this.formEditorForm);
     if (this.isEdit()) {
@@ -146,6 +153,6 @@ export class FormEditor implements AfterViewInit {
   }
 
   isTouchedOrDirtyAndInvalid(control: AbstractControl) {
-    return isTouchedOrDirtyAndIsInvalid(control);
+    return isInvalid(control);
   }
 }

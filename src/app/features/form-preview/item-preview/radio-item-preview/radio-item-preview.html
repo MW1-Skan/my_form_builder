@@ -1,0 +1,15 @@
+<form [formGroup]="itemPreviewForm()">
+  <div class="d-flex flex-column gap-2">
+    @for (option of options; track $index) {
+      <div class="d-flex align-items-center">
+        <p-radiobutton
+          [inputId]="option.value"
+          name="value"
+          [value]="option.value"
+          formControlName="value"
+        />
+        <label [for]="option.value" class="ms-2">{{ option.label }}</label>
+      </div>
+    }
+  </div>
+</form>

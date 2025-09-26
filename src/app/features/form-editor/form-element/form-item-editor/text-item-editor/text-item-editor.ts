@@ -10,7 +10,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { TextExtrasEditorFormGroup } from '../../../../../models/form-groups/editor/item-extras-editor-form-group.model';
 import { Subscription } from 'rxjs';
-import { isTouchedOrDirtyAndHasError } from '../../../../../utils/forms.utils';
+import { hasError } from '../../../../../utils/forms.utils';
 import { ValidationErrorMessage } from '../../../../shared/validation-error-message/validation-error-message';
 
 @Component({
@@ -97,7 +97,7 @@ export class TextItemEditor implements AfterViewInit, OnDestroy {
   }
 
   isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string) {
-    return isTouchedOrDirtyAndHasError(control, errorName);
+    return hasError(control, errorName, true);
   }
 
   logExtras() {

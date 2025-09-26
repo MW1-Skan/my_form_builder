@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { ValidationErrorMessage } from '../../../../shared/validation-error-message/validation-error-message';
+import { hasError } from '../../../../../utils/forms.utils';
 
 @Component({
   selector: 'app-number-item-editor',
@@ -75,5 +76,9 @@ export class NumberItemEditor implements AfterViewInit {
     });
 
     this.extrasEditorForm.updateValueAndValidity();
+  }
+
+  isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string) {
+    return hasError(control, errorName, true);
   }
 }

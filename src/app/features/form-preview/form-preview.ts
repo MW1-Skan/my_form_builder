@@ -6,11 +6,13 @@ import {
   createDateItemPreviewForm,
   createFormPreviewFormGroup,
   createNumberItemPreviewForm,
+  createRadioItemPreviewForm,
   createTextItemPreviewForm,
   DateItemPreviewFormGroup,
   FormPreviewFormGroup,
   ItemPreviewFormGroup,
   NumberItemPreviewFormGroup,
+  RadioItemPreviewFormGroup,
   TextItemPreviewFormGroup,
 } from '../../models/form-groups/preview/form-preview-form-group.model';
 import { ItemTypeEnum } from '../../models/form-item.model';
@@ -72,6 +74,10 @@ export class FormPreview {
           case ItemTypeEnum.date:
             const dateItemPreviewForm: DateItemPreviewFormGroup = createDateItemPreviewForm();
             groups.push(dateItemPreviewForm);
+            break;
+          case ItemTypeEnum.radio:
+            const radioItemPreviewForm: RadioItemPreviewFormGroup = createRadioItemPreviewForm();
+            groups.push(radioItemPreviewForm);
             break;
         }
       }

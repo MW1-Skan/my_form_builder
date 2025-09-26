@@ -1,4 +1,4 @@
-export type ItemExtras = TextExtras | NumberExtras | DateExtras;
+export type ItemExtras = TextExtras | NumberExtras | DateExtras | RadioExtras;
 
 export type TextExtras = {
   required: boolean;
@@ -31,4 +31,8 @@ export type DateExtras = {
   isRange: boolean;
   canType: boolean;
   showTime: boolean;
+};
+
+export type RadioExtras = {
+  required: boolean;
 };

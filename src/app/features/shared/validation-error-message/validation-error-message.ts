@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { isTouchedOrDirtyAndHasError } from '../../../utils/forms.utils';
+import { hasError } from '../../../utils/forms.utils';
 
 @Component({
   selector: 'app-validation-error-message',
@@ -9,7 +9,7 @@ import { isTouchedOrDirtyAndHasError } from '../../../utils/forms.utils';
   styleUrl: './validation-error-message.scss',
 })
 export class ValidationErrorMessage {
-  control = input.required<AbstractControl>();
+  controls = input.required<AbstractControl[]>();
 
   errorName = input.required<string>();
 
@@ -17,13 +17,20 @@ export class ValidationErrorMessage {
 
   errorMessage = input.required<string>();
 
-  isTouchedOrDirtyAndHasError(
-    control: AbstractControl,
+  hasToBeTouchedOrDirty = input<boolean>();
+
+  showValidationMessage(
+    controls: AbstractControl[],
     errorName: string,
     errorNamesToExclude: string[] = [],
-  ) {
-    if (errorNamesToExclude.some((error) => isTouchedOrDirtyAndHasError(control, error)))
+    hasToBeTouchedOrDirty?: boolean,
+  ): boolean {
+    if (
+      errorNamesToExclude.some((eName) =>
+        controls.some((control) => hasError(control, eName, hasToBeTouchedOrDirty)),
+      )
+    )
       return false;
-    return isTouchedOrDirtyAndHasError(control, errorName);
+    return controls.some((control) => hasError(control, errorName, hasToBeTouchedOrDirty));
   }
 }

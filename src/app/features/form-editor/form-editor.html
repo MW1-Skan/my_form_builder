@@ -23,7 +23,7 @@
           <label for="title">Title *</label>
         </p-floatlabel>
         <app-validation-error-message
-          [control]="formEditorForm.controls.title"
+          [controls]="[formEditorForm.controls.title]"
           errorName="required"
           errorMessage="Please enter a title for your form."
         />

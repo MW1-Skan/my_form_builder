@@ -1,0 +1,49 @@
+<div class="d-flex flex-column gap-4">
+  <form [formGroup]="extrasEditorForm">
+    <div class="d-flex align-items-center gap-2">
+      <label for="required" class="form-label mb-0 fw-semibold">Required ?</label>
+      <p-toggleswitch id="required" formControlName="required" />
+    </div>
+  </form>
+
+  <form [formGroup]="itemEditorForm()">
+    <div formArrayName="options" class="d-flex flex-column gap-3">
+      @for (option of optionsEditorForm.controls; track $index) {
+        <div class="d-flex flex-column gap-1">
+          <div [formGroupName]="$index" class="d-flex flex-wrap gap-2 align-items-center">
+            <input
+              pInputText
+              formControlName="label"
+              placeholder="Label"
+              [invalid]="isTouchedOrDirtyAndHasError(option.controls.label, 'required')"
+            />
+            <input
+              pInputText
+              formControlName="value"
+              placeholder="Value"
+              [invalid]="isTouchedOrDirtyAndHasError(option.controls.value, 'required')"
+            />
+            @if ($index > 0) {
+              <p-button
+                (onClick)="removeOption($index)"
+                icon="pi pi-minus"
+                styleClass="p-button-rounded p-button-sm p-button-secondary"
+              />
+            }
+          </div>
+          <app-validation-error-message
+            [controls]="[option.controls.label, option.controls.value]"
+            errorName="required"
+            errorMessage="Please enter a Label and a Value."
+          />
+        </div>
+      }
+      <p-button
+        label="Add option"
+        (onClick)="addOption()"
+        icon="pi pi-plus"
+        styleClass="p-button-sm p-button-info p-button-rounded"
+      />
+    </div>
+  </form>
+</div>

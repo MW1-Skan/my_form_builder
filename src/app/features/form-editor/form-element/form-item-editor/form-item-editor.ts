@@ -8,12 +8,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  createOptionEditorForm,
-  OptionEditorFormGroup,
-} from '../../../../models/form-groups/editor/item-option-editor-form-group.model';
+import { createOptionsEditorFormArrayFor } from '../../../../models/form-groups/editor/item-option-editor-form-group.model';
 import { ItemEditorFormGroup } from '../../../../models/form-groups/editor/item-editor-form-group.model';
-import { ItemType, ItemTypeEnum } from '../../../../models/form-item.model';
+import { FormItemOption, ItemType, ItemTypeEnum } from '../../../../models/form-item.model';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -24,9 +21,10 @@ import { Subscription } from 'rxjs';
 import { TextItemEditor } from './text-item-editor/text-item-editor';
 import { NumberItemEditor } from './number-item-editor/number-item-editor';
 import { createExtrasEditorFormFor } from '../../../../models/form-groups/editor/item-extras-editor-form-group.model';
-import { isTouchedOrDirtyAndHasError } from '../../../../utils/forms.utils';
+import { hasError } from '../../../../utils/forms.utils';
 import { ItemExtras } from '../../../../models/item-extras.model';
 import { DateItemEditor } from './date-item-editor/date-item-editor';
+import { RadioItemEditor } from './radio-item-editor/radio-item-editor';
 
 @Component({
   selector: 'app-form-item-editor',
@@ -57,6 +55,7 @@ export class FormItemEditor {
     [ItemTypeEnum.text]: TextItemEditor,
     [ItemTypeEnum.number]: NumberItemEditor,
     [ItemTypeEnum.date]: DateItemEditor,
+    [ItemTypeEnum.radio]: RadioItemEditor,
   };
 
   constructor() {
@@ -77,9 +76,18 @@ export class FormItemEditor {
         'extras',
         createExtrasEditorFormFor(this.currentType(), form.value.extras as ItemExtras),
       );
+      this.itemEditorForm().setControl(
+        'options',
+        createOptionsEditorFormArrayFor(this.currentType(), form.value.options as FormItemOption[]),
+      );
+      console.log('Form :', this.itemEditorForm().getRawValue());
       subscription = typeControl.valueChanges.subscribe((type) => {
         console.log('Type changed to', type);
         this.currentType.set(type);
+        this.itemEditorForm().setControl(
+          'options',
+          createOptionsEditorFormArrayFor(this.currentType()),
+        );
       });
     });
   }
@@ -99,20 +107,7 @@ export class FormItemEditor {
   }
 
   isTouchedOrDirtyAndHasError(control: AbstractControl, errorName: string) {
-    return isTouchedOrDirtyAndHasError(control, errorName);
-  }
-
-  get options(): FormArray<OptionEditorFormGroup> {
-    return this.itemEditorForm().get('options') as FormArray<OptionEditorFormGroup>;
-  }
-
-  addOption() {
-    const option = createOptionEditorForm();
-    this.options.push(option);
-  }
-
-  removeOption(index: number) {
-    this.options.removeAt(index);
+    return hasError(control, errorName);
   }
 
   logItem() {
