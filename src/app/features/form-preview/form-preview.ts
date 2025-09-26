@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Form, FormCluster } from '../../models/form.model';
 import { FormsService } from '../../services/forms-service';
 import {
+  CheckboxItemPreviewFormGroup,
+  createCheckboxItemPreviewForm,
   createDateItemPreviewForm,
   createFormPreviewFormGroup,
   createNumberItemPreviewForm,
@@ -78,6 +80,11 @@ export class FormPreview {
           case ItemTypeEnum.radio:
             const radioItemPreviewForm: RadioItemPreviewFormGroup = createRadioItemPreviewForm();
             groups.push(radioItemPreviewForm);
+            break;
+          case ItemTypeEnum.checkbox:
+            const checkboxItemPreviewForm: CheckboxItemPreviewFormGroup =
+              createCheckboxItemPreviewForm();
+            groups.push(checkboxItemPreviewForm);
             break;
         }
       }

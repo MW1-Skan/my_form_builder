@@ -9,6 +9,7 @@ import { NumberItemPreview } from './number-item-preview/number-item-preview';
 import { Form } from '../../../models/form.model';
 import { DateItemPreview } from './date-item-preview/date-item-preview';
 import { RadioItemPreview } from './radio-item-preview/radio-item-preview';
+import { CheckboxItemPreview } from './checkbox-item-preview/checkbox-item-preview';
 
 @Component({
   selector: 'app-item-preview',
@@ -32,6 +33,7 @@ export class ItemPreview {
     [ItemTypeEnum.number]: NumberItemPreview,
     [ItemTypeEnum.date]: DateItemPreview,
     [ItemTypeEnum.radio]: RadioItemPreview,
+    [ItemTypeEnum.checkbox]: CheckboxItemPreview,
   };
 
   constructor() {

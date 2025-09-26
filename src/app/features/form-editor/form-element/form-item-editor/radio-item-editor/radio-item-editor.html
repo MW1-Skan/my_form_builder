@@ -8,6 +8,7 @@
 
   <form [formGroup]="itemEditorForm()">
     <div formArrayName="options" class="d-flex flex-column gap-3">
+      <span class="form-label mb-0 fw-semibold">Options</span>
       @for (option of optionsEditorForm.controls; track $index) {
         <div class="d-flex flex-column gap-1">
           <div [formGroupName]="$index" class="d-flex flex-wrap gap-2 align-items-center">

@@ -25,6 +25,7 @@ import { hasError } from '../../../../utils/forms.utils';
 import { ItemExtras } from '../../../../models/item-extras.model';
 import { DateItemEditor } from './date-item-editor/date-item-editor';
 import { RadioItemEditor } from './radio-item-editor/radio-item-editor';
+import { CheckboxItemEditor } from './checkbox-item-editor/checkbox-item-editor';
 
 @Component({
   selector: 'app-form-item-editor',
@@ -56,6 +57,7 @@ export class FormItemEditor {
     [ItemTypeEnum.number]: NumberItemEditor,
     [ItemTypeEnum.date]: DateItemEditor,
     [ItemTypeEnum.radio]: RadioItemEditor,
+    [ItemTypeEnum.checkbox]: CheckboxItemEditor,
   };
 
   constructor() {

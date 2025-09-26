@@ -5,7 +5,7 @@ export enum ItemTypeEnum {
   text = 'text',
   number = 'number',
   // select = 'select',
-  // checkbox = 'checkbox',
+  checkbox = 'checkbox',
   date = 'date',
   radio = 'radio',
 }

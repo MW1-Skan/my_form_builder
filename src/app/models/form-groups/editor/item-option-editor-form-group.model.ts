@@ -33,6 +33,8 @@ export function createOptionsEditorFormArrayFor(
       return emptyFormArray;
     case ItemTypeEnum.radio:
       return createOptionsEditorFormArray(options);
+    case ItemTypeEnum.checkbox:
+      return createOptionsEditorFormArray(options);
     default:
       return emptyFormArray;
   }
