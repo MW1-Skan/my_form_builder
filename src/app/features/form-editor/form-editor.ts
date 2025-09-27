@@ -23,10 +23,14 @@ import { FormElement } from './form-element/form-element';
 import { FormEditorService } from '../../services/form-editor-service';
 import { isInvalid } from '../../utils/forms.utils';
 import { ValidationErrorMessage } from '../shared/validation-error-message/validation-error-message';
+import { CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FormElementCompact } from './form-element-compact/form-element-compact';
 
 @Component({
   selector: 'app-form-editor',
   imports: [
+    CdkDrag,
+    CdkDropList,
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
@@ -34,6 +38,7 @@ import { ValidationErrorMessage } from '../shared/validation-error-message/valid
     Textarea,
     FormElement,
     ValidationErrorMessage,
+    FormElementCompact,
   ],
   templateUrl: './form-editor.html',
   styleUrl: './form-editor.scss',
@@ -50,6 +55,10 @@ export class FormEditor implements AfterViewInit {
   formEditorForm: FormEditorFormGroup = createFormEditorForm();
 
   titleInput = viewChild<ElementRef<HTMLInputElement>>('titleInput');
+
+  isDragging = signal(false);
+
+  dragAndDropMode: boolean = false;
 
   constructor() {
     this.initForm();
@@ -117,6 +126,46 @@ export class FormEditor implements AfterViewInit {
     );
   }
 
+  switchMode() {
+    this.dragAndDropMode = !this.dragAndDropMode;
+  }
+
+  onDragStart(): void {
+    this.isDragging.set(true);
+  }
+
+  onDragEnd(): void {
+    this.isDragging.set(false);
+  }
+
+  drop(event: any): void {
+    const controls = this.elementsEditorForms.controls;
+    const previousIndex: number = event.previousIndex;
+    const newIndex: number = event.currentIndex;
+    const movedControl = controls[previousIndex];
+
+    // Simuler la nouvelle position
+    const simulated = [...controls];
+    moveItemInArray(simulated, previousIndex, newIndex);
+
+    // Vérifier qu'il n'y a pas de deux SEPARATOR consécutifs
+    const hasConsecutiveSeparators = simulated.some((ctrl, i) => {
+      return (
+        ctrl.controls.kind.value === ElementKindEnum.SEPARATOR &&
+        i < simulated.length - 1 &&
+        simulated[i + 1].controls.kind.value === ElementKindEnum.SEPARATOR
+      );
+    });
+
+    if (hasConsecutiveSeparators) {
+      console.log('❌ Drop interdit : deux séparateurs consécutifs');
+      return;
+    }
+    
+    moveItemInArray(controls, previousIndex, newIndex);
+    this.elementsEditorForms.updateValueAndValidity();
+  }
+
   removeElement(index: number): void {
     this.elementsEditorForms.removeAt(index);
   }
@@ -146,10 +195,6 @@ export class FormEditor implements AfterViewInit {
   preview() {
     // TODO : implement preview
     this.router.navigate(['/preview']);
-  }
-
-  logForm() {
-    console.log(this.formEditorForm.getRawValue());
   }
 
   isTouchedOrDirtyAndInvalid(control: AbstractControl) {
