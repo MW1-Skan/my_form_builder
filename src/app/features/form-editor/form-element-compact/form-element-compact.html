@@ -1,0 +1,19 @@
+<div class="card shadow-sm border-0 rounded-3 mb-3 p-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="flex-grow-1">
+      @if (elementAsItem) {
+        <app-form-item-editor-compact [itemEditorForm]="elementAsItem" />
+      }
+      @if (elementAsSeparator) {
+        <app-form-separator-editor-compact [separatorForm]="elementAsSeparator" />
+      }
+    </div>
+    <div class="ms-3">
+      <p-button
+        cdkDragHandle
+        icon="pi pi-arrows-alt"
+        styleClass="p-button-rounded p-button-text drag-handle"
+      />
+    </div>
+  </div>
+</div>
