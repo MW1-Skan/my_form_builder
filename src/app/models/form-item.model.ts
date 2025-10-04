@@ -13,6 +13,7 @@ export enum ItemTypeEnum {
 export type ItemType = keyof typeof ItemTypeEnum;
 
 export interface FormItem {
+  id: string;
   type: ItemType;
   question: string;
   options?: FormItemOption[]; // For 'select' or 'checkbox' types

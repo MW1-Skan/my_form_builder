@@ -82,9 +82,7 @@ export class FormItemEditor {
         'options',
         createOptionsEditorFormArrayFor(this.currentType(), form.value.options as FormItemOption[]),
       );
-      console.log('Form :', this.itemEditorForm().getRawValue());
       subscription = typeControl.valueChanges.subscribe((type) => {
-        console.log('Type changed to', type);
         this.currentType.set(type);
         this.itemEditorForm().setControl(
           'options',

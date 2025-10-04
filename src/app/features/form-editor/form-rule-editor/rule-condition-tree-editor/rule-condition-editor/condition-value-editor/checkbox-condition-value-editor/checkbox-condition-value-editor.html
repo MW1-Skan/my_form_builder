@@ -1,0 +1,13 @@
+<form [formGroup]="conditionForm()">
+  <p-multiselect
+    formControlName="value"
+    [options]="options()"
+    optionLabel="label"
+    optionValue="value"
+    placeholder="Select options"
+    [showClear]="true"
+    display="chip"
+    [invalid]="conditionForm().controls.value.touched && conditionForm().controls.value.invalid"
+    class="w-100"
+  />
+</form>

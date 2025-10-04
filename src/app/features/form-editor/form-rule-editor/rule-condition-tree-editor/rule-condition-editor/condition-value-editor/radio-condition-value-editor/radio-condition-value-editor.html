@@ -1,0 +1,11 @@
+<form [formGroup]="conditionForm()">
+  <p-select
+    formControlName="value"
+    [options]="options()"
+    optionLabel="label"
+    optionValue="value"
+    placeholder="Select option"
+    [invalid]="conditionForm().controls.value.touched && conditionForm().controls.value.invalid"
+    class="w-100"
+  />
+</form>

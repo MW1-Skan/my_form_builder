@@ -25,6 +25,12 @@ import { isInvalid } from '../../utils/forms.utils';
 import { ValidationErrorMessage } from '../shared/validation-error-message/validation-error-message';
 import { CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormElementCompact } from './form-element-compact/form-element-compact';
+import {
+  createRuleEditorFormGroup,
+  RuleEditorFormGroup,
+} from '../../models/form-groups/editor/rule-editor-form-group.model';
+import { FormRuleEditor } from './form-rule-editor/form-rule-editor';
+import { Rule } from '../../models/rule.model';
 
 @Component({
   selector: 'app-form-editor',
@@ -39,6 +45,7 @@ import { FormElementCompact } from './form-element-compact/form-element-compact'
     FormElement,
     ValidationErrorMessage,
     FormElementCompact,
+    FormRuleEditor,
   ],
   templateUrl: './form-editor.html',
   styleUrl: './form-editor.scss',
@@ -69,7 +76,6 @@ export class FormEditor implements AfterViewInit {
   }
 
   initForm(): void {
-    console.log('Editing form with id: ', this.formId);
     if (this.isEdit()) {
       const form: Form | null = this.formsService.getFormById(this.formId!);
       if (form) {
@@ -78,6 +84,7 @@ export class FormEditor implements AfterViewInit {
           description: form.description ?? '',
         });
         this.initElements(form.clusters);
+        if (form.rules) this.initRules(form.rules);
       } else {
         console.warn(`Form with id "${this.formId}" not found, redirecting to forms list`);
         this.router.navigate(['/forms']);
@@ -96,6 +103,13 @@ export class FormEditor implements AfterViewInit {
         itemElement.controls.extras.patchValue(item.extras);
         this.formEditorForm.controls.elements.push(itemElement);
       });
+    });
+  }
+
+  initRules(rules: Rule[]): void {
+    rules.forEach((rule) => {
+      const ruleEditorForm: RuleEditorFormGroup = createRuleEditorFormGroup(rule);
+      this.formEditorForm.controls.rules.push(ruleEditorForm);
     });
   }
 
@@ -126,7 +140,16 @@ export class FormEditor implements AfterViewInit {
     );
   }
 
-  switchMode() {
+  get rulesEditorForms(): FormArray<RuleEditorFormGroup> {
+    return this.formEditorForm.get('rules') as FormArray<RuleEditorFormGroup>;
+  }
+
+  addRule(): void {
+    const ruleEditorForm: RuleEditorFormGroup = createRuleEditorFormGroup();
+    this.rulesEditorForms.push(ruleEditorForm);
+  }
+
+  switchMode(): void {
     this.dragAndDropMode = !this.dragAndDropMode;
   }
 
@@ -161,7 +184,7 @@ export class FormEditor implements AfterViewInit {
       console.log('❌ Drop interdit : deux séparateurs consécutifs');
       return;
     }
-    
+
     moveItemInArray(controls, previousIndex, newIndex);
     this.elementsEditorForms.updateValueAndValidity();
   }
@@ -170,14 +193,12 @@ export class FormEditor implements AfterViewInit {
     this.elementsEditorForms.removeAt(index);
   }
 
+  removeRule(index: number): void {
+    this.rulesEditorForms.removeAt(index);
+  }
+
   save(): void {
     this.formEditorForm.markAllAsTouched();
-    for (const element of this.formEditorForm.controls.elements.controls) {
-      if (element.value.kind === ElementKindEnum.ITEM) {
-        console.log('Item : ', element.value);
-        console.log('Is valid ?', element.valid);
-      }
-    }
     if (this.formEditorForm.invalid) return;
     const inputForm: FormInput = this.formEditorService.mapToFormInput(this.formEditorForm);
     if (this.isEdit()) {
@@ -188,16 +209,11 @@ export class FormEditor implements AfterViewInit {
     this.router.navigate(['/forms']);
   }
 
-  cancel() {
+  cancel(): void {
     this.router.navigate(['/forms']);
   }
 
-  preview() {
-    // TODO : implement preview
-    this.router.navigate(['/preview']);
-  }
-
-  isTouchedOrDirtyAndInvalid(control: AbstractControl) {
+  isTouchedOrDirtyAndInvalid(control: AbstractControl): boolean {
     return isInvalid(control);
   }
 }

@@ -1,0 +1,106 @@
+<div class="card bg-light border-0 rounded-3 shadow-sm p-3">
+  @if (uiActionForm()) {
+    <div [formGroup]="uiActionForm()!" class="d-flex flex-column gap-3">
+      <div class="d-flex flex-wrap align-items-end gap-3">
+        <div class="flex-grow-1">
+          <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Target item</label>
+          <p-select
+            formControlName="formItemId"
+            [options]="selectItems()"
+            optionLabel="question"
+            optionValue="id"
+            placeholder="Choose an item"
+            styleClass="w-100"
+            [invalid]="isControlInvalid('formItemId')"
+          />
+        </div>
+
+        <div class="d-flex align-items-center ms-auto">
+          <p-button
+            icon="pi pi-trash"
+            (onClick)="removeAction()"
+            styleClass="p-button-sm p-button-text text-danger"
+          />
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12 col-md-4 col-lg-3">
+          <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Action</label>
+          <p-select
+            formControlName="action"
+            [options]="actionOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select"
+            styleClass="w-100"
+            [invalid]="isControlInvalid('action')"
+          />
+        </div>
+
+        @if (shouldShowValue()) {
+          <div class="col-12 col-lg">
+            <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Value</label>
+            @switch (targetItem()?.type) {
+              @case ('number') {
+                <p-inputnumber
+                  formControlName="value"
+                  styleClass="w-100"
+                  [invalid]="isControlInvalid('value')"
+                />
+              }
+              @case ('date') {
+                <p-datepicker
+                  formControlName="value"
+                  styleClass="w-100"
+                  [invalid]="isControlInvalid('value')"
+                />
+              }
+              @case ('radio') {
+                <p-select
+                  formControlName="value"
+                  [options]="targetItem()?.options ?? []"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Select option"
+                  styleClass="w-100"
+                  [invalid]="isControlInvalid('value')"
+                />
+              }
+              @case ('checkbox') {
+                <p-multiselect
+                  formControlName="value"
+                  [options]="targetItem()?.options ?? []"
+                  optionLabel="label"
+                  optionValue="value"
+                  display="chip"
+                  styleClass="w-100"
+                  [invalid]="isControlInvalid('value')"
+                />
+              }
+              @default {
+                <input
+                  pInputText
+                  formControlName="value"
+                  class="w-100"
+                  [ngClass]="{ 'ng-invalid': isControlInvalid('value') }"
+                  placeholder="Value to fill"
+                />
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="alert alert-warning mb-0">
+      This action type is not supported in the editor yet.
+      <p-button
+        label="Remove"
+        icon="pi pi-trash"
+        styleClass="p-button-sm p-button-text text-danger ms-2"
+        (onClick)="removeAction()"
+      />
+    </div>
+  }
+</div>

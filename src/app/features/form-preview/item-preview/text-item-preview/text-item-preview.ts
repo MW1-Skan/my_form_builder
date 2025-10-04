@@ -54,7 +54,6 @@ export class TextItemPreview implements OnInit {
     if (!form || !item) return;
     this.extras.set(item.extras as TextExtras);
     this.initValidators(form);
-    console.log('Form after init :', this.itemPreviewForm());
   }
 
   private initValidators(form: TextItemPreviewFormGroup): void {

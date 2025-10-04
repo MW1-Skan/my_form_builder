@@ -55,8 +55,6 @@ export class DateItemEditor implements AfterViewInit, OnDestroy {
     ];
     incompatibleToggleControls.forEach((control) => {
       const otherControls = incompatibleToggleControls.filter((c) => c !== control);
-      console.log('Control :', control);
-      console.log('Other controls :', otherControls);
       this.subscribeToDisableOtherToggles(control, otherControls);
     });
   }
