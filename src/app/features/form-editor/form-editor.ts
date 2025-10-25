@@ -31,6 +31,7 @@ import {
 } from '../../models/form-groups/editor/rule-editor-form-group.model';
 import { FormRuleEditor } from './form-rule-editor/form-rule-editor';
 import { Rule } from '../../models/rule.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-form-editor',
@@ -54,6 +55,7 @@ export class FormEditor implements AfterViewInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly formsService = inject(FormsService);
+  private readonly messageService = inject(MessageService);
   private readonly formEditorService = inject(FormEditorService);
 
   private formId: string | null = this.route.snapshot.paramMap.get('id');
@@ -199,13 +201,25 @@ export class FormEditor implements AfterViewInit {
 
   save(): void {
     this.formEditorForm.markAllAsTouched();
-    if (this.formEditorForm.invalid) return;
-    const inputForm: FormInput = this.formEditorService.mapToFormInput(this.formEditorForm);
-    if (this.isEdit()) {
-      this.formsService.updateForm(this.formId!, inputForm);
-    } else {
-      this.formsService.addForm(inputForm);
+    if (this.formEditorForm.invalid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Form is invalid',
+        detail: 'Please fix highlighted errors before saving.',
+      });
+      return;
     }
+    const inputForm: FormInput = this.formEditorService.mapToFormInput(this.formEditorForm);
+    const savedForm: Form = this.isEdit()
+      ? this.formsService.updateForm(this.formId!, inputForm)
+      : this.formsService.addForm(inputForm);
+
+    this.messageService.add({
+      severity: 'success',
+      summary: this.isEdit() ? 'Form updated' : 'Form created',
+      detail: `"${savedForm.title}" has been saved successfully.`,
+    });
+
     this.router.navigate(['/forms']);
   }
 

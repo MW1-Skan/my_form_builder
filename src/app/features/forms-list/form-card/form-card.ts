@@ -5,6 +5,7 @@ import { Form } from '../../../models/form.model';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsService } from '../../../services/forms-service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-form-card',
@@ -15,6 +16,7 @@ import { FormsService } from '../../../services/forms-service';
 export class FormCard {
   private readonly router = inject(Router);
   private readonly formsService = inject(FormsService);
+  private readonly messageService = inject(MessageService);
 
   form = input.required<Form>();
 
@@ -27,6 +29,11 @@ export class FormCard {
   }
 
   deleteForm() {
-    this.formsService.deleteForm(this.form().id);
+    const deletedForm = this.formsService.deleteForm(this.form().id);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Form deleted',
+      detail: `"${deletedForm.title}" has been removed.`,
+    });
   }
 }
