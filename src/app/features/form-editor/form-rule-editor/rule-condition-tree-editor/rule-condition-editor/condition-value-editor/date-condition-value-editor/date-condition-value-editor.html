@@ -1,0 +1,3 @@
+<form [formGroup]="conditionForm()">
+    <p-datepicker id="value" formControlName="value" placeholder="Value" [invalid]="conditionForm().controls.value.touched && conditionForm().controls.value.invalid" />
+</form>

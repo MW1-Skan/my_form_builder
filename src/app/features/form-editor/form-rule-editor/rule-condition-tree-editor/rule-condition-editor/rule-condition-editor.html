@@ -1,0 +1,63 @@
+<div class="card bg-white border-0 rounded-3 shadow-sm p-3">
+  <div [formGroup]="conditionForm()" class="d-flex flex-column gap-3 w-100">
+    <div class="d-flex flex-wrap align-items-end gap-3">
+      <div class="flex-grow-1">
+        <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Item</label>
+        <p-select
+          [options]="selectItems()"
+          optionLabel="question"
+          optionValue="id"
+          placeholder="Choose an item"
+          formControlName="formItemId"
+          styleClass="w-100"
+        />
+      </div>
+
+      @if (canRemoveCondition()) {
+        <div class="d-flex align-items-center ms-auto">
+          <p-button
+            icon="pi pi-trash"
+            (onClick)="removeCondition()"
+            styleClass="p-button-sm p-button-text text-danger"
+          />
+        </div>
+      }
+    </div>
+
+    @if (selectedItem()) {
+      <div class="row g-3">
+        <div class="col-12 col-md-4 col-lg-3">
+          <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Type</label>
+          <input
+            pInputText
+            [value]="selectedItemTypeLabel()"
+            class="w-100"
+            disabled
+          />
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+          <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Operator</label>
+          <p-select
+            [options]="selectOperators()"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select"
+            formControlName="operator"
+            [invalid]="conditionForm().controls.operator.touched && conditionForm().controls.operator.invalid"
+            styleClass="w-100"
+          />
+        </div>
+
+        <div class="col-12 col-lg">
+          <label class="form-label text-uppercase small text-muted fw-semibold mb-1">Value</label>
+          <app-condition-value-editor
+            class="d-block w-100"
+            [conditionForm]="conditionForm()"
+            [selectedItem]="selectedItem()!"
+          />
+        </div>
+      </div>
+    }
+  </div>
+</div>

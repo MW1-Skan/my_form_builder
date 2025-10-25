@@ -1,0 +1,41 @@
+<div class="card bg-light border-0 rounded-3 shadow-sm p-3">
+  <form [formGroup]="ruleEditorForm()" class="d-flex flex-column gap-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <h6 class="text-uppercase text-muted fw-semibold mb-0">Rule</h6>
+      <div class="d-flex flex-wrap gap-2">
+        <p-button
+          label="Log rule"
+          (onClick)="logRule()"
+          icon="pi pi-eye"
+          styleClass="p-button-sm p-button-text text-secondary border rounded-pill px-3"
+        />
+        <p-button
+          label="Delete rule"
+          (onClick)="removeRule()"
+          icon="pi pi-trash"
+          styleClass="p-button-sm p-button-outlined p-button-danger rounded-pill px-3"
+        />
+      </div>
+    </div>
+
+    <div class="card bg-white border-0 rounded-3 shadow-sm p-3">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="text-uppercase text-muted fw-semibold mb-0">Conditions</h6>
+      </div>
+      <app-rule-conditions-editor
+        [conditionsForm]="conditionsForm()"
+        [selectItems]="selectItems()"
+      />
+    </div>
+
+    <div class="card bg-white border-0 rounded-3 shadow-sm p-3">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="text-uppercase text-muted fw-semibold mb-0">Actions</h6>
+      </div>
+      <app-rule-actions-editor
+        [actionsForm]="actionsForm()"
+        [selectItems]="selectItems()"
+      />
+    </div>
+  </form>
+</div>

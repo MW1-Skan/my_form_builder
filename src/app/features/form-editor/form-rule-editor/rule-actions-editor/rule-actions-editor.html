@@ -1,0 +1,29 @@
+<div class="d-flex flex-column gap-3">
+  @if (!hasActions) {
+    <div class="text-muted small fst-italic">No actions defined yet.</div>
+  }
+
+  @for (action of actionsForm().controls; track $index) {
+    <app-rule-action-editor
+      [actionForm]="action"
+      [selectItems]="selectItems()"
+      (remove)="removeAction($index)"
+    />
+  }
+
+  <div class="d-flex flex-wrap gap-2 pt-1">
+    <p-button
+      label="Add action"
+      icon="pi pi-plus"
+      styleClass="p-button-sm p-button-outlined"
+      [disabled]="selectItems().length === 0"
+      (onClick)="addUiAction()"
+    />
+    <p-button
+      label="Log actions"
+      icon="pi pi-eye"
+      styleClass="p-button-sm p-button-text text-secondary border rounded-pill px-3"
+      (onClick)="logActions()"
+    />
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div [formGroup]="conditionsForm()" class="d-flex flex-column gap-3 w-100">
+  <div formArrayName="conditions" class="d-flex flex-column gap-3">
+    @for (condition of conditionsForm().controls.conditions.controls; track $index) {
+      @if ($index > 0) {
+        <div class="text-center">
+          <span class="badge rounded-pill text-bg-light text-secondary fw-semibold px-3 py-2">
+            {{ conditionsForm().controls.combinator.value | uppercase }}
+          </span>
+        </div>
+      }
+
+      <app-rule-condition-editor
+        [conditionForm]="condition"
+        [selectItems]="selectItems()"
+        [numberOfConditions]="numberOfConditions()"
+        (remove)="removeCondition($index)"
+      />
+    }
+  </div>
+
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2">
+    <p-splitbutton
+      label="Add condition"
+      (onClick)="addCondition()"
+      [model]="combinatorSelectButton()"
+      size="small"
+      outlined
+    />
+
+    <p-button
+      label="Log conditions"
+      icon="pi pi-eye"
+      (onClick)="logConditions()"
+      styleClass="p-button-sm p-button-text text-secondary border rounded-pill px-3"
+    />
+  </div>
+</div>

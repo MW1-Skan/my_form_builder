@@ -16,7 +16,9 @@
 
           <div class="d-flex flex-column gap-3">
             @for (item of cluster.items; track $index; let itemIndex = $index) {
-              <app-item-preview [item]="item" [form]="form" [formPreviewForm]="formPreviewForm" />
+              @if (!isItemHidden(item.id)) {
+                <app-item-preview [item]="item" [form]="form" [formPreviewForm]="formPreviewForm" />
+              }
             }
           </div>
         </div>

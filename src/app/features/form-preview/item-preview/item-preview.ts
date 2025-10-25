@@ -57,7 +57,6 @@ export class ItemPreview {
       const componentToDisplay = this.itemComponentMap[type];
       if (!componentToDisplay) return;
       const componentRef = host.createComponent(componentToDisplay);
-      console.log('Item preview form :', this.itemPreviewForm()?.getRawValue());
       componentRef.setInput('itemPreviewForm', this.itemPreviewForm());
       componentRef.setInput('item', this.item());
     });
