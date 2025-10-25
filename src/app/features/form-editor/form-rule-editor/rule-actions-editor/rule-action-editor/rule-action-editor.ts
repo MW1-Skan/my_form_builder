@@ -54,6 +54,10 @@ export class RuleActionEditor implements OnDestroy {
     { label: 'Fill', value: 'fill' },
   ];
 
+  /**
+   * Keeps the value control aligned with the current action and target item state.
+   * Enables the field and applies validators for "fill" actions, otherwise clears and disables it.
+   */
   private readonly syncValueControl = effect(() => {
     const form = this.uiActionForm();
     const items = this.selectItems();
@@ -142,10 +146,16 @@ export class RuleActionEditor implements OnDestroy {
     };
   });
 
+  /**
+   * Emits a removal event so the parent can delete this action entry.
+   */
   removeAction(): void {
     this.remove.emit();
   }
 
+  /**
+   * Returns whether the given control is currently invalid (used for template feedback).
+   */
   isControlInvalid(controlName: keyof UiActionForm['controls']): boolean {
     const form = this.uiActionForm();
     if (!form) return false;
@@ -153,12 +163,18 @@ export class RuleActionEditor implements OnDestroy {
     return isInvalid(control);
   }
 
+  /**
+   * Indicates whether the value input should be shown (only when filling a target item).
+   */
   shouldShowValue(): boolean {
     const form = this.uiActionForm();
     if (!form) return false;
     return (form.controls.action.value ?? null) === 'fill' && this.targetItem() !== null;
   }
 
+  /**
+   * Cleans up the reactive effect when the component is destroyed.
+   */
   ngOnDestroy(): void {
     this.syncValueControl.destroy();
   }

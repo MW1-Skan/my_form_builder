@@ -28,6 +28,9 @@ export class RuleConditionsEditor implements OnInit, OnDestroy {
 
   readonly numberOfConditions = signal(0);
 
+  /**
+   * Tracks the number of conditions whenever the form updates.
+   */
   constructor() {
     effect(() => {
       const form = this.conditionsForm();
@@ -35,12 +38,18 @@ export class RuleConditionsEditor implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Subscribes to the combinator control so the UI reflects AND/OR selection.
+   */
   ngOnInit(): void {
     this.combinatorValueChangesSub = this.conditionsForm().controls.combinator.valueChanges.subscribe((value) => {
       this.combinator.set(value);
     });
   }
 
+  /**
+   * Cleans up the combinator subscription.
+   */
   ngOnDestroy(): void {
     this.combinatorValueChangesSub?.unsubscribe();
   }
@@ -61,11 +70,17 @@ export class RuleConditionsEditor implements OnInit, OnDestroy {
     ];
   });
 
+  /**
+   * Logs the current condition tree (useful during development).
+   */
   logConditions(): void {
     console.log('Conditions:', this.conditionsForm().getRawValue());
     console.log('numberOfConditions:', this.numberOfConditions());
   }
 
+  /**
+   * Appends a new condition and sets the combinator if needed.
+   */
   addCondition(combinator?: 'and' | 'or'): void {
     const form = this.conditionsForm();
     if (combinator) {
@@ -77,6 +92,9 @@ export class RuleConditionsEditor implements OnInit, OnDestroy {
     this.updateNumberOfConditions();
   }
 
+  /**
+   * Removes a condition and resets the combinator when only one remains.
+   */
   removeCondition(index: number): void {
     const form = this.conditionsForm();
     form.controls.conditions.removeAt(index);
@@ -86,6 +104,9 @@ export class RuleConditionsEditor implements OnInit, OnDestroy {
     this.updateNumberOfConditions();
   }
 
+  /**
+   * Updates the stored count of conditions for the template.
+   */
   private updateNumberOfConditions(): void {
     this.numberOfConditions.set(this.conditionsForm().controls.conditions.length);
   }

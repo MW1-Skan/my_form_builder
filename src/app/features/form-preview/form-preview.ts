@@ -44,10 +44,16 @@ export class FormPreview implements OnDestroy {
   private disabledItems = new Set<string>();
   private valueChangesSub?: Subscription;
 
+  /**
+   * Loads the form definition when the preview component is created.
+   */
   constructor() {
     this.initForm();
   }
 
+  /**
+   * Retrieves the form and hooks up rule evaluation. Redirects when the ID is missing.
+   */
   initForm(): void {
     if (!this.formId) {
       console.warn(`Page not found, redirecting to forms list`);
@@ -67,6 +73,9 @@ export class FormPreview implements OnDestroy {
     }
   }
 
+  /**
+   * Builds preview form controls for every item in the form definition.
+   */
   private initElements(clusters: FormCluster[]): void {
     this.formPreviewForm.controls.elements.clear();
     this.itemIndexById.clear();
@@ -84,6 +93,9 @@ export class FormPreview implements OnDestroy {
     }
   }
 
+  /**
+   * Creates the appropriate preview control for a single item type.
+   */
   private createPreviewGroupFor(item: FormItem): ItemPreviewFormGroup {
     switch (item.type) {
       case ItemTypeEnum.text:
@@ -101,24 +113,39 @@ export class FormPreview implements OnDestroy {
     }
   }
 
+  /**
+   * Navigates back to the list of forms.
+   */
   navigateToForms() {
     this.router.navigate(['/forms']);
   }
 
+  /**
+   * Marks the preview form as touched and logs the current answers.
+   */
   submit() {
     this.formPreviewForm.markAllAsTouched();
     // TODO : handle submit (show toast if form is valid)
     console.log('Form result :', this.formPreviewForm.getRawValue());
   }
 
+  /**
+   * Checks whether the given item is hidden by rule actions.
+   */
   isItemHidden(itemId: string): boolean {
     return this.hiddenItems.has(itemId);
   }
 
+  /**
+   * Releases subscriptions when the preview component is disposed.
+   */
   ngOnDestroy(): void {
     this.valueChangesSub?.unsubscribe();
   }
 
+  /**
+   * Evaluates every rule to decide which actions should run.
+   */
   private evaluateRules(): void {
     this.hiddenItems.clear();
     this.disabledItems.clear();
@@ -148,6 +175,9 @@ export class FormPreview implements OnDestroy {
     });
   }
 
+  /**
+   * Returns true when a rule's condition set is satisfied.
+   */
   private evaluateConditions(rule: Rule): boolean {
     const when = rule.when;
     if (!when || !when.conditions || when.conditions.length === 0) {
@@ -160,6 +190,9 @@ export class FormPreview implements OnDestroy {
     return results.every(Boolean);
   }
 
+  /**
+   * Resolves a single condition against the current form values.
+   */
   private evaluateCondition(condition: RuleCondition): boolean {
     const control = this.getControlByItemId(condition.formItemId);
     const item = this.itemsById.get(condition.formItemId);
@@ -190,6 +223,9 @@ export class FormPreview implements OnDestroy {
     }
   }
 
+  /**
+   * Applies a UI action (hide, disable, fill…) to the preview form.
+   */
   private applyAction(action: Action): void {
     if (!('action' in action)) {
       return;
@@ -217,6 +253,9 @@ export class FormPreview implements OnDestroy {
     }
   }
 
+  /**
+   * Normalizes and writes a fill value into the appropriate preview control.
+   */
   private applyFillAction(item: FormItem, rawValue: unknown): void {
     const control = this.getControlByItemId(item.id);
     if (!control) return;
@@ -227,6 +266,9 @@ export class FormPreview implements OnDestroy {
     control.controls.value.setValue(normalized as any, { emitEvent: false });
   }
 
+  /**
+   * Casts the raw fill value to a shape compatible with the target item type.
+   */
   private normalizeFillValue(
     item: FormItem,
     rawValue: unknown,
@@ -262,12 +304,18 @@ export class FormPreview implements OnDestroy {
     }
   }
 
+  /**
+   * Retrieves the preview control associated with the provided item ID.
+   */
   private getControlByItemId(itemId: string) {
     const index = this.itemIndexById.get(itemId);
     if (index == null) return null;
     return this.formPreviewForm.controls.elements.at(index) as ItemPreviewFormGroup;
   }
 
+  /**
+   * Performs an equality comparison while handling dates, numbers, and arrays.
+   */
   private compareEquals(
     currentValue: any,
     expectedValue: any,
@@ -308,6 +356,9 @@ export class FormPreview implements OnDestroy {
     return String(currentValue) === String(expectedValue);
   }
 
+  /**
+   * Compares numeric or date values using the provided comparator.
+   */
   private compareNumberLike(
     currentValue: any,
     expectedValue: any,
@@ -332,6 +383,9 @@ export class FormPreview implements OnDestroy {
     return comparator(currentNum, expectedNum);
   }
 
+  /**
+   * Checks if the current value contains the expected value (string or array).
+   */
   private compareContains(currentValue: any, expectedValue: any): boolean {
     if (currentValue == null || expectedValue == null) return false;
     if (Array.isArray(currentValue)) {
@@ -346,6 +400,9 @@ export class FormPreview implements OnDestroy {
     return current.includes(expected);
   }
 
+  /**
+   * Normalizes `ItemTypeEnum` and literal values into a common item type string.
+   */
   private asItemType(itemType: ItemType | ItemTypeEnum): ItemType {
     return itemType as ItemType;
   }

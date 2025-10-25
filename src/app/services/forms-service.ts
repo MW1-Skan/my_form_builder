@@ -8,10 +8,16 @@ import { generateId } from '../utils/id.utils';
 export class FormsService {
   private formsSignal = signal<Form[]>(this.getFormsFromLocalStorage());
 
+  /**
+   * Readonly list of stored forms, backed by a signal.
+   */
   get forms() {
     return this.formsSignal.asReadonly();
   }
 
+  /**
+   * Hydrates the forms array from localStorage, reviving date fields.
+   */
   private getFormsFromLocalStorage(): Form[] {
     const dateKeys: string[] = ['lastModified', 'minDate', 'maxDate'];
     const raw = localStorage.getItem('forms');
@@ -27,10 +33,16 @@ export class FormsService {
     return forms;
   }
 
+  /**
+   * Returns a form that matches the provided ID or null when missing.
+   */
   getFormById(id: string): Form | null {
     return this.formsSignal().find((form) => form.id === id) ?? null;
   }
 
+  /**
+   * Produces a template input object for a brand-new form.
+   */
   getEmptyForm(): FormInput {
     return {
       title: 'New form',
@@ -39,11 +51,17 @@ export class FormsService {
     };
   }
 
+  /**
+   * Converts a fully qualified form into a FormInput payload (without ID metadata).
+   */
   toFormInput(form: Form): FormInput {
     const { id, ...rest } = form;
     return rest;
   }
 
+  /**
+   * Adds a new form, assigns it an ID, persists the store, and returns it.
+   */
   addForm(newFormInput: FormInput): Form {
     const newFormId: string = generateId();
     const newForm: Form = {
@@ -58,6 +76,9 @@ export class FormsService {
     return newForm;
   }
 
+  /**
+   * Updates an existing form with the provided payload and refreshes the sort order.
+   */
   updateForm(id: string, updatedFormInput: FormInput): Form {
     let updatedForm: Form | undefined;
 
@@ -84,6 +105,9 @@ export class FormsService {
     return updatedForm;
   }
 
+  /**
+   * Deletes the requested form, returns the removed entity, and persists changes.
+   */
   deleteForm(id: string): Form {
     let deletedForm: Form | undefined;
 
@@ -100,6 +124,9 @@ export class FormsService {
     return deletedForm!;
   }
 
+  /**
+   * Persists the current signal state into localStorage.
+   */
   save() {
     localStorage.setItem('forms', JSON.stringify(this.formsSignal()));
     console.log('Saving forms to local storage', this.formsSignal());

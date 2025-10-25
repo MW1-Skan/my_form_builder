@@ -24,14 +24,23 @@ export class RuleActionsEditor {
     return this.actionsForm().length > 0;
   }
 
+  /**
+   * Adds a new UI action form group at the end of the actions array.
+   */
   addUiAction(): void {
     this.actionsForm().push(createUiActionFormGroup());
   }
 
+  /**
+   * Removes an action at the provided index.
+   */
   removeAction(index: number): void {
     this.actionsForm().removeAt(index);
   }
 
+  /**
+   * Logs the current list of actions to the console for quick inspection.
+   */
   logActions(): void {
     console.log('Actions:', this.actionsForm().getRawValue());
   }

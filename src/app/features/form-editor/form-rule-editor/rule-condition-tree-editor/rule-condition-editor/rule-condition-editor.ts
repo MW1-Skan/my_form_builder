@@ -96,6 +96,9 @@ export class RuleConditionEditor {
 
   readonly canRemoveCondition = computed(() => this.numberOfConditions() > 1);
 
+  /**
+   * Emits a remove event so the parent conditions editor can delete this condition row.
+   */
   removeCondition() {
     this.remove.emit();
   }

@@ -41,6 +41,9 @@ export class FormRuleEditor implements OnInit {
   selectItems = signal<FormItem[]>([]);
   private subscription?: Subscription;
 
+  /**
+   * Starts listening to form editor changes so the available select items stay in sync.
+   */
   ngOnInit(): void {
     this.subscription = this.formEditorForm().valueChanges.subscribe(() => {
       this.updateSelectItems();
@@ -49,16 +52,25 @@ export class FormRuleEditor implements OnInit {
     this.updateSelectItems();
   }
 
+  /**
+   * Stops the form editor change subscription when the component is destroyed.
+   */
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
   /** UI actions */
+  /**
+   * Emits a remove event so the parent editor can delete the current rule.
+   */
   removeRule(): void {
     this.remove.emit();
   }
 
   /** Helpers */
+  /**
+   * Recomputes the list of selectable items from the editor form controls.
+   */
   private updateSelectItems(): void {
     const items: FormItem[] = [];
     this.formEditorForm().controls.elements.controls.forEach((element: ElementEditorFormGroup) => {
@@ -69,6 +81,9 @@ export class FormRuleEditor implements OnInit {
     this.selectItems.set(items);
   }
 
+  /**
+   * Logs the current rule value for quick debugging.
+   */
   logRule(): void {
     console.log('Rule:', this.ruleEditorForm().getRawValue());
   }

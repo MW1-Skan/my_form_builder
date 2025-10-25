@@ -36,17 +36,26 @@ export class ItemPreview {
     [ItemTypeEnum.checkbox]: CheckboxItemPreview,
   };
 
+  /**
+   * Syncs the injected inputs with a concrete preview form group and renders the matching component.
+   */
   constructor() {
     this.setItemPreviewForm();
     this.loadSpecificItemComponent();
   }
 
+  /**
+   * Updates the reactive signal with the control associated to the current item.
+   */
   setItemPreviewForm(): void {
     effect(() => {
       this.itemPreviewForm.set(this.getControlFor(this.item()));
     });
   }
 
+  /**
+   * Dynamically loads the component matching the item type into the view container.
+   */
   loadSpecificItemComponent(): void {
     effect(() => {
       const host = this.vcr();
@@ -62,6 +71,9 @@ export class ItemPreview {
     });
   }
 
+  /**
+   * Returns the preview control matching the provided item or null when not found.
+   */
   getControlFor(item: FormItem): ItemPreviewFormGroup | null {
     if (!this.form()) return null;
     const allItems = this.form()!.clusters.flatMap((c) => c.items);

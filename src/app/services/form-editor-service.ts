@@ -16,14 +16,23 @@ import { Rule } from '../models/rule.model';
   providedIn: 'root',
 })
 export class FormEditorService {
+  /**
+   * True when the provided element form represents an item.
+   */
   isItem(element: ElementEditorFormGroup): element is ItemEditorFormGroup {
     return element.controls.kind.value === ElementKindEnum.ITEM;
   }
 
+  /**
+   * True when the provided element form represents a separator.
+   */
   isSeparator(element: ElementEditorFormGroup): element is SeparatorEditorFormGroup {
     return element.controls.kind.value === ElementKindEnum.SEPARATOR;
   }
 
+  /**
+   * Converts the editor form group back into a serializable FormInput.
+   */
   mapToFormInput(formDetails: FormEditorFormGroup): FormInput {
     const formInput: FormInput = {
       title: formDetails.value.title!,
@@ -34,6 +43,9 @@ export class FormEditorService {
     return formInput;
   }
 
+  /**
+   * Groups consecutive item controls into clusters, inserting separator metadata when present.
+   */
   mapToClusters(elementsForms: FormArray<ElementEditorFormGroup>): FormCluster[] {
     const clusters: FormCluster[] = [];
     let cluster: FormCluster = {
@@ -58,6 +70,9 @@ export class FormEditorService {
     return clusters;
   }
 
+  /**
+   * Converts the rule editor form array into domain rules.
+   */
   mapToRules(rulesForms: FormArray<RuleEditorFormGroup>): Rule[] {
     const rules: Rule[] = [];
     rulesForms.controls.forEach((ruleForm) => {
