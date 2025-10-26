@@ -5,7 +5,7 @@ import { Form } from '../../../models/form.model';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsService } from '../../../services/forms-service';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-form-card',
@@ -17,6 +17,7 @@ export class FormCard {
   private readonly router = inject(Router);
   private readonly formsService = inject(FormsService);
   private readonly messageService = inject(MessageService);
+  private readonly confirmationService = inject(ConfirmationService);
 
   form = input.required<Form>();
 
@@ -34,6 +35,16 @@ export class FormCard {
       severity: 'success',
       summary: 'Form deleted',
       detail: `"${deletedForm.title}" has been removed.`,
+    });
+  }
+
+  confirmDeleteForm() {
+    this.confirmationService.confirm({
+      message: `Delete "${this.form().title}"?`,
+      header: 'Delete Form',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => this.deleteForm(),
     });
   }
 }

@@ -30,6 +30,7 @@ import { RuleActionsEditor } from './rule-actions-editor/rule-actions-editor';
 })
 export class FormRuleEditor implements OnInit {
   ruleEditorForm = input.required<RuleEditorFormGroup>();
+  index = input.required<number>();
 
   conditionsForm = computed(() => this.ruleEditorForm().controls.when);
   actionsForm = computed(() => this.ruleEditorForm().controls.apply);
