@@ -31,6 +31,7 @@ import {
 } from '../../models/form-groups/editor/rule-editor-form-group.model';
 import { FormRuleEditor } from './form-rule-editor/form-rule-editor';
 import { Rule } from '../../models/rule.model';
+import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -56,6 +57,7 @@ export class FormEditor implements AfterViewInit {
   private readonly route = inject(ActivatedRoute);
   private readonly formsService = inject(FormsService);
   private readonly messageService = inject(MessageService);
+  private readonly confirmationService = inject(ConfirmationService);
   private readonly formEditorService = inject(FormEditorService);
 
   private formId: string | null = this.route.snapshot.paramMap.get('id');
@@ -151,6 +153,40 @@ export class FormEditor implements AfterViewInit {
     this.rulesEditorForms.push(ruleEditorForm);
   }
 
+  confirmRemoveElement(index: number): void {
+    const elementForm = this.elementsEditorForms.at(index) as ElementEditorFormGroup;
+    const isItem = this.formEditorService.isItem(elementForm);
+    const labelControl = isItem
+      ? elementForm.controls.question
+      : (elementForm as SeparatorEditorFormGroup).controls.title;
+    const rawLabel = labelControl?.value ?? '';
+    const trimmedLabel = typeof rawLabel === 'string' ? rawLabel.trim() : '';
+    const typeLabel = isItem ? 'item' : 'separator';
+    const message =
+      trimmedLabel.length > 0
+        ? `Delete ${typeLabel} "${trimmedLabel}"?`
+        : `Delete this ${typeLabel}?`;
+    const detail =
+      trimmedLabel.length > 0
+        ? `${typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1)} "${trimmedLabel}" has been removed.`
+        : `The ${typeLabel} has been removed.`;
+
+    this.confirmationService.confirm({
+      header: isItem ? 'Delete Item' : 'Delete Separator',
+      message,
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.removeElement(index);
+        this.messageService.add({
+          severity: 'info',
+          summary: isItem ? 'Item removed' : 'Separator removed',
+          detail,
+        });
+      },
+    });
+  }
+
   switchMode(): void {
     this.dragAndDropMode = !this.dragAndDropMode;
   }
@@ -193,6 +229,24 @@ export class FormEditor implements AfterViewInit {
 
   removeElement(index: number): void {
     this.elementsEditorForms.removeAt(index);
+  }
+
+  confirmRemoveRule(index: number): void {
+    const ruleName = `Rule ${index + 1}`;
+    this.confirmationService.confirm({
+      header: 'Delete Rule',
+      message: `Delete ${ruleName}?`,
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.removeRule(index);
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Rule removed',
+          detail: `${ruleName} has been removed.`,
+        });
+      },
+    });
   }
 
   removeRule(index: number): void {

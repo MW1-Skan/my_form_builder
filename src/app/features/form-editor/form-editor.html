@@ -48,7 +48,7 @@
         @for (elementEditorForm of elementsEditorForms.controls; track $index) {
           <app-form-element
             [elementEditorForm]="elementEditorForm"
-            (remove)="removeElement($index)"
+            (remove)="confirmRemoveElement($index)"
           />
         }
       </div>
@@ -58,7 +58,8 @@
           <app-form-rule-editor
             [ruleEditorForm]="ruleEditorForm"
             [formEditorForm]="formEditorForm"
-            (remove)="removeRule($index)"
+            [index]="$index"
+            (remove)="confirmRemoveRule($index)"
           />
         }
       </div>
@@ -101,7 +102,7 @@
           <div cdkDrag (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
             <app-form-element-compact
               [elementEditorForm]="elementEditorForm"
-              (remove)="removeElement($index)"
+              (remove)="confirmRemoveElement($index)"
             />
           </div>
         }
