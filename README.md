@@ -1,59 +1,29 @@
-# MyFormBuilder
+# My Form Builder
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.0.
+## Overview
+My Form Builder is a powerful and flexible application designed to empower users to create personalized forms with ease. Whether you need simple surveys or complex data collection tools, this application provides the capabilities to define specific validators and rules to ensure data integrity.
 
-## Development server
+## Technologies & Framework
+This project is built using the latest advancements in web development:
+*   **Framework**: Angular 20+
+*   **UI Libraries**: 
+    *   **PrimeNG**: For a rich set of UI components.
+    *   **Bootstrap 5**: For responsive layout and styling utilities.
+    *   **ng-bootstrap**: For Angular-powered Bootstrap widgets.
 
-To start a local development server, run:
+The application utilizes a modern, standalone component architecture for better performance and maintainability.
 
-```bash
-ng serve
-```
+## Key Features
+*   **Dynamic Form Creation**: Intuitive interface for building forms.
+*   **Custom Validation**: Robust system to define specific rules and validators for form fields.
+*   **Personalization**: Tailor forms to meet specific requirements.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Future Roadmap
+We are constantly working to improve My Form Builder. Upcoming features include:
+*   **Shareable Links**: Generate public links for your finalized forms to easily distribute them to respondents.
+*   **Data Visualization**: Integrated charts and analytics to visualize the data collected from your form answers.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Getting Started
+1.  **Install dependencies**: `npm install`
+2.  **Run the application**: `npm start` (or `ng serve -o`)
+3.  **Build**: `npm run build`
